@@ -73,7 +73,15 @@ def build_payload() -> dict:
     payload = bundle.to_json(grid_step=1)
     payload["groups"] = GROUPS
 
-    tab = pd.read_parquet(C.INTERIM / "analytic_table.parquet")
+    # The interim analytic table holds raw per-participant values and is used
+    # below only to build worked examples. It is gitignored and only produced
+    # by a full scripts/run_pipeline.py run (~3.3 GB), unlike scoring_bundle
+    # and scores.parquet, which are committed. When it's absent, fall back to
+    # a small committed snapshot of the same 5 examples instead (see
+    # console_examples.json below) rather than require the full download just
+    # to rebuild the console after an unrelated template edit.
+    analytic_table = C.INTERIM / "analytic_table.parquet"
+    tab = pd.read_parquet(analytic_table) if analytic_table.exists() else None
     scores = pd.read_parquet(C.PROCESSED / "scores.parquet")
 
     # Percentile ladders, so a gap can be reported as a position in the cohort
@@ -88,36 +96,58 @@ def build_payload() -> dict:
     payload["pct"] = pct
 
     # Worked examples, so the page is usable the moment it opens and so anyone
-    # can check the arithmetic against a real participant.
-    both = scores.dropna(subset=["gap_blood", "gap_wearable"])
-    z = ((both[["gap_blood", "gap_wearable"]] - both[["gap_blood", "gap_wearable"]].mean())
-         / both[["gap_blood", "gap_wearable"]].std())
-    spread = (z.max(axis=1) - z.min(axis=1)).sort_values(ascending=False)
-    picks: list[tuple[int, str]] = []
-    for seqn in spread.index[:40]:
-        r = scores.loc[seqn]
-        n_blood = len(_raw_values(tab, seqn)["blood"])
-        if n_blood >= 12:
-            lab = ("fit body, ailing labs" if r["gap_wearable"] < r["gap_blood"]
-                   else "clean labs, sedentary")
-            picks.append((int(seqn), lab))
-        if len(picks) >= 3:
-            break
-    tot = (both["gap_blood"] + both["gap_wearable"]).sort_values()
-    for seqn, lab in ((tot.index[-1], "both arms aging fast"),
-                      (tot.index[0], "both arms aging slow")):
-        if len(_raw_values(tab, int(seqn))["blood"]) >= 12:
-            picks.append((int(seqn), lab))
-
+    # can check the arithmetic against a real participant. Needs the raw
+    # per-participant values in `tab`; see the note above for why that can be
+    # absent.
+    #
+    # Fallback order when `tab` is absent: a committed snapshot of the same 5
+    # examples (data/processed/console_examples.json -- ~6 KB, real NHANES
+    # participants, extracted once from a build that did have the full
+    # pipeline run) rather than shipping an empty "worked example" row. If
+    # that snapshot is also missing, fall back to no examples rather than fail
+    # the whole build -- the console is still fully usable with none.
     examples = []
-    for seqn, lab in picks:
-        r = scores.loc[seqn]
-        examples.append(dict(
-            seqn=int(seqn), label=lab, age=int(r["age"]), sex=str(r["sex"]),
-            values=_raw_values(tab, seqn),
-            expected={m: (None if pd.isna(r[f"gap_{m}"]) else round(float(r[f"gap_{m}"]), 2))
-                      for m in ("blood", "wearable", "combined")},
-        ))
+    example_fallback = C.PROCESSED / "console_examples.json"
+    if tab is not None:
+        both = scores.dropna(subset=["gap_blood", "gap_wearable"])
+        z = ((both[["gap_blood", "gap_wearable"]] - both[["gap_blood", "gap_wearable"]].mean())
+             / both[["gap_blood", "gap_wearable"]].std())
+        spread = (z.max(axis=1) - z.min(axis=1)).sort_values(ascending=False)
+        picks: list[tuple[int, str]] = []
+        for seqn in spread.index[:40]:
+            r = scores.loc[seqn]
+            n_blood = len(_raw_values(tab, seqn)["blood"])
+            if n_blood >= 12:
+                lab = ("fit body, ailing labs" if r["gap_wearable"] < r["gap_blood"]
+                       else "clean labs, sedentary")
+                picks.append((int(seqn), lab))
+            if len(picks) >= 3:
+                break
+        tot = (both["gap_blood"] + both["gap_wearable"]).sort_values()
+        for seqn, lab in ((tot.index[-1], "both arms aging fast"),
+                          (tot.index[0], "both arms aging slow")):
+            if len(_raw_values(tab, int(seqn))["blood"]) >= 12:
+                picks.append((int(seqn), lab))
+
+        for seqn, lab in picks:
+            r = scores.loc[seqn]
+            examples.append(dict(
+                seqn=int(seqn), label=lab, age=int(r["age"]), sex=str(r["sex"]),
+                values=_raw_values(tab, seqn),
+                expected={m: (None if pd.isna(r[f"gap_{m}"]) else round(float(r[f"gap_{m}"]), 2))
+                          for m in ("blood", "wearable", "combined")},
+            ))
+    elif example_fallback.exists():
+        examples = json.loads(example_fallback.read_text(encoding="utf-8"))
+        print(f"note: data/interim/analytic_table.parquet not found -- using "
+              f"the {len(examples)} committed example(s) from "
+              f"{example_fallback.relative_to(C.ROOT)} instead. Run "
+              f"scripts/run_pipeline.py for a fresh pick.", file=sys.stderr)
+    else:
+        print("note: data/interim/analytic_table.parquet not found and no "
+              f"fallback at {example_fallback.relative_to(C.ROOT)} -- building "
+              "without worked examples. Run scripts/run_pipeline.py once to "
+              "include them.", file=sys.stderr)
     payload["examples"] = examples
 
     validation = pd.read_csv(C.TABLES / "validation.csv")

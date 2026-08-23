@@ -1,0 +1,241 @@
+[
+  {
+    "seqn": 35206,
+    "label": "fit body, ailing labs",
+    "age": 68,
+    "sex": "male",
+    "values": {
+      "blood": {
+        "albumin": 3.9,
+        "creatinine": 2.6,
+        "alk_phos": 96.0,
+        "urea_nitrogen": 27.0,
+        "uric_acid": 9.1,
+        "total_protein": 6.3,
+        "ggt": 16.0,
+        "alt": 17.0,
+        "crp": 2.74,
+        "wbc": 6.4,
+        "lymph_pct": 18.0,
+        "rdw": 14.9,
+        "mcv": 95.9,
+        "hemoglobin": 11.6,
+        "hba1c": 4.7,
+        "total_chol": 133.0,
+        "hdl": 36.0,
+        "systolic_bp": 141.0,
+        "pulse_pressure": 67.0,
+        "waist": 108.0
+      },
+      "wearable": {
+        "mean_cpm": 593.8915,
+        "mvpa_min": 49.0,
+        "sedentary_frac": 0.3867,
+        "activity_cv": 1.5982,
+        "m10": 672.9912,
+        "l5": 312.746,
+        "relative_amplitude": 0.3655,
+        "intradaily_variability": 1.271,
+        "interdaily_stability": 0.3321,
+        "activity_bout_frag": 0.192
+      }
+    },
+    "expected": {
+      "blood": 8.29,
+      "wearable": -12.05,
+      "combined": -2.65
+    }
+  },
+  {
+    "seqn": 36614,
+    "label": "fit body, ailing labs",
+    "age": 62,
+    "sex": "male",
+    "values": {
+      "blood": {
+        "albumin": 3.9,
+        "creatinine": 0.7,
+        "alk_phos": 105.0,
+        "urea_nitrogen": 13.0,
+        "uric_acid": 4.7,
+        "total_protein": 6.5,
+        "ggt": 50.0,
+        "alt": 20.0,
+        "crp": 1.22,
+        "wbc": 6.9,
+        "lymph_pct": 24.0,
+        "rdw": 13.1,
+        "mcv": 90.2,
+        "hemoglobin": 14.4,
+        "hba1c": 5.3,
+        "total_chol": 237.0,
+        "hdl": 51.0,
+        "systolic_bp": 144.6667,
+        "pulse_pressure": 74.0,
+        "waist": 92.4
+      },
+      "wearable": {
+        "mean_cpm": 725.4843,
+        "mvpa_min": 102.25,
+        "sedentary_frac": 0.3899,
+        "activity_cv": 1.2735,
+        "m10": 892.6004,
+        "l5": 340.1296,
+        "relative_amplitude": 0.4482,
+        "intradaily_variability": 1.0024,
+        "interdaily_stability": 0.333,
+        "activity_bout_frag": 0.1302
+      }
+    },
+    "expected": {
+      "blood": 7.27,
+      "wearable": -11.32,
+      "combined": -2.73
+    }
+  },
+  {
+    "seqn": 33239,
+    "label": "clean labs, sedentary",
+    "age": 20,
+    "sex": "male",
+    "values": {
+      "blood": {
+        "albumin": 4.6,
+        "creatinine": 0.9,
+        "alk_phos": 58.0,
+        "urea_nitrogen": 11.0,
+        "uric_acid": 4.7,
+        "total_protein": 7.4,
+        "ggt": 6.0,
+        "alt": 15.0,
+        "crp": 0.14,
+        "wbc": 7.0,
+        "lymph_pct": 42.8,
+        "rdw": 12.4,
+        "mcv": 93.5,
+        "hemoglobin": 15.5,
+        "hba1c": 5.1,
+        "glucose_fasting": 89.0,
+        "total_chol": 148.0,
+        "hdl": 51.0,
+        "triglycerides": 101.0,
+        "systolic_bp": 84.6667,
+        "pulse_pressure": 30.6667,
+        "waist": 68.3
+      },
+      "wearable": {
+        "mean_cpm": 53.7401,
+        "mvpa_min": 2.0,
+        "sedentary_frac": 0.9047,
+        "activity_cv": 4.2016,
+        "m10": 67.5072,
+        "l5": 20.1864,
+        "relative_amplitude": 0.5396,
+        "intradaily_variability": 1.2015,
+        "interdaily_stability": 0.3038,
+        "activity_bout_frag": 0.5302
+      }
+    },
+    "expected": {
+      "blood": -6.08,
+      "wearable": 13.09,
+      "combined": 4.23
+    }
+  },
+  {
+    "seqn": 38532,
+    "label": "both arms aging fast",
+    "age": 21,
+    "sex": "male",
+    "values": {
+      "blood": {
+        "albumin": 3.9,
+        "creatinine": 1.0,
+        "alk_phos": 87.0,
+        "urea_nitrogen": 13.0,
+        "uric_acid": 5.4,
+        "total_protein": 6.9,
+        "ggt": 42.0,
+        "alt": 39.0,
+        "crp": 0.17,
+        "wbc": 4.3,
+        "lymph_pct": 27.7,
+        "rdw": 13.7,
+        "mcv": 72.3,
+        "hemoglobin": 13.7,
+        "hba1c": 5.3,
+        "glucose_fasting": 89.0,
+        "total_chol": 178.0,
+        "hdl": 71.0,
+        "triglycerides": 61.0,
+        "systolic_bp": 133.3333,
+        "pulse_pressure": 75.3333,
+        "waist": 79.7
+      },
+      "wearable": {
+        "mean_cpm": 84.7695,
+        "mvpa_min": 3.0,
+        "sedentary_frac": 0.8001,
+        "activity_cv": 3.0393,
+        "m10": 98.1104,
+        "l5": 31.9357,
+        "relative_amplitude": 0.5089,
+        "intradaily_variability": 1.0896,
+        "interdaily_stability": 0.4747,
+        "activity_bout_frag": 0.4678
+      }
+    },
+    "expected": {
+      "blood": 8.5,
+      "wearable": 12.62,
+      "combined": 10.72
+    }
+  },
+  {
+    "seqn": 34405,
+    "label": "both arms aging slow",
+    "age": 57,
+    "sex": "male",
+    "values": {
+      "blood": {
+        "albumin": 4.5,
+        "creatinine": 0.9,
+        "alk_phos": 49.0,
+        "urea_nitrogen": 20.0,
+        "uric_acid": 5.2,
+        "total_protein": 7.5,
+        "ggt": 10.0,
+        "alt": 18.0,
+        "crp": 0.07,
+        "wbc": 6.4,
+        "lymph_pct": 34.1,
+        "rdw": 12.1,
+        "mcv": 97.1,
+        "hemoglobin": 15.8,
+        "hba1c": 5.0,
+        "total_chol": 188.0,
+        "hdl": 47.0,
+        "systolic_bp": 110.0,
+        "pulse_pressure": 38.6667,
+        "waist": 99.8
+      },
+      "wearable": {
+        "mean_cpm": 395.7316,
+        "mvpa_min": 29.8571,
+        "sedentary_frac": 0.5181,
+        "activity_cv": 1.5581,
+        "m10": 517.337,
+        "l5": 160.9986,
+        "relative_amplitude": 0.5253,
+        "intradaily_variability": 1.1618,
+        "interdaily_stability": 0.3431,
+        "activity_bout_frag": 0.2079
+      }
+    },
+    "expected": {
+      "blood": -12.35,
+      "wearable": -9.07,
+      "combined": -10.59
+    }
+  }
+]

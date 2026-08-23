@@ -20,9 +20,11 @@
 keyed by the feature names in bioage.config.BLOOD_FEATURES / WEARABLE_FEATURES
 (not lab-report names -- those live in bioage.recommendations.bioage_bridge).
 
-This calls the Claude API and costs real money per run -- see
-bioage/recommendations/README or the parent repo's docs for current pricing.
-Grading a panel with no LLM call is available via
+This calls a real LLM API and costs real money per run -- provider defaults
+to any OpenAI-compatible endpoint (RECOMMENDATIONS_PROVIDER=openai_compatible,
+the default) or Anthropic direct/via a compatible gateway
+(RECOMMENDATIONS_PROVIDER=anthropic); see .env.example for the full set of
+options. Grading a panel with no LLM call is available via
 bioage.recommendations.evaluate_profile if you just want to sanity-check
 marker parsing.
 """
@@ -183,9 +185,10 @@ def main() -> int:
     else:
         print(output)
 
+    cost = (f"~${result.estimated_cost_usd:.3f}" if result.estimated_cost_usd is not None
+            else "unknown -- non-Anthropic provider, no pricing table for it here")
     print(
-        f"{result.input_tokens} in / {result.output_tokens} out tokens "
-        f"(~${result.estimated_cost_usd:.3f})",
+        f"{result.input_tokens} in / {result.output_tokens} out tokens ({cost})",
         file=sys.stderr,
     )
     return 0

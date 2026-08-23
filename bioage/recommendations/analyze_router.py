@@ -48,9 +48,9 @@ class AnalyzeResponse(BaseModel):
 def analyze(request: AnalyzeRequest) -> AnalyzeResponse:
     """Score a raw panel and generate recommendations in one round trip.
 
-    `def`, not `async def` -- both the scorer's curve inversion and the
-    Anthropic call are synchronous and the latter is slow (adaptive thinking
-    can take 20-60s), so FastAPI runs this in its threadpool.
+    `def`, not `async def` -- both the scorer's curve inversion and the LLM
+    call are synchronous and the latter is slow (reasoning/thinking can take
+    20-60s), so FastAPI runs this in its threadpool.
     """
     try:
         report, profile = score_markers(
@@ -69,12 +69,14 @@ def analyze(request: AnalyzeRequest) -> AnalyzeResponse:
     except RecommendationError as exc:
         raise HTTPException(status_code=exc.status_code, detail=str(exc)) from exc
 
+    cost = (f"~${result.estimated_cost_usd:.3f}" if result.estimated_cost_usd is not None
+            else "unknown (non-Anthropic provider)")
     logger.info(
-        "analyze: driver=%s flagged=%d %d in / %d out tokens (~$%.3f)",
+        "analyze: driver=%s flagged=%d %d in / %d out tokens (%s)",
         report.get("driver"),
         result.response.flagged_marker_count,
         result.input_tokens,
         result.output_tokens,
-        result.estimated_cost_usd,
+        cost,
     )
     return AnalyzeResponse(score=report, recommendations=result.response)

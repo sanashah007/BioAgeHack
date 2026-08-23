@@ -32,12 +32,14 @@ def create_recommendations(profile: HealthProfile) -> RecommendationResponse:
     except RecommendationError as exc:
         raise HTTPException(status_code=exc.status_code, detail=str(exc)) from exc
 
+    cost = (f"~${result.estimated_cost_usd:.3f}" if result.estimated_cost_usd is not None
+            else "unknown (non-Anthropic provider)")
     logger.info(
-        "recommendations generated: %d flagged, %d in / %d out tokens (~$%.3f)",
+        "recommendations generated: %d flagged, %d in / %d out tokens (%s)",
         result.response.flagged_marker_count,
         result.input_tokens,
         result.output_tokens,
-        result.estimated_cost_usd,
+        cost,
     )
     return result.response
 

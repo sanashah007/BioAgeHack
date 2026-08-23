@@ -1,0 +1,158 @@
+{
+  "hba1c": {
+    "elite": {
+      "male": [
+        4.6,
+        5.3
+      ],
+      "female": [
+        4.6,
+        5.3
+      ]
+    },
+    "direction": "lower"
+  },
+  "glucose_fasting": {
+    "elite": {
+      "male": [
+        72,
+        90
+      ],
+      "female": [
+        72,
+        90
+      ]
+    },
+    "direction": "lower"
+  },
+  "uric_acid": {
+    "elite": {
+      "male": [
+        3.5,
+        5.5
+      ],
+      "female": [
+        2.5,
+        5.0
+      ]
+    },
+    "direction": "lower"
+  },
+  "waist": {
+    "elite": {
+      "male": [
+        80,
+        94
+      ],
+      "female": [
+        68,
+        80
+      ]
+    },
+    "direction": "lower"
+  },
+  "total_chol": {
+    "elite": {
+      "male": [
+        160,
+        200
+      ],
+      "female": [
+        160,
+        200
+      ]
+    },
+    "direction": "mid"
+  },
+  "creatinine": {
+    "elite": {
+      "male": [
+        0.8,
+        1.1
+      ],
+      "female": [
+        0.6,
+        0.95
+      ]
+    },
+    "direction": "mid"
+  },
+  "urea_nitrogen": {
+    "elite": {
+      "male": [
+        9,
+        16
+      ],
+      "female": [
+        9,
+        16
+      ]
+    },
+    "direction": "lower"
+  },
+  "albumin": {
+    "elite": {
+      "male": [
+        4.4,
+        5.0
+      ],
+      "female": [
+        4.4,
+        5.0
+      ]
+    },
+    "direction": "higher"
+  },
+  "hemoglobin": {
+    "elite": {
+      "male": [
+        14,
+        16
+      ],
+      "female": [
+        12.5,
+        15
+      ]
+    },
+    "direction": "mid"
+  },
+  "mcv": {
+    "elite": {
+      "male": [
+        85,
+        92
+      ],
+      "female": [
+        85,
+        92
+      ]
+    },
+    "direction": "mid"
+  },
+  "lymph_pct": {
+    "elite": {
+      "male": [
+        30,
+        40
+      ],
+      "female": [
+        30,
+        40
+      ]
+    },
+    "direction": "higher"
+  },
+  "sedentary_frac": {
+    "elite": {
+      "male": [
+        0.35,
+        0.55
+      ],
+      "female": [
+        0.35,
+        0.55
+      ]
+    },
+    "direction": "lower"
+  }
+}

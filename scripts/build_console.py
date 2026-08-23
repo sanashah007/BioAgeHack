@@ -160,6 +160,38 @@ def build_payload() -> dict:
     ]
     red = pd.read_csv(C.TABLES / "redundancy.csv", index_col=0)
     payload["RED"] = round(float(red.loc["blood", "wearable"]), 3)
+
+    # Methylation clocks + intervention protocol, contributed by a teammate's
+    # separate BioAge_Console.html build (see web/bioage_console_refit.html
+    # for their full original file, kept unmodified as a reference/backup).
+    # These are UI-only additions layered onto THIS repo's own fitted curves
+    # and combiner above -- the teammate's own refit blood/wearable numbers
+    # were deliberately left out; see docs/METHYLATION_AND_INTERVENTIONS.md.
+    methylation = json.loads(
+        (C.PROCESSED / "methylation_clocks.json").read_text(encoding="utf-8")
+    )
+    payload["clocks"] = methylation["clocks"]
+    payload["methylation"] = {**methylation["meta"], "samples": methylation["samples"]}
+    payload["interventions"] = json.loads(
+        (C.PROCESSED / "interventions.json").read_text(encoding="utf-8")
+    )
+
+    # Elite ranges only cover 12 of this model's 32 markers -- the teammate's
+    # intervention library was built against their own smaller, differently
+    # engineered feature set. See docs/METHYLATION_AND_INTERVENTIONS.md for
+    # the full list of markers still needing entries. Augmenting `features`
+    # here rather than in bioage/scorer.py -- elite ranges are a UI concern,
+    # not part of the fitted model scorer.py serialises.
+    elite = json.loads(
+        (C.PROCESSED / "feature_elite_ranges.json").read_text(encoding="utf-8")
+    )
+    for feats in payload["features"].values():
+        for f in feats:
+            info = elite.get(f["name"])
+            if info:
+                f["elite"] = info["elite"]
+                f["direction"] = info["direction"]
+
     return payload
 
 
@@ -177,11 +209,11 @@ def main() -> int:
     # the slash keeps it valid JSON and inert HTML.
     blob = blob.replace("</", "<\\/")
 
-    html = TEMPLATE.read_text()
+    html = TEMPLATE.read_text(encoding="utf-8")
     if PLACEHOLDER not in html:
         print(f"template has no {PLACEHOLDER} placeholder", file=sys.stderr)
         return 1
-    BUILT.write_text(html.replace(PLACEHOLDER, blob))
+    BUILT.write_text(html.replace(PLACEHOLDER, blob), encoding="utf-8")
 
     n_curves = sum(len(v) for v in payload["curves"].values())
     print(f"built {BUILT.relative_to(C.ROOT)}")

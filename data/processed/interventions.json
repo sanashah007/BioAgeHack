@@ -1,0 +1,1026 @@
+{
+  "total_chol": {
+    "direction": "optimize",
+    "elite_note": "Optimal total cholesterol (TC) sits roughly 160-200 mg/dL. The TC-mortality relationship is U-shaped: both high and very low TC associate with increased all-cause/CVD mortality in cohort data, but very low TC (<~140-160) is usually a MARKER of underlying illness (malnutrition, liver disease, hyperthyroidism, chronic inflammation, occult cancer) rather than an independently harmful target, so low TC should trigger a workup for cause rather than an attempt to 'raise' it. TC is also a crude aggregate (HDL+LDL+~VLDL) \u2014 ApoB, LDL-C and non-HDL-C are better risk markers, and a high TC driven by high HDL is not equivalent to one driven by high LDL. Interventions below target LOWERING elevated TC (via the LDL fraction) toward the optimal band without over-treating; do not chase TC below ~160 in isolation.",
+    "tiers": {
+      "diet_exercise": [
+        {
+          "name": "Replace saturated/trans fat with unsaturated fat (Mediterranean / Portfolio dietary pattern)",
+          "how": "Cut saturated fat to <7-10% of calories and eliminate industrial trans fat; swap butter/fatty meat/tropical oils for olive/canola oil, nuts, oily fish; emphasize vegetables, legumes, whole grains",
+          "evidence": "A",
+          "effect": "Lowers TC and LDL-C; replacing ~5% of energy from saturated fat with polyunsaturated fat reduces LDL/TC and cardiovascular events in RCT/meta-analysis data",
+          "caution": "Dietary cholesterol itself has a modest effect in most people; total pattern matters more than any single food. Very-low-fat diets can lower HDL and raise triglycerides."
+        },
+        {
+          "name": "Soluble/viscous fiber (oats/beta-glucan, psyllium, legumes, barley)",
+          "how": "Aim for ~5-10 g/day of viscous soluble fiber (e.g., 3 g oat beta-glucan or 7-10 g psyllium), increased gradually with fluids",
+          "evidence": "A",
+          "effect": "Small-to-moderate reduction in TC and LDL-C (literature ~5% TC in enriched-diet trials); dose-dependent (~1-2 mg/dL TC per gram soluble fiber)",
+          "caution": "GI bloating/gas if increased too fast; take other medications separated from psyllium to avoid impaired absorption."
+        },
+        {
+          "name": "Regular aerobic exercise plus weight loss if overweight",
+          "how": "150+ min/week moderate aerobic activity; combine with modest caloric deficit to lose excess visceral fat",
+          "evidence": "B",
+          "effect": "Modest TC/LDL lowering; more consistent effect on raising HDL and lowering triglycerides and body weight, which improves overall lipid profile",
+          "caution": "Effect on TC alone is small; benefit is largely secondary to weight loss and improved HDL/TG rather than a large direct TC drop."
+        }
+      ],
+      "supplements": [
+        {
+          "name": "Plant sterols/stanols (phytosterols)",
+          "how": "~2 g/day of sterol/stanol esters (fortified spreads, dairy, or capsules) taken with meals",
+          "evidence": "A",
+          "effect": "Reduces LDL-C ~8-10% and lowers TC correspondingly by blocking intestinal cholesterol absorption; additive to statins",
+          "caution": "Modest TC effect; may slightly lower fat-soluble vitamin/carotenoid absorption. Avoid in sitosterolemia (rare)."
+        },
+        {
+          "name": "Psyllium husk supplement",
+          "how": "~5-10 g/day (e.g., divided doses before meals) with adequate water",
+          "evidence": "A",
+          "effect": "Lowers LDL-C and TC (meta-analyses show significant LDL reduction, ~5% TC), via bile-acid binding",
+          "caution": "Bloating, gas; risk of esophageal/GI obstruction if taken with too little fluid; separate from other drugs by 1-2 h."
+        },
+        {
+          "name": "Red yeast rice (monacolin K)",
+          "how": "Standardized monacolin K product; monacolin K is chemically identical to lovastatin",
+          "evidence": "B",
+          "effect": "Lowers LDL-C ~15-25% (comparable to low-dose statin) with corresponding TC reduction",
+          "caution": "Effectively an unregulated low-dose statin: same risks (myopathy, liver enzyme elevation, drug interactions) plus inconsistent/undisclosed monacolin content and possible citrinin (nephrotoxin) contamination. FDA treats high-monacolin products as unapproved drugs. Use only with clinician oversight and lipid/liver monitoring; do not combine with a prescription statin."
+        }
+      ],
+      "drugs": [
+        {
+          "name": "Statin (e.g., atorvastatin, rosuvastatin)",
+          "how": "Prescription, physician-supervised; dose titrated to risk and LDL target (HMG-CoA reductase inhibitor)",
+          "evidence": "A",
+          "effect": "Large, reliable reduction in TC and LDL-C and in cardiovascular events; first-line for elevated LDL/TC with elevated ASCVD risk",
+          "caution": "Prescription/physician-supervised only. Myalgia, rare myopathy/rhabdomyolysis, transient transaminase elevations, small diabetes-risk increase; drug interactions (CYP3A4). Requires baseline and follow-up lipid/liver monitoring; avoid in pregnancy."
+        },
+        {
+          "name": "Ezetimibe",
+          "how": "Prescription, physician-supervised; 10 mg/day, alone or added to a statin (blocks NPC1L1 intestinal cholesterol absorption)",
+          "evidence": "A",
+          "effect": "Lowers LDL-C ~18-20% (with corresponding TC drop); adds ~15-20% further LDL lowering on top of a statin and reduces events (IMPROVE-IT)",
+          "caution": "Prescription/physician-supervised only. Generally well tolerated; rare myalgia and liver enzyme elevation (higher when combined with a statin)."
+        },
+        {
+          "name": "Bempedoic acid",
+          "how": "Prescription, physician-supervised; oral ATP-citrate lyase inhibitor, often for statin-intolerant patients or add-on to ezetimibe",
+          "evidence": "A",
+          "effect": "Lowers LDL-C ~20-30% as monotherapy (~40-50% combined with ezetimibe) with corresponding TC reduction; reduced MACE ~13% vs placebo in statin-intolerant patients (CLEAR Outcomes)",
+          "caution": "Prescription/physician-supervised only. Can raise uric acid (gout) and has been associated with tendon rupture and small increases in liver enzymes; avoid in pregnancy."
+        }
+      ],
+      "peptides": [
+        {
+          "name": "ApoA-I mimetic peptides (e.g., D-4F/L-4F, CER-001, 5A peptide)",
+          "how": "Experimental, investigational-only, medical supervision; designed to mimic HDL/ApoA-I and promote reverse cholesterol transport / cholesterol efflux",
+          "evidence": "experimental",
+          "effect": "Aimed at HDL function and reverse cholesterol transport rather than lowering total cholesterol per se; human trials have shown mixed/largely negative results on clinical lipid and inflammation endpoints \u2014 no established TC-lowering benefit",
+          "caution": "NOT FDA-approved; experimental and requires medical/clinical-trial supervision. Efficacy unproven and trials have failed to show consistent benefit; safety not established outside trials (infusion/immunogenicity and unknown long-term risks). This peptide class does not reliably lower total cholesterol and should not substitute for evidence-based lipid therapy."
+        }
+      ]
+    }
+  },
+  "creatinine": {
+    "direction": "optimize",
+    "elite_note": "In the elite band, creatinine sits mid-range, signaling both preserved glomerular filtration AND adequate skeletal muscle mass. Because it is a two-sided marker, a low value often just means low muscle, and a high value can mean high muscle or true renal impairment. Interpret alongside cystatin C (muscle-independent) and eGFR before acting.",
+    "tiers": {
+      "diet_exercise": [
+        {
+          "name": "Progressive resistance training + adequate protein",
+          "how": "2-3x/week progressive loading, ~1.0-1.2 g/kg/day leucine-rich protein",
+          "evidence": "A",
+          "effect": "builds/maintains muscle mass, nudging a low, muscle-driven creatinine up toward mid-range",
+          "caution": "does nothing (and is the wrong move) if creatinine is high from reduced kidney filtration"
+        },
+        {
+          "name": "Kidney-protective habits (steady hydration, moderate protein, avoid nephrotoxins)",
+          "how": "consistent fluids; ~0.8 g/kg protein if filtration is reduced; limit chronic NSAID use",
+          "evidence": "B",
+          "effect": "protects filtration so a truly elevated creatinine trends down over time",
+          "caution": "acute dehydration or very high protein/creatine loading transiently raises creatinine without kidney injury"
+        },
+        {
+          "name": "Blood pressure, weight and glycemic control via aerobic exercise",
+          "how": "regular aerobic activity plus DASH/Mediterranean pattern",
+          "evidence": "B",
+          "effect": "slows renal functional decline, keeping creatinine stable in range"
+        }
+      ],
+      "supplements": [
+        {
+          "name": "Creatine monohydrate",
+          "how": "3-5 g/day, paired with resistance training",
+          "evidence": "A",
+          "effect": "augments muscle mass/strength gains from training (supports the muscle axis of creatinine)",
+          "caution": "predictably raises MEASURED serum creatinine ~0.1-0.3 mg/dL via metabolic conversion, NOT kidney damage; confirm with cystatin C if the number looks worse"
+        },
+        {
+          "name": "Whey protein / essential amino acids",
+          "how": "20-40 g to meet the daily protein target, especially post-exercise",
+          "evidence": "B",
+          "effect": "supports lean mass underlying creatinine when dietary protein is short"
+        }
+      ],
+      "drugs": [
+        {
+          "name": "SGLT2 inhibitor (e.g., dapagliflozin, empagliflozin)",
+          "how": "prescription, for diabetic/proteinuric/chronic kidney disease indications",
+          "evidence": "A",
+          "effect": "slows CKD progression (DAPA-CKD, EMPA-KIDNEY), preserving filtration long-term; expect a small benign creatinine bump in the first weeks",
+          "caution": "prescription / physician-supervised; indicated for kidney/cardiometabolic disease, NOT for adjusting the number in a healthy person; risks include genital mycotic infection and volume depletion"
+        },
+        {
+          "name": "ACE inhibitor or ARB (e.g., losartan)",
+          "how": "prescription for hypertension or proteinuric CKD",
+          "evidence": "A",
+          "effect": "slows renal decline; a benign initial creatinine rise up to ~30% is expected and acceptable",
+          "caution": "prescription / physician-supervised; monitor potassium and creatinine; not for people without an indication"
+        }
+      ],
+      "peptides": [
+        {
+          "name": "CJC-1295 + ipamorelin (GH secretagogues)",
+          "how": "no approved protocol; used experimentally to raise GH/IGF-1 and lean mass",
+          "evidence": "experimental",
+          "effect": "may modestly increase lean mass, which could raise a low muscle-driven creatinine; no trials target creatinine itself",
+          "caution": "largely NOT FDA-approved / experimental; requires medical supervision; specific risks include insulin resistance, fluid retention/edema, and theoretical tumor promotion via elevated IGF-1"
+        }
+      ]
+    }
+  },
+  "urea_nitrogen": {
+    "direction": "lower",
+    "elite_note": "Elite BUN sits low-normal (9-16), reflecting good hydration, efficient renal clearance, and moderate protein turnover. BUN rises with dehydration, high protein intake, GI bleeding, catabolic stress, and renal impairment. A very low BUN can instead signal inadequate protein intake or reduced hepatic urea synthesis, so read it alongside creatinine and albumin.",
+    "tiers": {
+      "diet_exercise": [
+        {
+          "name": "Optimize hydration",
+          "how": "consistent daily fluid intake unless clinically fluid-restricted",
+          "evidence": "B",
+          "effect": "lowers a dehydration-driven BUN and is usually the fastest lever",
+          "caution": "over-hydration is harmful in heart failure and advanced CKD; individualize"
+        },
+        {
+          "name": "Moderate protein, shift toward plant sources",
+          "how": "~0.8 g/kg/day if BUN is elevated; favor legumes/plant protein over large animal-protein loads",
+          "evidence": "B",
+          "effect": "less urea generated from protein catabolism, lowering BUN",
+          "caution": "do not under-eat protein if muscle mass or albumin is also a concern"
+        },
+        {
+          "name": "Lower sodium and address catabolic stressors",
+          "how": "cut processed/high-salt foods; identify GI bleeding, prolonged fasting, or corticosteroid use",
+          "evidence": "C",
+          "effect": "supports fluid balance and reduces reabsorption- and catabolism-driven BUN"
+        }
+      ],
+      "supplements": [
+        {
+          "name": "Soluble fiber / resistant starch",
+          "how": "increase dietary fiber; resistant-starch supplements studied in CKD",
+          "evidence": "C",
+          "effect": "diverts nitrogen to fecal excretion, modestly lowering blood urea",
+          "caution": "may cause bloating; strongest evidence is in CKD populations, weaker in healthy people"
+        },
+        {
+          "name": "Synbiotics / probiotics",
+          "how": "gut-targeted formulations studied in CKD",
+          "evidence": "C",
+          "effect": "some trials show modest urea/BUN reduction via gut nitrogen handling",
+          "caution": "results inconsistent and mostly limited to CKD cohorts"
+        }
+      ],
+      "drugs": [
+        {
+          "name": "SGLT2 inhibitor or ACEi/ARB (renoprotective)",
+          "how": "prescription for CKD, diabetes, or hypertension",
+          "evidence": "A",
+          "effect": "preserves kidney filtration (proven renal outcomes), indirectly helping a kidney-driven BUN over time",
+          "caution": "prescription / physician-supervised; note that diuretics conversely RAISE BUN; not appropriate for tweaking BUN in a healthy person"
+        }
+      ],
+      "peptides": []
+    }
+  },
+  "uric_acid": {
+    "direction": "lower",
+    "elite_note": "Elite uric acid sits in the low-normal 3.5-5.5 range, comfortably below the ~6.8 mg/dL saturation threshold where monosodium urate crystals form. Lower urate also tracks with lower insulin resistance and blood pressure; genuinely low levels are rarely a clinical concern in practice.",
+    "tiers": {
+      "diet_exercise": [
+        {
+          "name": "Weight loss + DASH-style dietary pattern",
+          "how": "caloric moderation toward a healthy weight; DASH pattern rich in vegetables and low-fat dairy",
+          "evidence": "A",
+          "effect": "meaningfully lowers serum urate; a meta-analysis of DASH RCTs showed significant urate reduction",
+          "caution": "avoid crash-fasting/ketogenic extremes, which transiently RAISE urate"
+        },
+        {
+          "name": "Cut fructose, sugar-sweetened beverages, and alcohol",
+          "how": "minimize sodas and fruit-juice concentrates; reduce beer and spirits especially",
+          "evidence": "B",
+          "effect": "lowers urate production; alcohol (beer most) and excess fructose are consistently linked to higher urate/gout"
+        },
+        {
+          "name": "Lower purine load; add coffee and low-fat dairy",
+          "how": "cut organ meats, anchovies/sardines; 1-3+ cups coffee/day; include low-fat dairy",
+          "evidence": "B",
+          "effect": "modestly lowers urate; coffee and low-fat dairy are urate-lowering/uricosuric in cohort studies"
+        }
+      ],
+      "supplements": [
+        {
+          "name": "Vitamin C",
+          "how": "~500 mg/day (studied range 200-2000 mg)",
+          "evidence": "A",
+          "effect": "modestly lowers serum urate (RCT meta-analysis mean ~-0.35 mg/dL)",
+          "caution": "effect is too small to treat established gout; high doses raise kidney-stone and GI-upset risk"
+        },
+        {
+          "name": "Tart cherry (juice or extract)",
+          "how": "~1 cup juice or an equivalent concentrate/extract daily",
+          "evidence": "B",
+          "effect": "modest urate reduction (a 4-week trial showed ~19% drop) with lower CRP",
+          "caution": "juice adds sugar; effects are inconsistent across studies"
+        },
+        {
+          "name": "Quercetin",
+          "how": "~500 mg/day",
+          "evidence": "B",
+          "effect": "lowered serum urate modestly in a small RCT",
+          "caution": "limited data; may inhibit CYP enzymes and interact with medications"
+        }
+      ],
+      "drugs": [
+        {
+          "name": "Allopurinol (xanthine oxidase inhibitor)",
+          "how": "prescription; start <=100 mg/day and titrate to a target urate <6 (or <5) mg/dL",
+          "evidence": "A",
+          "effect": "robustly lowers urate; guideline first-line urate-lowering therapy",
+          "caution": "prescription / physician-supervised; risk of severe hypersensitivity (screen HLA-B*58:01 in at-risk ancestries); start low and co-cover to avoid mobilization flares"
+        },
+        {
+          "name": "Febuxostat (xanthine oxidase inhibitor)",
+          "how": "prescription; start <=40 mg/day and titrate to target",
+          "evidence": "A",
+          "effect": "lowers urate, often reaching target more reliably than allopurinol",
+          "caution": "prescription / physician-supervised; carries a cardiovascular-mortality signal (CARES trial, boxed warning); generally second-line"
+        },
+        {
+          "name": "Uricosurics / adjuncts (probenecid; losartan, SGLT2 inhibitor)",
+          "how": "prescription; useful when the patient also needs blood-pressure or glucose control",
+          "evidence": "A",
+          "effect": "probenecid lowers urate via URAT1 blockade; losartan lowers urate ~0.2-0.3 mg/dL; SGLT2 inhibitors modestly lower urate",
+          "caution": "prescription / physician-supervised; probenecid raises kidney-stone risk (needs high fluid intake) and is avoided in poor renal function"
+        }
+      ],
+      "peptides": []
+    }
+  },
+  "albumin": {
+    "direction": "raise",
+    "elite_note": "Elite albumin (4.4-5.0) reflects strong hepatic synthetic capacity, good protein nutrition, and low systemic inflammation. Because albumin is a NEGATIVE acute-phase reactant, a level held down by inflammation (high CRP/IL-6) will not rise on protein alone until the inflammatory driver is addressed; rule out liver disease and urinary/GI protein loss when it is low.",
+    "tiers": {
+      "diet_exercise": [
+        {
+          "name": "Adequate high-quality protein",
+          "how": "~1.0-1.2 g/kg/day (more if catabolic/older), leucine-rich complete-protein sources",
+          "evidence": "B",
+          "effect": "raises albumin when inadequate intake was the limiter (nutrition trials in dialysis patients raised albumin)",
+          "caution": "little added benefit when the true limiter is inflammation or liver dysfunction"
+        },
+        {
+          "name": "Reduce systemic inflammation",
+          "how": "manage obesity, resolve chronic infection, stop smoking, adopt an anti-inflammatory diet",
+          "evidence": "B",
+          "effect": "removes IL-6-driven synthesis suppression, letting albumin recover",
+          "caution": "requires identifying and treating the specific inflammatory source"
+        },
+        {
+          "name": "Alcohol moderation + resistance exercise",
+          "how": "minimize alcohol to protect hepatic synthesis; train regularly",
+          "evidence": "C",
+          "effect": "supports liver synthetic function and an overall anabolic state"
+        }
+      ],
+      "supplements": [
+        {
+          "name": "Whey protein or essential amino acids",
+          "how": "20-40 g/day to close a dietary protein gap",
+          "evidence": "B",
+          "effect": "raises albumin in malnourished or dialysis populations",
+          "caution": "no benefit if protein intake is already adequate"
+        },
+        {
+          "name": "Omega-3 fatty acids (EPA/DHA)",
+          "how": "~1-2 g/day",
+          "evidence": "C",
+          "effect": "may lower inflammation, indirectly supporting albumin synthesis",
+          "caution": "effect is modest and indirect; high doses can affect bleeding/anticoagulation"
+        }
+      ],
+      "drugs": [
+        {
+          "name": "Human albumin infusion (acute clinical use only)",
+          "how": "IV, physician-administered for defined indications (large-volume paracentesis, spontaneous bacterial peritonitis, hepatorenal syndrome in cirrhosis)",
+          "evidence": "A",
+          "effect": "transiently raises serum albumin and plasma oncotic pressure for those indications; does NOT durably fix underlying synthesis",
+          "caution": "prescription / hospital-administered blood product; NOT a longevity or wellness intervention; overuse risks fluid overload. The durable lever is treating the underlying liver disease, inflammation, or protein loss."
+        }
+      ],
+      "peptides": []
+    }
+  },
+  "grimage": {
+    "direction": "lower",
+    "elite_note": "GrimAge acceleration is the residual after regressing DNAm GrimAge on chronological age; elite/optimal is a negative value (biologically younger than peers, e.g. roughly -2 to -5 years). Because GrimAge is trained on DNAm smoking pack-years plus surrogates of 7 mortality-linked plasma proteins (ADM, B2M, cystatin-C, GDF-15, leptin, PAI-1, TIMP-1), the strongest lever by far is never-smoking/smoking cessation, followed by low cardiometabolic and inflammatory burden.",
+    "tiers": {
+      "diet_exercise": [
+        {
+          "name": "Smoking cessation / never smoking",
+          "how": "complete tobacco cessation; avoid all combustible/cannabis smoke",
+          "evidence": "B",
+          "effect": "largest modifiable lever; current smokers run ~9 yr higher GrimAge2, and GrimAge declines ~0.14 yr per year of abstinence toward never-smoker levels over years",
+          "caution": "reversal is gradual over years and dose-dependent; heavy long-term smokers retain residual acceleration"
+        },
+        {
+          "name": "Aerobic exercise / raising cardiorespiratory fitness",
+          "how": "regular moderate-vigorous endurance training, 3+ sessions/week",
+          "evidence": "B",
+          "effect": "lowers GrimAge acceleration; ~-0.6 yr PCGrimAge in a 6-mo cycling study, and active vs inactive ~-1.26 yr GrimAgeAccel in cohorts",
+          "caution": "small RCTs plus observational data; magnitude modest and fitness gains must be sustained"
+        },
+        {
+          "name": "High-quality diet, limited alcohol, adequate sleep",
+          "how": "Mediterranean/DASH/plant-rich pattern; minimize alcohol (esp. spirits); treat insomnia/short sleep",
+          "evidence": "B",
+          "effect": "lowers GrimAge acceleration; plant-rich diet ~-0.66 yr GrimAge in an RCT, while heavy alcohol and insomnia/short sleep each raise it (~+0.7 to +1.5 yr)",
+          "caution": "mostly observational plus one diet RCT; alcohol effect is dose- and beverage-dependent (liquor worst)"
+        }
+      ],
+      "supplements": [
+        {
+          "name": "Marine omega-3 (EPA/DHA)",
+          "how": "~1 g/day EPA+DHA",
+          "evidence": "A",
+          "effect": "modestly lowers/slows GrimAge (GrimAge2 slowed in the DO-HEALTH RCT; pooled estimates around -0.3 to -1 yr)",
+          "caution": "mild bleeding risk at high doses and with anticoagulants; choose oxidation-tested products"
+        },
+        {
+          "name": "Daily multivitamin-multimineral",
+          "how": "one standard daily multivitamin-mineral tablet",
+          "evidence": "A",
+          "effect": "modestly slows GrimAge accrual; ~-0.11 yr/yr vs placebo in the COSMOS RCT, larger in those with baseline acceleration",
+          "caution": "small effect; benefit shown for a broad-spectrum multi, not megadoses of single nutrients"
+        },
+        {
+          "name": "Vitamin D3",
+          "how": "~2000 IU/day",
+          "evidence": "B",
+          "effect": "little effect alone on GrimAge but additive when combined with omega-3 (and exercise) in DO-HEALTH",
+          "caution": "avoid excessive dosing/hypercalcemia; benefit largely as part of a combination"
+        }
+      ],
+      "drugs": [
+        {
+          "name": "GLP-1 receptor agonist (semaglutide)",
+          "how": "prescription weekly semaglutide (a peptide drug, but FDA-approved)",
+          "evidence": "B",
+          "effect": "lowered epigenetic aging in a 32-wk RCT: PCGrimAge ~-3.1 yr, GrimAge V2 ~-2.3 yr",
+          "caution": "PRESCRIPTION / physician-supervised only; evidence is a single RCT in HIV-associated lipohypertrophy; GI effects, pancreatitis risk, lean-mass loss"
+        },
+        {
+          "name": "Metformin",
+          "how": "prescription metformin (geroscience use is off-label)",
+          "evidence": "C",
+          "effect": "inconsistent for GrimAge; small PCGrimAge decreases in one HIV monocyte study but null in larger/longer trials",
+          "caution": "PRESCRIPTION / physician-supervised only; off-label for aging; GI upset, B12 depletion, rare lactic acidosis in renal impairment"
+        }
+      ],
+      "peptides": [
+        {
+          "name": "Recombinant human growth hormone + DHEA + metformin (TRIIM protocol)",
+          "how": "physician-run thymus-regeneration regimen combining rhGH with DHEA and metformin",
+          "evidence": "experimental",
+          "effect": "GrimAge fell ~2 yr and persisted 6 mo after stopping, but only in a 9-person uncontrolled pilot",
+          "caution": "NOT FDA-approved for aging (rhGH approved only for GH deficiency); experimental and physician-supervised; specific risks: insulin resistance/hyperglycemia, edema, arthralgia, and theoretical cancer promotion"
+        },
+        {
+          "name": "Thymic peptide bioregulators (thymalin)",
+          "how": "injectable thymus-derived peptide, annual short courses (Russian protocols)",
+          "evidence": "experimental",
+          "effect": "long-term mortality reduction reported, but no data validating any effect on GrimAge specifically",
+          "caution": "NOT FDA-approved and unproven against epigenetic clocks; requires medical supervision; specific risks: unregulated source/purity, no Western RCT replication, unknown long-term immune effects"
+        }
+      ]
+    }
+  },
+  "phenoage": {
+    "direction": "lower",
+    "elite_note": "PhenoAge acceleration is the residual of DNAm PhenoAge on chronological age; elite/optimal is a negative value (biologically younger than peers). DNAm PhenoAge is a methylation surrogate of Levine's clinical-chemistry mortality model built from albumin, creatinine, glucose, log-CRP, lymphocyte %, mean cell volume, red-cell distribution width, alkaline phosphatase and white-cell count, so the elite profile is low systemic inflammation (low hsCRP), good glycemic control, low RDW and a healthy leukocyte/lymphocyte balance.",
+    "tiers": {
+      "diet_exercise": [
+        {
+          "name": "Regular physical activity / exercise",
+          "how": "consistent moderate-vigorous activity (aerobic + resistance)",
+          "evidence": "B",
+          "effect": "lowers PhenoAge acceleration; ~-1.7 yr PhenoAgeAccel in active vs inactive adults, with diet-by-activity interaction",
+          "caution": "largely observational; effect requires sustained activity and is attenuated by adiposity"
+        },
+        {
+          "name": "Caloric restriction / weight loss to cut adiposity and inflammation",
+          "how": "modest sustained energy restriction toward healthy body composition",
+          "evidence": "B",
+          "effect": "improves PhenoAge's glucose/CRP inputs; in the CALERIE RCT 25% CR mainly slowed pace-of-aging (~2-3%) with a smaller/non-significant PhenoAge clock change",
+          "caution": "avoid undernutrition, muscle loss, and bone loss; PhenoAge clock itself moved less than pace measures"
+        },
+        {
+          "name": "Anti-inflammatory high-quality diet, plus limiting alcohol/smoking",
+          "how": "Mediterranean/DASH/plant-rich pattern; minimize alcohol; no smoking",
+          "evidence": "B",
+          "effect": "lowers PhenoAge acceleration via reduced hsCRP and glucose; diet quality is inversely associated with PhenoAgeAccel while alcohol raises it",
+          "caution": "mostly observational associations; benefit is through the clinical inputs (CRP, glucose) rather than a proven clock-specific effect"
+        }
+      ],
+      "supplements": [
+        {
+          "name": "Marine omega-3 (EPA/DHA)",
+          "how": "~1 g/day EPA+DHA",
+          "evidence": "A",
+          "effect": "lowers/slows PhenoAge (RCT-supported; pooled estimates around -1.6 yr) and reduces hsCRP, a core PhenoAge input",
+          "caution": "mild bleeding risk at high doses and with anticoagulants; choose oxidation-tested products"
+        },
+        {
+          "name": "Daily multivitamin-multimineral",
+          "how": "one standard daily multivitamin-mineral tablet",
+          "evidence": "A",
+          "effect": "modestly slows PhenoAge accrual; ~-0.21 yr/yr vs placebo in the COSMOS RCT",
+          "caution": "small effect; shown for broad-spectrum multi, not high-dose single nutrients"
+        },
+        {
+          "name": "Vitamin D3",
+          "how": "~2000 IU/day",
+          "evidence": "B",
+          "effect": "minimal alone but additive with omega-3 (and exercise) on PhenoAge in DO-HEALTH",
+          "caution": "avoid excessive dosing/hypercalcemia; value mainly in combination"
+        }
+      ],
+      "drugs": [
+        {
+          "name": "GLP-1 receptor agonist (semaglutide)",
+          "how": "prescription weekly semaglutide (a peptide drug, but FDA-approved)",
+          "evidence": "B",
+          "effect": "largest reported PhenoAge signal: ~-4.9 yr in a 32-wk RCT, consistent with big drops in weight, glucose and hsCRP (all PhenoAge inputs)",
+          "caution": "PRESCRIPTION / physician-supervised only; single RCT in a special (HIV) population; GI effects, pancreatitis risk, lean-mass loss"
+        },
+        {
+          "name": "Metformin",
+          "how": "prescription metformin (geroscience use is off-label)",
+          "evidence": "C",
+          "effect": "improves the glycemic input to PhenoAge; direct epigenetic effect inconsistent (PCPhenoAge fell ~3.5 yr in one small HIV study but was null in a 96-wk RCT)",
+          "caution": "PRESCRIPTION / physician-supervised only; off-label for aging; GI upset, B12 depletion, rare lactic acidosis in renal impairment"
+        }
+      ],
+      "peptides": [
+        {
+          "name": "Recombinant human growth hormone + DHEA + metformin (TRIIM protocol)",
+          "how": "physician-run thymus-regeneration regimen combining rhGH with DHEA and metformin",
+          "evidence": "experimental",
+          "effect": "multiple clocks including PhenoAge fell in a 9-person uncontrolled pilot",
+          "caution": "NOT FDA-approved for aging (rhGH approved only for GH deficiency); experimental, physician-supervised; specific risk: rhGH raises glucose/insulin resistance, which can paradoxically worsen PhenoAge's glucose input if uncontrolled, plus edema and theoretical cancer promotion"
+        },
+        {
+          "name": "Pineal/thymic peptide bioregulators (epithalon, thymalin)",
+          "how": "injectable peptide courses (Russian longevity protocols)",
+          "evidence": "experimental",
+          "effect": "claimed longevity/telomere effects, but no data validating any effect on PhenoAge specifically",
+          "caution": "NOT FDA-approved and unvalidated against epigenetic clocks; requires medical supervision; specific risks: unregulated source/purity, no Western RCT replication, unknown long-term safety"
+        }
+      ]
+    }
+  },
+  "hba1c": {
+    "direction": "lower",
+    "elite_note": "Elite 4.6-5.3%. Under ~5.7% is non-diabetic; 5.3% and below reflects excellent glycemic control. Interpret with context: unusually low HbA1c can also reflect anemia, high RBC turnover, recent blood loss, or over-treatment/hypoglycemia rather than superior metabolic health.",
+    "tiers": {
+      "diet_exercise": [
+        {
+          "name": "Carbohydrate-reduced / Mediterranean diet + 5-10% weight loss",
+          "how": "cut refined carbs & added sugar, emphasize whole foods, protein & fiber; target 5-10% body-weight loss",
+          "evidence": "A",
+          "effect": "lowers HbA1c ~0.3-1.0% (larger short-term with low-carb)",
+          "caution": "if on insulin or sulfonylureas, monitor for hypoglycemia and adjust meds with a clinician; long-term adherence is the main limiter"
+        },
+        {
+          "name": "Structured aerobic + resistance exercise",
+          "how": ">150 min/week moderate-vigorous, combine cardio and strength; HIIT is effective",
+          "evidence": "A",
+          "effect": "lowers HbA1c ~0.5-0.7% (up to ~0.9% when >150 min/wk)",
+          "caution": "screen for cardiovascular disease/retinopathy before vigorous training; progress gradually"
+        },
+        {
+          "name": "Post-meal walking & reduced sedentary time",
+          "how": "10-15 min walk after meals; interrupt prolonged sitting hourly",
+          "evidence": "B",
+          "effect": "blunts postprandial glucose; modest HbA1c benefit",
+          "caution": "safe for most; attention to footcare if peripheral neuropathy"
+        }
+      ],
+      "supplements": [
+        {
+          "name": "Berberine",
+          "how": "500 mg 2-3x/day with meals",
+          "evidence": "A",
+          "effect": "lowers HbA1c ~0.5-0.7% (RCT meta-analyses)",
+          "caution": "OTC nutraceutical; GI upset; inhibits CYP3A4 (interacts with statins, cyclosporine, many drugs); trial quality/heterogeneity variable and supplement quality unregulated; avoid in pregnancy/breastfeeding"
+        },
+        {
+          "name": "Magnesium (glycinate/citrate)",
+          "how": "250-400 mg elemental/day",
+          "evidence": "B",
+          "effect": "small HbA1c/fasting-glucose reduction, mainly with deficiency and \u22654 months use",
+          "caution": "diarrhea at higher doses; reduce dose in renal impairment"
+        },
+        {
+          "name": "Alpha-lipoic acid",
+          "how": "600 mg/day",
+          "evidence": "C",
+          "effect": "modest, inconsistent glucose-lowering; strongest data is for diabetic neuropathy, not HbA1c",
+          "caution": "may add to glucose-lowering medications; possible GI upset"
+        }
+      ],
+      "drugs": [
+        {
+          "name": "Metformin",
+          "how": "500-2000 mg/day, titrated; extended-release better tolerated",
+          "evidence": "A",
+          "effect": "lowers HbA1c ~1-1.5% in type 2 diabetes (less at near-normal levels)",
+          "caution": "prescription / physician-supervised; GI effects, vitamin B12 depletion; avoid if eGFR <30"
+        },
+        {
+          "name": "SGLT2 inhibitor (empagliflozin/dapagliflozin)",
+          "how": "once-daily, physician-selected",
+          "evidence": "A",
+          "effect": "lowers HbA1c ~0.5-0.8% with added cardiovascular/renal benefit",
+          "caution": "prescription / physician-supervised; genital mycotic infections, euglycemic diabetic ketoacidosis, volume depletion"
+        },
+        {
+          "name": "Acarbose",
+          "how": "25-100 mg with the first bite of each meal",
+          "evidence": "A",
+          "effect": "lowers HbA1c ~0.5%, targeting postprandial glucose",
+          "caution": "prescription / physician-supervised; flatulence and GI symptoms are common and dose-limiting"
+        }
+      ],
+      "peptides": [
+        {
+          "name": "Semaglutide (GLP-1 receptor agonist)",
+          "how": "weekly subcutaneous or daily oral, physician-titrated",
+          "evidence": "A",
+          "effect": "lowers HbA1c ~1.0-1.8% plus weight loss",
+          "caution": "a peptide therapeutic that IS FDA-approved (Ozempic/Rybelsus) but prescription / physician-supervised only, not a self-directed peptide; risks: nausea/vomiting, pancreatitis, gallbladder disease; contraindicated with personal/family history of medullary thyroid carcinoma or MEN2"
+        },
+        {
+          "name": "Tirzepatide (GIP/GLP-1 receptor agonist)",
+          "how": "weekly subcutaneous, physician-titrated",
+          "evidence": "A",
+          "effect": "lowers HbA1c ~1.8-2.4% plus substantial weight loss",
+          "caution": "FDA-approved peptide (Mounjaro) but prescription / physician-supervised only; risks: GI effects, pancreatitis, gallbladder disease; same medullary thyroid carcinoma/MEN2 contraindication"
+        },
+        {
+          "name": "Retatrutide (triple GLP-1/GIP/glucagon agonist)",
+          "how": "investigational weekly subcutaneous (clinical trials only)",
+          "evidence": "experimental",
+          "effect": "lowered HbA1c ~1.7-2.0% in phase 2/3 trials",
+          "caution": "NOT FDA-approved / investigational \u2014 available only through trials or gray-market sources; long-term safety not established, GI effects and transient heart-rate increase reported; requires medical supervision"
+        }
+      ]
+    }
+  },
+  "glucose_fasting": {
+    "direction": "lower",
+    "elite_note": "Optimal fasting glucose 72-90 mg/dL; 100-125 is impaired fasting glucose and \u2265126 (repeated) is diabetic range. A single reading is noisy\u2014confirm with repeat testing or CGM trends. Avoid over-suppression/hypoglycemia, especially on glucose-lowering agents.",
+    "tiers": {
+      "diet_exercise": [
+        {
+          "name": "Low-glycemic Mediterranean / carbohydrate-reduced diet + weight loss",
+          "how": "reduce refined carbs, sugary drinks and late-night eating; emphasize fiber, protein, monounsaturated fats; lose 5-10% if overweight",
+          "evidence": "A",
+          "effect": "lowers fasting glucose and improves insulin sensitivity",
+          "caution": "monitor for hypoglycemia if on insulin/sulfonylureas"
+        },
+        {
+          "name": "Regular aerobic + resistance exercise with post-meal walks",
+          "how": "150+ min/week plus 2 strength sessions; short walk after evening meal",
+          "evidence": "A",
+          "effect": "improves insulin sensitivity and lowers fasting glucose",
+          "caution": "gradual progression; screen high-risk individuals before vigorous exercise"
+        },
+        {
+          "name": "Consistent adequate sleep (7-9 h); treat sleep apnea",
+          "how": "regular sleep-wake schedule; evaluate for obstructive sleep apnea if snoring/daytime sleepiness",
+          "evidence": "B",
+          "effect": "poor/short sleep and untreated apnea raise fasting glucose and insulin resistance; correcting them lowers it",
+          "caution": "formal sleep evaluation if apnea suspected"
+        }
+      ],
+      "supplements": [
+        {
+          "name": "Berberine",
+          "how": "500 mg 2-3x/day with meals",
+          "evidence": "A",
+          "effect": "lowers fasting glucose (~0.5 mmol/L / ~9-10 mg/dL in meta-analyses)",
+          "caution": "OTC nutraceutical; GI upset; CYP3A4 interactions (statins, cyclosporine, etc.); unregulated quality; avoid in pregnancy/breastfeeding"
+        },
+        {
+          "name": "Magnesium (glycinate/citrate)",
+          "how": "250-400 mg elemental/day, especially if intake/serum is low",
+          "evidence": "B",
+          "effect": "modest fasting-glucose reduction, mainly with deficiency and \u22654 months use",
+          "caution": "diarrhea at higher doses; reduce in renal impairment"
+        },
+        {
+          "name": "Myo-inositol (\u00b1 D-chiro-inositol 40:1)",
+          "how": "2-4 g/day",
+          "evidence": "B",
+          "effect": "improves insulin sensitivity and lowers fasting glucose/insulin (best evidence in PCOS/insulin resistance)",
+          "caution": "generally well tolerated; mild GI upset possible"
+        }
+      ],
+      "drugs": [
+        {
+          "name": "Metformin",
+          "how": "500-2000 mg/day, titrated; extended-release preferred",
+          "evidence": "A",
+          "effect": "lowers fasting glucose by reducing hepatic glucose output",
+          "caution": "prescription / physician-supervised; GI effects, B12 depletion; avoid if eGFR <30"
+        },
+        {
+          "name": "SGLT2 inhibitor (empagliflozin/dapagliflozin)",
+          "how": "once-daily, physician-selected",
+          "evidence": "A",
+          "effect": "lowers fasting glucose via urinary glucose excretion, with cardiorenal benefit",
+          "caution": "prescription / physician-supervised; genital infections, euglycemic ketoacidosis, volume depletion"
+        }
+      ],
+      "peptides": [
+        {
+          "name": "Semaglutide (GLP-1 receptor agonist)",
+          "how": "weekly subcutaneous or daily oral, physician-titrated",
+          "evidence": "A",
+          "effect": "meaningfully lowers fasting glucose plus weight loss",
+          "caution": "FDA-approved peptide (Ozempic/Rybelsus) but prescription / physician-supervised only; risks: nausea/vomiting, pancreatitis, gallbladder disease; contraindicated with personal/family history of medullary thyroid carcinoma or MEN2"
+        },
+        {
+          "name": "Tirzepatide (GIP/GLP-1 receptor agonist)",
+          "how": "weekly subcutaneous, physician-titrated",
+          "evidence": "A",
+          "effect": "strongly lowers fasting glucose plus substantial weight loss",
+          "caution": "FDA-approved peptide (Mounjaro) but prescription / physician-supervised only; risks: GI effects, pancreatitis, gallbladder; same medullary thyroid carcinoma/MEN2 contraindication"
+        },
+        {
+          "name": "Retatrutide (triple GLP-1/GIP/glucagon agonist)",
+          "how": "investigational weekly subcutaneous (clinical trials only)",
+          "evidence": "experimental",
+          "effect": "lowered fasting glucose markedly in phase 2/3 trials",
+          "caution": "NOT FDA-approved / investigational; long-term safety unestablished; GI effects and transient heart-rate rise; requires medical supervision"
+        }
+      ]
+    }
+  },
+  "waist": {
+    "direction": "lower",
+    "elite_note": "Lower waist circumference reflects less visceral fat. Common risk thresholds: >102 cm men / >88 cm women (lower for South/East Asian ancestry, ~90 cm men / ~80 cm women). Waist-to-height ratio <0.5 is a practical target. Visceral fat is more prognostic than subcutaneous, so diet + exercise combined outperform either alone.",
+    "tiers": {
+      "diet_exercise": [
+        {
+          "name": "Sustained caloric deficit via high-protein Mediterranean pattern",
+          "how": "modest calorie deficit; cut alcohol, sugar-sweetened beverages and refined carbs; prioritize protein & fiber",
+          "evidence": "A",
+          "effect": "reduces waist circumference and visceral fat",
+          "caution": "adherence is the main limiter; avoid excessively low-calorie crash dieting that erodes lean mass"
+        },
+        {
+          "name": "Aerobic exercise (incl. HIIT) + resistance training",
+          "how": "150-300 min/week aerobic plus 2-3 strength sessions",
+          "evidence": "A",
+          "effect": "reduces visceral adipose tissue, sometimes even with little scale-weight change",
+          "caution": "progress gradually; combine modalities for best central-fat effect"
+        },
+        {
+          "name": "Adequate sleep + stress/cortisol management",
+          "how": "7-9 h regular sleep; stress-reduction practices",
+          "evidence": "B",
+          "effect": "short sleep and chronic stress associate with greater central adiposity; correcting them supports waist reduction",
+          "caution": "evaluate for sleep apnea if indicated"
+        }
+      ],
+      "supplements": [
+        {
+          "name": "Viscous soluble fiber (psyllium 7-10 g/day; glucomannan 2-4 g/day)",
+          "how": "taken before meals with ample water",
+          "evidence": "B",
+          "effect": "modest waist reduction (~1-2 cm) and small weight loss over 8-12 weeks",
+          "caution": "OTC; take with plenty of water (glucomannan carries choking/GI-obstruction risk if taken dry); bloating; separate from medications/other supplements by ~2 h"
+        },
+        {
+          "name": "Green tea catechins (EGCG) \u00b1 caffeine",
+          "how": "standardized extract or brewed green tea",
+          "evidence": "C",
+          "effect": "small, inconsistent reductions in body weight/waist, greater when paired with exercise",
+          "caution": "high-dose EGCG extracts linked to rare hepatotoxicity; caffeine can disturb sleep/raise blood pressure"
+        },
+        {
+          "name": "Whey/protein supplementation",
+          "how": "20-40 g/day to reach protein targets in a deficit",
+          "evidence": "B",
+          "effect": "supports waist reduction indirectly by preserving lean mass and improving satiety/body composition",
+          "caution": "counts toward daily calories; caution in advanced kidney disease"
+        }
+      ],
+      "drugs": [
+        {
+          "name": "Phentermine/topiramate ER (Qsymia)",
+          "how": "physician-titrated daily dosing",
+          "evidence": "A",
+          "effect": "reduces body weight and waist circumference",
+          "caution": "prescription / physician-supervised; teratogenic (topiramate\u2014avoid in pregnancy), raised heart rate, paresthesia/cognitive effects; phentermine is a controlled substance"
+        },
+        {
+          "name": "Orlistat",
+          "how": "120 mg with fat-containing meals (60 mg OTC dose available)",
+          "evidence": "A",
+          "effect": "modest weight and waist reduction via dietary-fat malabsorption",
+          "caution": "prescription (also lower-dose OTC) / physician-supervised; oily stools/steatorrhea, malabsorption of fat-soluble vitamins\u2014supplement them"
+        },
+        {
+          "name": "Naltrexone/bupropion (Contrave)",
+          "how": "physician-titrated combination",
+          "evidence": "A",
+          "effect": "modest weight and waist reduction",
+          "caution": "prescription / physician-supervised; seizure risk, raised blood pressure/heart rate, psychiatric/mood effects; avoid with seizure disorder or chronic opioid use"
+        }
+      ],
+      "peptides": [
+        {
+          "name": "Tirzepatide (GIP/GLP-1 receptor agonist)",
+          "how": "weekly subcutaneous, physician-titrated",
+          "evidence": "A",
+          "effect": "large waist reduction secondary to ~15-22% weight loss",
+          "caution": "FDA-approved peptide (Zepbound/Mounjaro) but prescription / physician-supervised only; risks: GI effects, pancreatitis, gallbladder; medullary thyroid carcinoma/MEN2 contraindication"
+        },
+        {
+          "name": "Tesamorelin (GHRH analog)",
+          "how": "daily subcutaneous injection, physician-managed",
+          "evidence": "A",
+          "effect": "selectively reduces visceral adipose tissue ~15-20% over 26 weeks (subcutaneous fat largely unchanged)",
+          "caution": "FDA-approved ONLY for HIV-associated lipodystrophy; general anti-aging/visceral-fat use is off-label/experimental and requires physician supervision; risks: raised IGF-1, glucose intolerance/worsened insulin resistance, injection-site reactions, edema/arthralgia; contraindicated in active malignancy or pregnancy"
+        },
+        {
+          "name": "Retatrutide (triple GLP-1/GIP/glucagon agonist)",
+          "how": "investigational weekly subcutaneous (clinical trials only)",
+          "evidence": "experimental",
+          "effect": "produced ~17-24% weight loss with marked waist reduction in trials",
+          "caution": "NOT FDA-approved / investigational; long-term safety unknown; GI effects and heart-rate rise; trials or gray-market only, requires medical supervision"
+        }
+      ]
+    }
+  },
+  "hemoglobin": {
+    "direction": "optimize",
+    "elite_note": "Elite is mid-normal (roughly men ~14-15, women ~13-14 g/dL), not maximal. Low Hb usually = iron/B12/folate deficiency or blood loss; high Hb = dehydration, smoking, sleep apnea, testosterone therapy, or polycythemia. Confirm ferritin, B12/folate, hydration and EPO context before acting. No legitimate peptide raises Hb safely; EPO-type agents are prescription biologics listed under drugs.",
+    "tiers": {
+      "diet_exercise": [
+        {
+          "name": "Iron- and B-vitamin-rich diet (+ vitamin C foods)",
+          "how": "Heme iron (lean red meat, poultry, fish) plus non-heme (legumes, leafy greens) eaten with citrus/peppers; adequate dietary B12 and folate",
+          "evidence": "A",
+          "effect": "raises Hb when it is low from nutritional deficiency; corrects nutritional anemia",
+          "caution": "only helps if intake/absorption is the limiter; tea/coffee and calcium with meals inhibit iron absorption"
+        },
+        {
+          "name": "Correct hypoxic drivers and hydration (for high Hb)",
+          "how": "Smoking cessation, treat obstructive sleep apnea (CPAP), weight loss; maintain steady euhydration",
+          "evidence": "B",
+          "effect": "lowers or normalizes an elevated Hb driven by chronic hypoxia or plasma-volume contraction",
+          "caution": "distinguish relative (dehydration) from absolute erythrocytosis before assuming a cause"
+        },
+        {
+          "name": "Regular aerobic/endurance training",
+          "how": "150+ min/week moderate aerobic exercise; altitude exposure increases hemoglobin mass",
+          "evidence": "B",
+          "effect": "supports healthy red-cell mass and can modestly raise Hb over months; note plasma-volume expansion can transiently lower measured Hb",
+          "caution": "dilutional 'athlete's pseudoanemia' is not true anemia"
+        }
+      ],
+      "supplements": [
+        {
+          "name": "Oral iron",
+          "how": "Ferrous sulfate/bisglycinate ~40-100 mg elemental; alternate-day dosing often better absorbed and tolerated",
+          "evidence": "A",
+          "effect": "raises Hb in iron-deficiency anemia over weeks to months",
+          "caution": "use only if ferritin/transferrin saturation is low; GI upset/constipation; iron overload risk if not truly deficient, so test first"
+        },
+        {
+          "name": "Vitamin B12 and/or folate",
+          "how": "Repletion of low B12 (methyl/cyanocobalamin) and/or folate (folic acid or 5-MTHF)",
+          "evidence": "A",
+          "effect": "corrects megaloblastic anemia, raising Hb",
+          "caution": "rule out B12 deficiency before high-dose folate to avoid masking neurologic B12 deficiency"
+        },
+        {
+          "name": "Vitamin C with iron",
+          "how": "~200-500 mg taken with the iron dose",
+          "evidence": "B",
+          "effect": "enhances non-heme iron absorption; meta-analyses show only a small added Hb gain (~0.1 g/dL) over iron alone",
+          "caution": "clinically minor benefit; not essential"
+        }
+      ],
+      "drugs": [
+        {
+          "name": "Erythropoiesis-stimulating agents (epoetin alfa, darbepoetin alfa)",
+          "how": "Prescription injectable ESA for anemia of chronic kidney disease or chemotherapy",
+          "evidence": "A",
+          "effect": "raises Hb in renal or chemotherapy-induced anemia",
+          "caution": "PRESCRIPTION/physician-supervised only; black-box risk of thrombosis, stroke, MI, death and tumor progression; not for otherwise-healthy optimization"
+        },
+        {
+          "name": "IV iron (ferric carboxymaltose, iron sucrose)",
+          "how": "Prescription infusion when oral iron fails/is not tolerated or rapid repletion is needed",
+          "evidence": "A",
+          "effect": "raises Hb in iron-deficiency anemia",
+          "caution": "PRESCRIPTION/physician-supervised; rare hypersensitivity/anaphylaxis and hypophosphatemia"
+        },
+        {
+          "name": "Therapeutic phlebotomy (for high Hb)",
+          "how": "Physician-directed venesection; typical target Hct <52-54% in symptomatic secondary erythrocytosis or TRT-induced elevation",
+          "evidence": "B",
+          "effect": "lowers an elevated Hb/Hct",
+          "caution": "PHYSICIAN-supervised procedure (not a drug); causes iron depletion; reserved for symptomatic or markedly high values"
+        }
+      ],
+      "peptides": []
+    }
+  },
+  "mcv": {
+    "direction": "optimize",
+    "elite_note": "MCV is a diagnostic clue, not a value to manipulate directly; normalize it (85-92 fL) by fixing the cause. High MCV (>~92-100): alcohol, B12/folate deficiency, hypothyroidism, liver disease, myelodysplasia. Low MCV (<~80): iron deficiency, thalassemia trait. Order B12, folate, MMA/homocysteine, TSH and reticulocytes before supplementing. No peptide is applicable.",
+    "tiers": {
+      "diet_exercise": [
+        {
+          "name": "Reduce or eliminate alcohol",
+          "how": "Abstinence or marked reduction in intake",
+          "evidence": "B",
+          "effect": "lowers alcohol-driven macrocytosis; MCV normalizes over roughly 2-4 months (red-cell lifespan)",
+          "caution": "alcohol is a leading cause of high MCV via direct marrow toxicity, independent of nutrition"
+        },
+        {
+          "name": "B12/folate-rich diet (high MCV) or iron-rich diet (low MCV)",
+          "how": "Animal/fortified foods for B12 and leafy greens/legumes for folate; heme iron if microcytic",
+          "evidence": "B",
+          "effect": "moves MCV toward 85-92 by correcting the underlying nutritional deficiency"
+        }
+      ],
+      "supplements": [
+        {
+          "name": "Vitamin B12",
+          "how": "Methyl/cyanocobalamin orally (high-dose if malabsorptive) when B12 is low/borderline with elevated MMA",
+          "evidence": "A",
+          "effect": "lowers an elevated MCV by reversing megaloblastic change",
+          "caution": "check B12/MMA first; untreated B12 deficiency risks irreversible neuropathy"
+        },
+        {
+          "name": "Folate (folic acid or 5-MTHF)",
+          "how": "0.4-1 mg/day when folate is deficient",
+          "evidence": "A",
+          "effect": "lowers an elevated MCV caused by folate deficiency",
+          "caution": "NEVER give folate alone before excluding B12 deficiency, as it corrects the anemia while masking and allowing progression of B12 neurologic damage"
+        },
+        {
+          "name": "Iron (if MCV is low/microcytic)",
+          "how": "Oral iron for iron-deficiency",
+          "evidence": "A",
+          "effect": "raises a low MCV back toward normal",
+          "caution": "test-guided; not for high MCV"
+        }
+      ],
+      "drugs": [
+        {
+          "name": "Parenteral B12 (hydroxocobalamin injection)",
+          "how": "IM B12 for pernicious anemia or malabsorption",
+          "evidence": "A",
+          "effect": "normalizes a high MCV from B12 deficiency when oral is inadequate",
+          "caution": "PRESCRIPTION/physician-supervised"
+        },
+        {
+          "name": "Levothyroxine (if hypothyroid)",
+          "how": "Thyroid hormone replacement for hypothyroidism-related macrocytosis",
+          "evidence": "B",
+          "effect": "helps normalize MCV when hypothyroidism is the cause",
+          "caution": "PRESCRIPTION/physician-supervised; titrate to TSH"
+        }
+      ],
+      "peptides": []
+    }
+  },
+  "lymph_pct": {
+    "direction": "raise",
+    "elite_note": "A low lymphocyte percentage (lymphopenia) tracks with infection risk, frailty and mortality; the elite target is a robust ~30-40% with a healthy CD4:CD8 profile. Persistent lymphopenia deserves a workup (chronic infection, corticosteroids, marrow/immune disorders) rather than supplements alone. No FDA-approved drug safely raises lymphocytes in healthy people.",
+    "tiers": {
+      "diet_exercise": [
+        {
+          "name": "Regular moderate exercise (aerobic + resistance)",
+          "how": "~150 min/week aerobic plus 2 resistance sessions; avoid chronic overtraining",
+          "evidence": "B",
+          "effect": "improves the T-cell profile and can raise total lymphocytes while reducing senescent T cells with sustained training; effect on percentage is modest and variable",
+          "caution": "a bout of intense exercise transiently drops circulating lymphocytes, and overtraining suppresses immunity"
+        },
+        {
+          "name": "Adequate sleep and stress reduction",
+          "how": "7-9 h sleep nightly; reduce chronic psychological stress and cortisol load",
+          "evidence": "B",
+          "effect": "supports lymphocyte numbers, since chronic cortisol elevation lowers lymphocytes"
+        },
+        {
+          "name": "Sufficient protein and energy intake",
+          "how": "Adequate protein-calorie nutrition; treat undernutrition",
+          "evidence": "B",
+          "effect": "prevents and helps reverse malnutrition-associated lymphopenia"
+        }
+      ],
+      "supplements": [
+        {
+          "name": "Zinc (if deficient or older adult)",
+          "how": "~15-30 mg/day elemental zinc",
+          "evidence": "B",
+          "effect": "raises T-lymphocyte counts and the CD4:CD8 ratio in zinc-deficiency states",
+          "caution": "do not exceed ~40 mg/day; excess zinc causes copper deficiency and can itself impair immunity"
+        },
+        {
+          "name": "Vitamin D (if deficient)",
+          "how": "Correct 25-OH-D to sufficiency (~1000-2000 IU/day)",
+          "evidence": "C",
+          "effect": "modest increases in circulating T cells (CD3/CD4) seen in trials of deficient or overweight subjects",
+          "caution": "correct deficiency only; avoid megadoses"
+        },
+        {
+          "name": "General micronutrient repletion (B-vitamins, protein/whey)",
+          "how": "Address any documented deficiency limiting immune cell production",
+          "evidence": "C",
+          "effect": "supports lymphopoiesis when a specific deficiency is the limiter"
+        }
+      ],
+      "drugs": [],
+      "peptides": [
+        {
+          "name": "Thymosin alpha-1 (thymalfasin)",
+          "how": "Physician-administered subcutaneous thymic peptide that stimulates T-cell maturation",
+          "evidence": "B",
+          "effect": "raises CD4 and absolute lymphocyte counts and improves CD4:CD8 in immunocompromised patients (disease-context data)",
+          "caution": "NOT FDA-approved in the US (approved in 30+ other countries; US investigational/orphan); experimental for healthy longevity use; requires medical supervision; risk of injection-site reactions and theoretical autoimmune over-stimulation, with unproven long-term safety"
+        },
+        {
+          "name": "Thymalin / thymic peptide extracts",
+          "how": "Experimental injectable thymic peptides",
+          "evidence": "experimental",
+          "effect": "claimed to raise T-lymphocytes, but based on sparse, largely older/Russian data",
+          "caution": "NOT FDA-approved; minimal controlled human evidence and unregulated purity; requires medical supervision"
+        }
+      ]
+    }
+  },
+  "sedentary_frac": {
+    "direction": "lower",
+    "elite_note": "A lower sedentary fraction\u2014especially breaking up prolonged uninterrupted sitting\u2014is protective for mortality and cardiometabolic health partly independent of MVPA. Behavioral interventions are clearly first-line; no supplement, drug, or peptide is credibly established to reduce sedentary behavior.",
+    "tiers": {
+      "diet_exercise": [
+        {
+          "name": "Sit-stand / active workstation with prompts",
+          "how": "Alternate sitting and standing; standing or treadmill desk paired with reminders/promotion",
+          "evidence": "A",
+          "effect": "Reduces occupational sitting by roughly 40-100 min/day (network meta-analysis of RCTs), more when combined with behavioral prompts",
+          "caution": "Increase standing time gradually to avoid leg, foot, or back discomfort"
+        },
+        {
+          "name": "Regularly break up prolonged sitting ('sitting breaks')",
+          "how": "Stand or move 2-5 min every ~30 min; take an hourly short walk",
+          "evidence": "B",
+          "effect": "Lowers total sedentary fraction and improves postprandial glucose/insulin",
+          "caution": "None major"
+        },
+        {
+          "name": "Wearable inactivity prompts + stand/step goals",
+          "how": "Enable move/stand reminders on a tracker; set daily stand and light-activity goals",
+          "evidence": "B",
+          "effect": "Reduces sedentary time and increases light-intensity activity",
+          "caution": "Effect can attenuate; refresh goals and prompts periodically"
+        }
+      ],
+      "supplements": [],
+      "drugs": [],
+      "peptides": []
+    }
+  }
+}

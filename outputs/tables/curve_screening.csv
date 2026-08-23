@@ -1,0 +1,65 @@
+feature,sex,n_obs,n_excluded,exclusions,direction,monotonic,usable,seg_lo,seg_hi,note
+activity_bout_frag,female,1513,0,-,increase,False,True,35.5,84.0,non-monotonic overall (20% of travel reverses); restricted to monotonic segment 36-84y
+activity_bout_frag,male,1478,0,-,increase,False,True,27.5,84.0,non-monotonic overall (11% of travel reverses); restricted to monotonic segment 28-84y
+activity_cv,female,1513,0,-,increase,False,True,34.5,84.0,non-monotonic overall (34% of travel reverses); restricted to monotonic segment 34-84y
+activity_cv,male,1478,0,-,increase,False,True,32.5,84.0,non-monotonic overall (20% of travel reverses); restricted to monotonic segment 32-84y
+albumin,female,2176,149,liver_disease,decrease,False,True,49.5,84.0,non-monotonic overall (35% of travel reverses); restricted to monotonic segment 50-84y
+albumin,male,2005,149,liver_disease,decrease,True,True,20.0,84.0,monotonic across full range
+alk_phos,female,2176,149,liver_disease,increase,False,True,33.5,71.0,non-monotonic overall (18% of travel reverses); restricted to monotonic segment 34-71y
+alk_phos,male,2004,149,liver_disease,increase,False,True,36.5,64.5,non-monotonic overall (47% of travel reverses); restricted to monotonic segment 36-64y
+alt,female,2146,147,liver_disease,increase,False,True,20.0,59.5,non-monotonic overall (33% of travel reverses); restricted to monotonic segment 20-60y
+alt,male,1966,147,liver_disease,decrease,False,True,32.0,84.0,non-monotonic overall (28% of travel reverses); restricted to monotonic segment 32-84y
+creatinine,female,2176,110,kidney_disease,increase,True,True,20.0,84.0,monotonic across full range
+creatinine,male,2043,110,kidney_disease,increase,True,True,20.0,84.0,monotonic across full range
+crp,female,1891,533,acute_inflammation,increase,False,True,37.5,78.5,non-monotonic overall (16% of travel reverses); restricted to monotonic segment 38-78y
+crp,male,1933,533,acute_inflammation,increase,False,True,20.0,62.5,non-monotonic overall (7% of travel reverses); restricted to monotonic segment 20-62y
+ggt,female,2176,148,liver_disease+heavy_alcohol,increase,True,True,20.0,84.0,monotonic across full range
+ggt,male,2004,148,liver_disease+heavy_alcohol,decrease,False,True,40.5,84.0,non-monotonic overall (50% of travel reverses); restricted to monotonic segment 40-84y
+glucose_fasting,female,880,220,diabetes,increase,True,True,20.0,84.0,monotonic across full range
+glucose_fasting,male,847,220,diabetes,increase,False,True,20.0,80.0,non-monotonic overall (8% of travel reverses); restricted to monotonic segment 20-80y
+hba1c,female,2052,440,diabetes,increase,True,True,20.0,84.0,monotonic across full range
+hba1c,male,1876,440,diabetes,increase,True,True,20.0,84.0,monotonic across full range
+hdl,female,1948,616,lipid_meds,increase,False,True,37.0,84.0,non-monotonic overall (11% of travel reverses); restricted to monotonic segment 37-84y
+hdl,male,1779,616,lipid_meds,increase,False,True,30.0,57.5,non-monotonic overall (21% of travel reverses); restricted to monotonic segment 30-58y
+hemoglobin,female,1995,395,anemia,decrease,False,True,56.0,84.0,non-monotonic overall (49% of travel reverses); restricted to monotonic segment 56-84y
+hemoglobin,male,1981,395,anemia,decrease,True,True,20.0,84.0,monotonic across full range
+interdaily_stability,female,1513,0,-,increase,False,True,34.0,84.0,non-monotonic overall (29% of travel reverses); restricted to monotonic segment 34-84y
+interdaily_stability,male,1478,0,-,increase,False,True,43.5,84.0,non-monotonic overall (36% of travel reverses); restricted to monotonic segment 44-84y
+intradaily_variability,female,1513,0,-,increase,False,True,56.5,83.0,non-monotonic overall (34% of travel reverses); restricted to monotonic segment 56-83y
+intradaily_variability,male,1478,0,-,increase,False,True,20.0,46.0,non-monotonic overall (24% of travel reverses); restricted to monotonic segment 20-46y
+l5,female,1513,0,-,decrease,False,True,27.0,84.0,non-monotonic overall (7% of travel reverses); restricted to monotonic segment 27-84y
+l5,male,1478,0,-,decrease,True,True,20.0,84.0,monotonic across full range
+lymph_pct,female,1889,530,acute_inflammation,decrease,False,True,55.5,84.0,non-monotonic overall (20% of travel reverses); restricted to monotonic segment 56-84y
+lymph_pct,male,1929,530,acute_inflammation,decrease,True,True,20.0,84.0,monotonic across full range
+m10,female,1513,0,-,decrease,False,True,25.0,84.0,non-monotonic overall (7% of travel reverses); restricted to monotonic segment 25-84y
+m10,male,1478,0,-,decrease,True,True,20.0,84.0,monotonic across full range
+mcv,female,1995,395,anemia,increase,True,True,20.0,84.0,monotonic across full range
+mcv,male,1981,395,anemia,increase,True,True,20.0,84.0,monotonic across full range
+mean_cpm,female,1513,0,-,decrease,False,True,25.0,84.0,non-monotonic overall (7% of travel reverses); restricted to monotonic segment 25-84y
+mean_cpm,male,1478,0,-,decrease,True,True,20.0,84.0,monotonic across full range
+mvpa_min,female,1513,0,-,decrease,True,True,20.0,84.0,monotonic across full range
+mvpa_min,male,1478,0,-,decrease,True,True,20.0,84.0,monotonic across full range
+pulse_pressure,female,1682,1109,bp_meds,increase,False,True,24.5,84.0,non-monotonic overall (8% of travel reverses); restricted to monotonic segment 24-84y
+pulse_pressure,male,1571,1109,bp_meds,increase,False,True,35.5,84.0,non-monotonic overall (29% of travel reverses); restricted to monotonic segment 36-84y
+rdw,female,1995,396,anemia,increase,True,True,20.0,84.0,monotonic across full range
+rdw,male,1981,396,anemia,increase,True,True,20.0,84.0,monotonic across full range
+relative_amplitude,female,1513,0,-,increase,False,True,35.5,69.0,non-monotonic overall (28% of travel reverses); restricted to monotonic segment 36-69y
+relative_amplitude,male,1478,0,-,increase,False,True,32.5,84.0,non-monotonic overall (18% of travel reverses); restricted to monotonic segment 32-84y
+sedentary_frac,female,1513,0,-,increase,False,True,32.0,84.0,non-monotonic overall (17% of travel reverses); restricted to monotonic segment 32-84y
+sedentary_frac,male,1478,0,-,increase,True,True,20.0,84.0,monotonic across full range
+systolic_bp,female,1685,1122,bp_meds,increase,True,True,20.0,84.0,monotonic across full range
+systolic_bp,male,1580,1122,bp_meds,increase,True,True,20.0,84.0,monotonic across full range
+total_chol,female,1951,616,lipid_meds,increase,False,True,20.0,69.5,non-monotonic overall (14% of travel reverses); restricted to monotonic segment 20-70y
+total_chol,male,1779,616,lipid_meds,decrease,False,True,46.0,84.0,non-monotonic overall (41% of travel reverses); restricted to monotonic segment 46-84y
+total_protein,female,2239,0,-,decrease,False,False,,,non-monotonic (26% of travel reverses) and widest monotonic span is only 24y < 25y -- EXCLUDED
+total_protein,male,2080,0,-,decrease,True,True,20.0,84.0,monotonic across full range
+triglycerides,female,842,302,lipid_meds,increase,True,True,20.0,84.0,monotonic across full range
+triglycerides,male,781,302,lipid_meds,decrease,False,True,57.0,84.0,non-monotonic overall (41% of travel reverses); restricted to monotonic segment 57-84y
+urea_nitrogen,female,2174,111,kidney_disease,increase,True,True,20.0,84.0,monotonic across full range
+urea_nitrogen,male,2043,111,kidney_disease,increase,True,True,20.0,84.0,monotonic across full range
+uric_acid,female,2175,110,kidney_disease+gout_meds,increase,True,True,20.0,84.0,monotonic across full range
+uric_acid,male,2043,110,kidney_disease+gout_meds,increase,False,True,20.0,48.0,non-monotonic overall (25% of travel reverses); restricted to monotonic segment 20-48y
+waist,female,2292,0,-,increase,False,True,20.0,64.0,non-monotonic overall (27% of travel reverses); restricted to monotonic segment 20-64y
+waist,male,2102,0,-,increase,False,True,20.0,71.0,non-monotonic overall (18% of travel reverses); restricted to monotonic segment 20-71y
+wbc,female,1905,531,acute_inflammation,decrease,False,True,20.0,67.0,non-monotonic overall (18% of travel reverses); restricted to monotonic segment 20-67y
+wbc,male,1933,531,acute_inflammation,decrease,False,True,20.0,51.5,non-monotonic overall (23% of travel reverses); restricted to monotonic segment 20-52y

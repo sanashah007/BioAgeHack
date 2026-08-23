@@ -1,0 +1,14 @@
+biolearn==0.9.1
+lifelines==0.30.0
+matplotlib==3.10.9
+numpy==1.26.4
+pandas==2.3.3
+pyarrow==25.0.1
+pyreadstat==1.3.6
+requests==2.34.2
+scikit-learn==1.7.2
+scipy==1.15.3
+seaborn==0.13.2
+statsmodels==0.14.6
+torch==2.13.0
+tqdm==4.70.0

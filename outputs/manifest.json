@@ -1,0 +1,31 @@
+{
+  "cycle": "NHANES 2005-2006",
+  "reference_population": "healthy",
+  "combiner_method": "cox",
+  "n_analytic": 4623,
+  "n_deaths": 810,
+  "max_followup_years": 15.0,
+  "curves_fitted": 64,
+  "curves_fully_monotonic": 26,
+  "curves_segment_restricted": 37,
+  "curves_excluded": 1,
+  "blood_age_equivalent_scale": 0.4917,
+  "blood_reliability": 0.7419,
+  "wearable_age_equivalent_scale": 0.3186,
+  "wearable_reliability": 0.9539,
+  "methylation_n": 656,
+  "methylation_cohort": "GSE40279",
+  "combiner_weights": {
+    "blood": 0.4612,
+    "wearable": 0.5388
+  },
+  "combiner_n_train": 2956,
+  "combiner_n_events": 546,
+  "best_single_modality": "wearable",
+  "best_single_c_index": 0.8542,
+  "combined_c_index": 0.8587,
+  "combined_beats_best_single": true,
+  "gap_correlations": {
+    "blood|wearable": 0.2514
+  }
+}

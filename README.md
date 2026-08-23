@@ -101,6 +101,23 @@ someone far older. A scalar "your bioage is 29.6" tells this person nothing.
 "Your wearable signal is aging much faster than your blood chemistry" tells them
 exactly what to work on.
 
+### Interactive console
+
+```bash
+python scripts/build_console.py && open web/bioage_console.html
+```
+
+A self-contained HTML console — no server, no build step, no network. Browse all
+4,623 participants, click the blood-vs-wearable scatter to inspect anyone, and
+**toggle modalities on and off to watch the combiner renormalise live**. That
+toggle runs the same arithmetic as `Combiner.predict_gap`, so it demonstrates
+graceful degradation rather than illustrating it.
+
+The data is inlined (~140 KB) because the page is published under a strict CSP
+with no fetch available — the upside is the built file works from disk, over
+email, or on any static host. `web/console.template.html` is the source; the
+built file is generated, so edit the template and re-run the script.
+
 Graceful degradation — missing arms are dropped and remaining weights
 renormalised, never imputed as average:
 

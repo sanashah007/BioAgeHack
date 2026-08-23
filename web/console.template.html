@@ -1,0 +1,598 @@
+<title>Biological Age Console — NHANES 2005–2006</title>
+<style>
+:root{
+  color-scheme: light;
+  --ground:#f4f6f9; --panel:#ffffff; --panel-2:#eef1f6;
+  --ink:#10141a; --ink-2:#4a5462; --ink-3:#7b8595;
+  --rule:#dde2ea; --rule-2:#c8d0dc;
+  --blood:#2a78d6; --wear:#eb6834; --meth:#1baf7a; --comb:#4a3aa7;
+  --cool:#2a78d6; --warm:#eb6834; --mid:#b9c0cb;
+  --shadow:0 1px 2px rgba(16,20,26,.06), 0 8px 24px -16px rgba(16,20,26,.28);
+  --mono: ui-monospace, "SF Mono", Menlo, "Cascadia Mono", "Roboto Mono", monospace;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:where(:not([data-theme="light"])){
+    color-scheme: dark;
+    --ground:#0e1116; --panel:#161b22; --panel-2:#1c222b;
+    --ink:#e9edf3; --ink-2:#9aa5b4; --ink-3:#6b7684;
+    --rule:#262d38; --rule-2:#333c49;
+    --blood:#3987e5; --wear:#d95926; --meth:#199e70; --comb:#9085e9;
+    --cool:#3987e5; --warm:#d95926; --mid:#4a5462;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --ground:#0e1116; --panel:#161b22; --panel-2:#1c222b;
+  --ink:#e9edf3; --ink-2:#9aa5b4; --ink-3:#6b7684;
+  --rule:#262d38; --rule-2:#333c49;
+  --blood:#3987e5; --wear:#d95926; --meth:#199e70; --comb:#9085e9;
+  --cool:#3987e5; --warm:#d95926; --mid:#4a5462;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+}
+:root[data-theme="light"]{
+  color-scheme: light;
+  --ground:#f4f6f9; --panel:#ffffff; --panel-2:#eef1f6;
+  --ink:#10141a; --ink-2:#4a5462; --ink-3:#7b8595;
+  --rule:#dde2ea; --rule-2:#c8d0dc;
+  --blood:#2a78d6; --wear:#eb6834; --meth:#1baf7a; --comb:#4a3aa7;
+  --cool:#2a78d6; --warm:#eb6834; --mid:#b9c0cb;
+}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);
+  font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding:28px 20px 72px}
+h1,h2,h3{margin:0;text-wrap:balance;font-weight:640;letter-spacing:-.015em}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink-3)}
+a{color:var(--comb)}
+:focus-visible{outline:2px solid var(--comb);outline-offset:2px;border-radius:3px}
+
+/* ---------- masthead ---------- */
+.mast{display:flex;flex-wrap:wrap;gap:20px;align-items:flex-end;
+  justify-content:space-between;border-bottom:1px solid var(--rule);padding-bottom:16px}
+.mast h1{font-size:23px}
+.mast .sub{color:var(--ink-2);font-size:13.5px;margin-top:3px;max-width:62ch}
+.cohort{display:flex;gap:20px;flex-wrap:wrap}
+.cohort div{text-align:right}
+.cohort .v{font-family:var(--mono);font-size:17px;font-weight:600;line-height:1.2}
+
+/* ---------- console ---------- */
+.console{display:grid;grid-template-columns:296px minmax(0,1fr);gap:18px;margin-top:22px;align-items:start}
+@media(max-width:880px){.console{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--rule);border-radius:8px;
+  box-shadow:var(--shadow)}
+.card>.hd{padding:11px 15px;border-bottom:1px solid var(--rule);
+  display:flex;align-items:center;justify-content:space-between;gap:10px}
+.card>.bd{padding:15px}
+
+.pick{display:flex;gap:7px}
+.pick input{flex:1;min-width:0;font-family:var(--mono);font-size:14px;padding:7px 9px;
+  background:var(--panel-2);border:1px solid var(--rule-2);border-radius:5px;color:var(--ink)}
+button{font-family:inherit;font-size:13px;color:var(--ink);background:var(--panel-2);
+  border:1px solid var(--rule-2);border-radius:5px;padding:7px 11px;cursor:pointer;
+  transition:background .12s ease,border-color .12s ease}
+button:hover{background:var(--rule);border-color:var(--ink-3)}
+button:active{transform:translateY(.5px)}
+
+.chips{display:flex;flex-direction:column;gap:5px;margin-top:4px}
+.chip{display:flex;justify-content:space-between;align-items:baseline;gap:9px;
+  width:100%;text-align:left;padding:7px 10px;line-height:1.3}
+.chip .sq{font-family:var(--mono);font-size:12px;color:var(--ink-2)}
+.chip .lb{font-size:12px;color:var(--ink-3)}
+.chip[aria-current="true"]{border-color:var(--comb);background:var(--panel-2)}
+.chip[aria-current="true"] .sq{color:var(--comb);font-weight:600}
+
+/* modality switches */
+.sw{display:flex;flex-direction:column;gap:8px}
+.row{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:6px;
+  border:1px solid var(--rule);background:var(--panel-2)}
+.row.off{opacity:.5}
+.row.na{opacity:.62;border-style:dashed}
+.dot{width:9px;height:9px;border-radius:50%;flex:none}
+.row .nm{flex:1;font-size:13.5px}
+.row .st{font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+.tgl{position:relative;width:34px;height:19px;border-radius:19px;border:1px solid var(--rule-2);
+  background:var(--rule);cursor:pointer;padding:0;flex:none;transition:background .15s ease}
+.tgl::after{content:"";position:absolute;top:2px;left:2px;width:13px;height:13px;border-radius:50%;
+  background:var(--panel);transition:transform .15s ease;box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.tgl[aria-pressed="true"]{background:var(--acc,var(--comb));border-color:transparent}
+.tgl[aria-pressed="true"]::after{transform:translateX(15px)}
+.tgl:disabled{cursor:not-allowed}
+
+/* ---------- readout ---------- */
+.subject{display:flex;flex-wrap:wrap;align-items:baseline;gap:9px}
+.subject .id{font-family:var(--mono);font-size:15px;font-weight:600}
+.subject .meta{font-size:13px;color:var(--ink-2)}
+
+.headline{display:grid;grid-template-columns:auto minmax(0,1fr);gap:22px;align-items:center;
+  padding:15px;border:1px solid var(--rule);border-radius:7px;background:var(--panel-2)}
+@media(max-width:560px){.headline{grid-template-columns:1fr;gap:12px}}
+.big{font-family:var(--mono);font-size:41px;font-weight:640;line-height:1;letter-spacing:-.03em}
+.delta{font-family:var(--mono);font-size:13.5px;margin-top:6px}
+.verdict{font-size:13.5px;color:var(--ink-2);border-left:2px solid var(--rule-2);padding-left:14px}
+.verdict strong{color:var(--ink);font-weight:600}
+
+/* decomposition */
+.decomp{margin-top:16px;display:flex;flex-direction:column;gap:2px}
+.dr{display:grid;grid-template-columns:96px 66px minmax(90px,1fr) 62px;gap:11px;
+  align-items:center;padding:9px 0;border-top:1px solid var(--rule)}
+@media(max-width:560px){.dr{grid-template-columns:84px 60px minmax(70px,1fr);}
+  .dr .wt{display:none}}
+.dr .lab{display:flex;align-items:center;gap:7px;font-size:13.5px}
+.dr .gv{font-family:var(--mono);font-size:14px;font-weight:600;text-align:right}
+.dr .wt{font-family:var(--mono);font-size:11.5px;color:var(--ink-3);text-align:right}
+.dr.inactive .gv,.dr.inactive .lab{color:var(--ink-3)}
+
+.track{position:relative;height:19px;background:var(--panel-2);border-radius:3px;
+  border:1px solid var(--rule);overflow:hidden}
+.track .mid{position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--rule-2)}
+.track .fill{position:absolute;top:3px;bottom:3px;border-radius:2px;transition:left .2s ease,width .2s ease}
+.scalerow{display:grid;grid-template-columns:96px 66px minmax(90px,1fr) 62px;gap:11px;
+  font-family:var(--mono);font-size:10px;color:var(--ink-3);padding-top:3px}
+@media(max-width:560px){.scalerow{grid-template-columns:84px 60px minmax(70px,1fr)}
+  .scalerow .wt{display:none}}
+.scalerow .sc{display:flex;justify-content:space-between}
+
+.note{margin-top:14px;padding:11px 13px;border-radius:6px;font-size:13px;
+  border:1px solid var(--rule);background:var(--panel-2);color:var(--ink-2)}
+.note.alert{border-color:color-mix(in srgb,var(--warm) 45%,var(--rule));
+  background:color-mix(in srgb,var(--warm) 7%,var(--panel))}
+.note strong{color:var(--ink)}
+.note .tag{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-3);display:block;margin-bottom:3px}
+
+/* ---------- evidence ---------- */
+.evidence{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;margin-top:18px}
+@media(max-width:880px){.evidence{grid-template-columns:1fr}}
+canvas{display:block;width:100%;height:auto;border-radius:5px;cursor:crosshair}
+.legend{display:flex;flex-wrap:wrap;gap:13px;margin-top:9px;font-size:11.5px;color:var(--ink-2)}
+.legend span{display:flex;align-items:center;gap:5px}
+.ramp{width:56px;height:8px;border-radius:4px;
+  background:linear-gradient(90deg,var(--cool),var(--mid),var(--warm))}
+
+.tbl{width:100%;border-collapse:collapse;font-size:12.5px}
+.tbl th,.tbl td{padding:6px 7px;text-align:right;border-bottom:1px solid var(--rule)}
+.tbl th{font-family:var(--mono);font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--ink-3);font-weight:500;vertical-align:bottom}
+.tbl td:first-child,.tbl th:first-child{text-align:left}
+.tbl td{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.tbl tr.best td{background:color-mix(in srgb,var(--comb) 9%,transparent);font-weight:640}
+.tbl td.nm{font-family:var(--sans);display:flex;align-items:center;gap:6px}
+.scroll{overflow-x:auto}
+.foot{margin-top:11px;font-size:12px;color:var(--ink-3);line-height:1.5}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:560px){.grid2{grid-template-columns:1fr}}
+.feat{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;padding:4px 0;
+  border-bottom:1px dotted var(--rule)}
+.feat .v{font-family:var(--mono);color:var(--ink-2)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="mast">
+    <div>
+      <p class="eyebrow">Multi-modal biological age · NHANES 2005–2006 · mortality-linked</p>
+      <h1>Biological Age Console</h1>
+      <p class="sub">Every score below is an <em>age gap</em> — predicted minus chronological — fitted
+        against linked mortality, never against chronological age. The decomposition is the product;
+        the single number is not.</p>
+    </div>
+    <div class="cohort">
+      <div><p class="eyebrow">Cohort</p><p class="v" id="cN">—</p></div>
+      <div><p class="eyebrow">Deaths</p><p class="v" id="cD">—</p></div>
+      <div><p class="eyebrow">Follow-up</p><p class="v">15.0 y</p></div>
+    </div>
+  </header>
+
+  <div class="console">
+    <!-- ---------------- controls ---------------- -->
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <section class="card">
+        <div class="hd"><h2 style="font-size:13px">Subject</h2>
+          <button id="rand" type="button">Random</button></div>
+        <div class="bd" style="display:flex;flex-direction:column;gap:11px">
+          <div class="pick">
+            <input id="seqn" inputmode="numeric" aria-label="Participant SEQN" placeholder="SEQN…">
+            <button id="go" type="button">Find</button>
+          </div>
+          <p id="err" class="eyebrow" style="color:var(--warm);display:none"></p>
+          <div>
+            <p class="eyebrow" style="margin-bottom:6px">Cases worth looking at</p>
+            <div class="chips" id="chips"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="hd"><h2 style="font-size:13px">Modalities</h2></div>
+        <div class="bd">
+          <div class="sw" id="sw"></div>
+          <p class="foot">Switch an arm off to see the combiner degrade gracefully: the remaining
+            weights renormalise. Missing arms are never imputed as average.</p>
+        </div>
+      </section>
+    </div>
+
+    <!-- ---------------- readout ---------------- -->
+    <section class="card">
+      <div class="hd">
+        <div class="subject">
+          <span class="id" id="sId">—</span>
+          <span class="meta" id="sMeta"></span>
+        </div>
+        <span class="eyebrow" id="sOut"></span>
+      </div>
+      <div class="bd">
+        <div class="headline">
+          <div>
+            <p class="eyebrow">Combined biological age</p>
+            <p class="big" id="bAge">—</p>
+            <p class="delta" id="bDelta"></p>
+          </div>
+          <p class="verdict" id="verdict"></p>
+        </div>
+
+        <p class="eyebrow" style="margin:18px 0 2px">Per-modality decomposition</p>
+        <div class="decomp" id="decomp"></div>
+        <div class="scalerow">
+          <span></span><span></span>
+          <span class="sc"><span>−15 y younger</span><span>0</span><span>older +15 y</span></span>
+          <span class="wt"></span>
+        </div>
+
+        <div id="notes"></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ---------------- evidence ---------------- -->
+  <div class="evidence">
+    <section class="card">
+      <div class="hd"><h2 style="font-size:13px">Where the arms disagree</h2>
+        <span class="eyebrow">r = <span id="redv">—</span></span></div>
+      <div class="bd">
+        <canvas id="sc" width="820" height="620" role="img"
+          aria-label="Scatter of blood age gap against wearable age gap for 2,956 participants."></canvas>
+        <div class="legend">
+          <span><span class="ramp"></span> combined gap: younger → older</span>
+          <span><svg width="12" height="12" aria-hidden="true"><circle cx="6" cy="6" r="4.5"
+            fill="none" stroke="currentColor" stroke-width="2"/></svg> selected subject</span>
+        </div>
+        <p class="foot">Each point is one participant. A tight diagonal would mean the two arms are
+          redundant. This cloud is <strong>r = 0.25</strong> — they measure substantially different
+          things, which is what makes the breakdown worth showing. Click to inspect anyone.</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="hd"><h2 style="font-size:13px">Does the gap predict death?</h2>
+        <span class="eyebrow">Cox · adjusted age + sex</span></div>
+      <div class="bd">
+        <div class="scroll">
+          <table class="tbl">
+            <thead><tr><th>Score</th><th>HR / year</th><th>HR / SD</th><th>95% CI</th>
+              <th>C-index</th><th>Gain</th></tr></thead>
+            <tbody id="vt"></tbody>
+          </table>
+        </div>
+        <p class="foot">Age and sex alone give C = 0.8453, so the meaningful column is
+          <strong>Gain</strong> — discrimination added beyond knowing someone's birthday. The combined
+          gap adds <strong>51% more</strong> than the best single arm. For scale, PhenoAge reaches
+          +0.0097 on this same cohort and linkage.</p>
+
+        <p class="eyebrow" style="margin:16px 0 6px">What each arm is weighting</p>
+        <div class="grid2">
+          <div><p class="eyebrow" style="color:var(--blood)">Blood</p><div id="fb"></div></div>
+          <div><p class="eyebrow" style="color:var(--wear)">Wearable</p><div id="fw"></div></div>
+        </div>
+        <p class="foot">RDW, albumin and CRP were <em>recovered from the mortality data</em>, not
+          supplied — they are the same markers PhenoAge is built from.</p>
+      </div>
+    </section>
+  </div>
+
+  <section class="card" style="margin-top:18px">
+    <div class="hd"><h2 style="font-size:13px">Methylation arm — a different cohort</h2>
+      <span class="eyebrow">GEO GSE40279 · n = 656</span></div>
+    <div class="bd">
+      <p style="font-size:13.5px;color:var(--ink-2);margin:0 0 12px;max-width:78ch">
+        NHANES has never collected DNA methylation, so there is no participant to join this to and no
+        join is fabricated. GSE40279 also carries <strong>no mortality linkage</strong>, so this arm
+        gets no fitted combiner weight and is excluded from the combined score above — it appears in
+        the breakdown labelled as unavailable, not silently averaged in.</p>
+      <div class="scroll">
+        <table class="tbl">
+          <thead><tr><th>Clock</th><th>Gen</th><th>r with age</th><th>MAE</th>
+            <th>Gap SD</th><th>Residual SD</th></tr></thead>
+          <tbody id="mt"></tbody>
+        </table>
+      </div>
+      <p class="foot">This table was built to test the argument that first-generation clocks leave too
+        little residual to combine — and it <strong>does not support it</strong>: Hannum (1st gen)
+        leaves 4.25 where GrimAgeV1 (2nd gen) leaves 3.93. Residual spread conflates signal with
+        noise, and separating them needs an outcome this cohort does not have. The clock choice rests
+        on published mortality evidence, not on this.</p>
+    </div>
+  </section>
+
+  <p class="foot" style="max-width:80ch;margin-top:22px">
+    Scores are out-of-fold (5-fold cross-fitted), gaps are age-residualised, and every outcome model
+    adjusts for chronological age and sex. Source data is NHANES 2005–2006 public-use files with the
+    NCHS Public-Use Linked Mortality File through 2019-12-31.</p>
+</div>
+
+<script type="application/json" id="payload">__DATA__</script>
+<script>
+const DATA = JSON.parse(document.getElementById('payload').textContent);
+const [SEQN,AGE,SEX,GB,GW,DIED,FU] = [0,1,2,3,4,5,6];
+const BY = new Map(DATA.P.map(p=>[p[SEQN],p]));
+const BOTH = DATA.P.filter(p=>p[GB]!=null && p[GW]!=null);
+const MODS = [
+  {k:'blood',    name:'Blood chemistry', css:'--blood'},
+  {k:'wearable', name:'Wearable activity', css:'--wear'},
+  {k:'methylation', name:'DNA methylation', css:'--meth'}
+];
+const active = {blood:true, wearable:true, methylation:false};
+let current = null;
+const CLAMP = 15;
+const f1 = n => (n>=0?'+':'−') + Math.abs(n).toFixed(1);
+
+/* combiner: identical to scoring.Combiner.predict_gap — drop missing arms and
+   renormalise the survivors, never impute zero. */
+function report(p){
+  const raw = {blood:p[GB], wearable:p[GW], methylation:null};
+  const g = {};
+  MODS.forEach(m=>{ g[m.k] = (active[m.k] && raw[m.k]!=null) ? raw[m.k] : null; });
+  const mods = DATA.MOD;
+  const used = mods.filter(m=>g[m]!=null);
+  const missing = mods.filter(m=>g[m]==null);
+  const total = mods.reduce((a,m)=>a+Math.abs(DATA.W[m]||0),0);
+  const wsum  = used.reduce((a,m)=>a+Math.abs(DATA.W[m]||0),0);
+  let combined=null; const contrib={};
+  if(used.length && wsum>0){
+    const rn = total/wsum;
+    combined = used.reduce((a,m)=>a+(DATA.W[m]||0)*g[m],0) * rn;
+    used.forEach(m=>{contrib[m]=(DATA.W[m]||0)*g[m]*rn;});
+  }
+  return {raw,g,used,missing,combined,contrib};
+}
+
+function render(){
+  const p = current, r = report(p);
+  document.getElementById('sId').textContent = 'SEQN ' + p[SEQN];
+  document.getElementById('sMeta').textContent =
+    `${p[AGE]} y · ${p[SEX]?'female':'male'}`;
+  document.getElementById('sOut').textContent = p[DIED]==null ? ''
+    : (p[DIED] ? `died ${p[FU]} y after exam` : `alive at ${p[FU]} y`);
+
+  const bA=document.getElementById('bAge'), bD=document.getElementById('bDelta'),
+        vd=document.getElementById('verdict');
+  if(r.combined==null){
+    bA.textContent='—'; bA.style.color='var(--ink-3)';
+    bD.textContent=''; bD.style.color='';
+    vd.innerHTML='<strong>No usable modality.</strong> The score is withheld rather than guessed — an all-missing input returns nothing, not an average.';
+  }else{
+    const col = r.combined>0?'var(--warm)':'var(--cool)';
+    bA.textContent=(p[AGE]+r.combined).toFixed(1); bA.style.color='var(--comb)';
+    bD.textContent=`${f1(r.combined)} y vs chronological ${p[AGE]}`; bD.style.color=col;
+    const drv = r.used.slice().sort((a,b)=>Math.abs(r.contrib[b])-Math.abs(r.contrib[a]))[0];
+    const nm = MODS.find(m=>m.k===drv).name.toLowerCase();
+    vd.innerHTML = `Driven by <strong>${nm}</strong>, contributing
+      <strong>${f1(r.contrib[drv])} y</strong> of the ${f1(r.combined)} y combined gap.
+      The combiner is linear on gaps, so this reads straight off weight × gap.`;
+  }
+
+  // decomposition rows
+  const dc=document.getElementById('decomp'); dc.innerHTML='';
+  MODS.forEach(m=>{
+    const on = active[m.k], val = r.raw[m.k], avail = val!=null;
+    const row=document.createElement('div'); row.className='dr'+((!on||!avail)?' inactive':'');
+    const shown = (on&&avail);
+    const pct = shown ? Math.min(Math.abs(val),CLAMP)/CLAMP*50 : 0;
+    row.innerHTML = `
+      <span class="lab"><span class="dot" style="background:var(${m.css})"></span>${m.name.split(' ')[0]}</span>
+      <span class="gv" style="color:${shown?(val>0?'var(--warm)':'var(--cool)'):'var(--ink-3)'}">${shown?f1(val)+' y':'—'}</span>
+      <span class="track"><span class="mid"></span>${shown?`<span class="fill" style="${val>=0?`left:50%;width:${pct}%`:`left:${50-pct}%;width:${pct}%`};background:var(${m.css})"></span>`:''}</span>
+      <span class="wt">${shown?(DATA.W[m.k]!=null?DATA.W[m.k].toFixed(3):'n/a'):(avail?'off':'n/a')}</span>`;
+    row.setAttribute('role','img');
+    row.setAttribute('aria-label', shown
+      ? `${m.name}: ${f1(val)} years, weight ${DATA.W[m.k]}`
+      : `${m.name}: ${avail?'switched off':'not available'}`);
+    dc.appendChild(row);
+  });
+
+  // notes
+  const nt=document.getElementById('notes'); nt.innerHTML='';
+  const shownGaps = r.used.map(k=>({k,v:r.g[k]}));
+  if(shownGaps.length>=2){
+    const hi=shownGaps.reduce((a,b)=>a.v>b.v?a:b), lo=shownGaps.reduce((a,b)=>a.v<b.v?a:b);
+    const spread=hi.v-lo.v;
+    if(spread>5){
+      const d=document.createElement('div'); d.className='note alert';
+      d.innerHTML=`<span class="tag">Divergence</span><strong>${hi.k}</strong> is aging
+        <strong>${spread.toFixed(1)} years faster</strong> than <strong>${lo.k}</strong>.
+        ${Math.abs(r.combined)<3?`The combined figure of ${f1(r.combined)} y reads as unremarkable —
+        it is averaging over two systems that are ${spread.toFixed(1)} years apart. Everything
+        actionable about this person is in the breakdown and none of it is in the total.`
+        :`A single scalar would hide which system is driving this.`}`;
+      nt.appendChild(d);
+    }
+  }
+  if(r.missing.length){
+    const d=document.createElement('div'); d.className='note';
+    const names=r.missing.map(k=>MODS.find(m=>m.k===k).name.toLowerCase()).join(' and ');
+    d.innerHTML=`<span class="tag">Graceful degradation</span>Scored without ${names}.
+      The remaining weights were renormalised — the missing arm was <em>not</em> imputed as
+      average, which would have pulled this person falsely toward the middle.`;
+    nt.appendChild(d);
+  }
+  const dm=document.createElement('div'); dm.className='note';
+  dm.innerHTML=`<span class="tag">Scope</span>DNA methylation is unavailable for every NHANES
+    participant — it is a different cohort with no mortality linkage, so it carries no combiner
+    weight and is never folded into the number above.`;
+  nt.appendChild(dm);
+
+  document.querySelectorAll('.chip').forEach(c=>
+    c.setAttribute('aria-current', String(+c.dataset.seqn===p[SEQN])));
+  drawScatter();
+}
+
+/* ---------------- scatter ---------------- */
+const cv=document.getElementById('sc'), cx=cv.getContext('2d');
+const LIM=13, PAD={l:46,r:14,t:14,b:40};
+function ink(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+function sx(v,w){return PAD.l+(v+LIM)/(2*LIM)*(w-PAD.l-PAD.r);}
+function sy(v,h){return h-PAD.b-(v+LIM)/(2*LIM)*(h-PAD.t-PAD.b);}
+function mix(a,b,t){return a.map((v,i)=>Math.round(v+(b[i]-v)*t));}
+function hex2rgb(h){h=h.replace('#','');return [0,2,4].map(i=>parseInt(h.substr(i,2),16));}
+function ramp(t){ // diverging: cool → neutral → warm
+  const c=hex2rgb(ink('--cool')), m=hex2rgb(ink('--mid')), w=hex2rgb(ink('--warm'));
+  const r = t<0.5 ? mix(c,m,t*2) : mix(m,w,(t-0.5)*2);
+  return `rgb(${r.join(',')})`;
+}
+function drawScatter(){
+  const dpr=Math.min(devicePixelRatio||1,2);
+  const w=cv.clientWidth||820, h=Math.round(w*0.76);
+  cv.width=w*dpr; cv.height=h*dpr; cv.style.height=h+'px';
+  cx.setTransform(dpr,0,0,dpr,0,0); cx.clearRect(0,0,w,h);
+
+  const rule=ink('--rule'), ink3=ink('--ink-3'), ink2=ink('--ink-2');
+  // grid + axes
+  cx.strokeStyle=rule; cx.lineWidth=1; cx.font='10px '+ink('--mono');
+  cx.fillStyle=ink3;
+  for(let v=-10;v<=10;v+=5){
+    cx.globalAlpha=v===0?1:.55;
+    cx.beginPath(); cx.moveTo(sx(v,w),PAD.t); cx.lineTo(sx(v,w),h-PAD.b); cx.stroke();
+    cx.beginPath(); cx.moveTo(PAD.l,sy(v,h)); cx.lineTo(w-PAD.r,sy(v,h)); cx.stroke();
+    cx.globalAlpha=1;
+    cx.textAlign='center'; cx.fillText(v>0?'+'+v:v, sx(v,w), h-PAD.b+14);
+    cx.textAlign='right'; cx.fillText(v>0?'+'+v:v, PAD.l-7, sy(v,h)+3);
+  }
+  // identity line
+  cx.setLineDash([3,3]); cx.strokeStyle=ink3; cx.globalAlpha=.5;
+  cx.beginPath(); cx.moveTo(sx(-LIM,w),sy(-LIM,h)); cx.lineTo(sx(LIM,w),sy(LIM,h)); cx.stroke();
+  cx.setLineDash([]); cx.globalAlpha=1;
+
+  for(const p of BOTH){
+    const b=Math.max(-LIM,Math.min(LIM,p[GB])), g=Math.max(-LIM,Math.min(LIM,p[GW]));
+    const comb=(DATA.W.blood*p[GB]+DATA.W.wearable*p[GW]);
+    cx.fillStyle=ramp(Math.max(0,Math.min(1,(comb+8)/16)));
+    cx.globalAlpha=.5;
+    cx.beginPath(); cx.arc(sx(b,w),sy(g,h),2.4,0,7); cx.fill();
+  }
+  cx.globalAlpha=1;
+  // axis titles
+  cx.fillStyle=ink2; cx.font='11px '+ink('--sans'); cx.textAlign='center';
+  cx.fillText('blood gap (years)', (PAD.l+w-PAD.r)/2, h-6);
+  cx.save(); cx.translate(11,(PAD.t+h-PAD.b)/2); cx.rotate(-Math.PI/2);
+  cx.fillText('wearable gap (years)',0,0); cx.restore();
+
+  if(current && current[GB]!=null && current[GW]!=null){
+    const x=sx(Math.max(-LIM,Math.min(LIM,current[GB])),w),
+          y=sy(Math.max(-LIM,Math.min(LIM,current[GW])),h);
+    cx.strokeStyle=ink('--comb'); cx.lineWidth=2.5;
+    cx.beginPath(); cx.arc(x,y,7,0,7); cx.stroke();
+    cx.strokeStyle=ink('--panel'); cx.lineWidth=1;
+    cx.beginPath(); cx.arc(x,y,8.6,0,7); cx.stroke();
+  }
+}
+cv.addEventListener('click',e=>{
+  const r=cv.getBoundingClientRect(), w=cv.clientWidth, h=cv.clientHeight;
+  const mx=e.clientX-r.left, my=e.clientY-r.top;
+  let best=null,bd=1e9;
+  for(const p of BOTH){
+    const dx=sx(Math.max(-LIM,Math.min(LIM,p[GB])),w)-mx,
+          dy=sy(Math.max(-LIM,Math.min(LIM,p[GW])),h)-my;
+    const d=dx*dx+dy*dy; if(d<bd){bd=d;best=p;}
+  }
+  if(best&&bd<900){ current=best; document.getElementById('seqn').value=best[SEQN]; render(); }
+});
+
+/* ---------------- controls ---------------- */
+function select(seqn){
+  const p=BY.get(+seqn); const err=document.getElementById('err');
+  if(!p){ err.textContent=`No participant ${seqn} in the scored cohort. Try Random.`;
+          err.style.display='block'; return false; }
+  err.style.display='none'; current=p; render(); return true;
+}
+document.getElementById('go').addEventListener('click',()=>select(document.getElementById('seqn').value));
+document.getElementById('seqn').addEventListener('keydown',e=>{
+  if(e.key==='Enter') select(e.target.value);});
+document.getElementById('rand').addEventListener('click',()=>{
+  const p=BOTH[Math.floor(Math.random()*BOTH.length)];
+  document.getElementById('seqn').value=p[SEQN]; select(p[SEQN]);});
+
+// modality switches
+const sw=document.getElementById('sw');
+MODS.forEach(m=>{
+  const na = m.k==='methylation';
+  const row=document.createElement('div');
+  row.className='row'+(na?' na':'');
+  row.innerHTML=`<span class="dot" style="background:var(${m.css})"></span>
+    <span class="nm">${m.name}</span>
+    <span class="st">${na?'other cohort':''}</span>`;
+  const b=document.createElement('button');
+  b.className='tgl'; b.type='button'; b.style.setProperty('--acc',`var(${m.css})`);
+  b.setAttribute('aria-pressed', String(active[m.k]));
+  b.setAttribute('aria-label',`${m.name}: ${na?'unavailable':'toggle'}`);
+  if(na){ b.disabled=true; }
+  b.addEventListener('click',()=>{
+    active[m.k]=!active[m.k];
+    b.setAttribute('aria-pressed',String(active[m.k]));
+    row.classList.toggle('off',!active[m.k]);
+    render();
+  });
+  row.appendChild(b); sw.appendChild(row);
+});
+
+// notable-case chips
+const chips=document.getElementById('chips');
+DATA.NOTABLE.forEach(n=>{
+  const b=document.createElement('button');
+  b.className='chip'; b.type='button'; b.dataset.seqn=n.seqn;
+  b.innerHTML=`<span class="sq">${n.seqn}</span><span class="lb">${n.label}</span>`;
+  b.addEventListener('click',()=>{document.getElementById('seqn').value=n.seqn; select(n.seqn);});
+  chips.appendChild(b);
+});
+
+// validation + methylation + features
+const vt=document.getElementById('vt');
+DATA.V.forEach(r=>{
+  const tr=document.createElement('tr'); if(r.score==='combined') tr.className='best';
+  const col={blood:'--blood',wearable:'--wear',combined:'--comb'}[r.score];
+  tr.innerHTML=`<td class="nm"><span class="dot" style="background:var(${col})"></span>${r.score}</td>
+    <td>${r.hr_per_year.toFixed(3)}</td><td>${r.hr_per_sd.toFixed(3)}</td>
+    <td>${r.hr_lo.toFixed(2)}–${r.hr_hi.toFixed(2)}</td>
+    <td>${r.c_index.toFixed(4)}</td><td>+${r.c_gain.toFixed(4)}</td>`;
+  vt.appendChild(tr);
+});
+const mt=document.getElementById('mt');
+DATA.MC.forEach(r=>{
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td class="nm">${r.clock}</td><td>${r.generation}</td>
+    <td>${r.r_with_chron_age.toFixed(3)}</td><td>${r.mae_vs_chron_age.toFixed(2)}</td>
+    <td>${r.gap_sd.toFixed(2)}</td><td>${r.residual_gap_sd.toFixed(2)}</td>`;
+  mt.appendChild(tr);
+});
+[['blood','fb'],['wearable','fw']].forEach(([k,id])=>{
+  const el=document.getElementById(id);
+  DATA.FEAT[k].forEach(f=>{
+    const d=document.createElement('div'); d.className='feat';
+    d.innerHTML=`<span>${f.name.replace(/_/g,' ')}</span><span class="v">${f.w.toFixed(3)}</span>`;
+    el.appendChild(d);
+  });
+});
+document.getElementById('cN').textContent=DATA.P.length.toLocaleString();
+document.getElementById('cD').textContent=DATA.P.filter(p=>p[DIED]===1).length.toLocaleString();
+document.getElementById('redv').textContent=DATA.RED.toFixed(2);
+
+addEventListener('resize',drawScatter);
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',drawScatter);
+new MutationObserver(drawScatter).observe(document.documentElement,{attributeFilter:['data-theme']});
+select(DATA.NOTABLE[1].seqn);
+document.getElementById('seqn').value=DATA.NOTABLE[1].seqn;
+</script>

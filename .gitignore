@@ -35,3 +35,9 @@ bio-learn/
 # NOTE: outputs/figures and outputs/tables ARE committed -- they are the
 # deliverable, and reviewing the result should not require a 3.3 GB download.
 outputs/logs/
+
+# Recommendations module: routing config only, never a key. The key lives in
+# the OS credential store -- python scripts/set_key.py.
+.env
+.env.*
+!.env.example

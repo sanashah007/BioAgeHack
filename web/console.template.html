@@ -152,6 +152,7 @@ label{font-size:13px}
     <div style="display:flex;gap:7px;flex-wrap:wrap">
       <button id="csv" type="button">Upload CSV / JSON</button>
       <button id="clear" type="button">Clear</button>
+      <button id="recommend" type="button" class="primary">Get recommendations</button>
     </div>
   </header>
 
@@ -561,6 +562,28 @@ document.getElementById('clear').addEventListener('click',()=>{
   focused=null; render();
 });
 document.getElementById('csv').addEventListener('click',()=>document.getElementById('file').click());
+document.getElementById('recommend').addEventListener('click',()=>{
+  // Unlike the calculator itself, this leaves the browser: it opens
+  // recommend.html, which POSTs your markers to a local server and on to an
+  // LLM. Grouped by modality (bioage_bridge/analyze_router expect that shape),
+  // using only markers that actually carry a mortality weight.
+  const age=Number(document.getElementById('age').value);
+  const sex=document.getElementById('sex').value;
+  const markers={};
+  for(const n in vals){
+    const f=FEAT[n]; if(!f) continue;
+    const P=B.params[f.mod]||{weights:{}};
+    if((P.weights[n]||0)<=0) continue; // unweighted markers add nothing to the score
+    if(f.mod==='blood'||f.mod==='wearable') (markers[f.mod]=markers[f.mod]||{})[n]=vals[n];
+  }
+  if(!Object.keys(markers).length){ alert('Enter at least a few weighted markers first.'); return; }
+  const hash=encodeURIComponent(JSON.stringify({age,sex,markers}));
+  const fromDisk=location.protocol==='file:';
+  const url=(fromDisk?'http://localhost:8000/recommend.html':'recommend.html')+'#'+hash;
+  if(fromDisk) alert('Opening recommendations at http://localhost:8000 -- '
+    +'make sure "python scripts/serve.py" is running locally first.');
+  window.open(url,'_blank');
+});
 document.getElementById('file').addEventListener('change',async e=>{
   const f=e.target.files[0]; if(!f) return;
   const txt=await f.text(); let got=0;

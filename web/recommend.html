@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recommendations — Biological Age Calculator</title>
+<style>
+:root{
+  color-scheme: light;
+  --ground:#f4f6f9; --panel:#fff; --panel-2:#eef1f6; --panel-3:#e4e9f0;
+  --ink:#10141a; --ink-2:#4a5462; --ink-3:#7b8595;
+  --rule:#dde2ea; --rule-2:#c8d0dc;
+  --blood:#2a78d6; --wear:#eb6834; --meth:#1baf7a; --comb:#4a3aa7;
+  --high:#c0392b; --out:#c1660c; --sub:#a3821b; --opt:#1a8f5a;
+  --shadow:0 1px 2px rgba(16,20,26,.06),0 8px 24px -16px rgba(16,20,26,.28);
+  --mono:ui-monospace,"SF Mono",Menlo,"Cascadia Mono","Roboto Mono",monospace;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:where(:not([data-theme="light"])){
+  color-scheme:dark;
+  --ground:#0e1116; --panel:#161b22; --panel-2:#1c222b; --panel-3:#232b36;
+  --ink:#e9edf3; --ink-2:#9aa5b4; --ink-3:#6b7684;
+  --rule:#262d38; --rule-2:#333c49;
+  --blood:#3987e5; --wear:#d95926; --meth:#199e70; --comb:#9085e9;
+  --high:#e2685a; --out:#e0973f; --sub:#d3b458; --opt:#4fbf85;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -16px rgba(0,0,0,.8);
+}}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0e1116; --panel:#161b22; --panel-2:#1c222b; --panel-3:#232b36;
+  --ink:#e9edf3; --ink-2:#9aa5b4; --ink-3:#6b7684;
+  --rule:#262d38; --rule-2:#333c49;
+  --blood:#3987e5; --wear:#d95926; --meth:#199e70; --comb:#9085e9;
+  --high:#e2685a; --out:#e0973f; --sub:#d3b458; --opt:#4fbf85;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -16px rgba(0,0,0,.8);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);
+  font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:900px;margin:0 auto;padding:26px 20px 72px}
+h1,h2,h3{margin:0;font-weight:640;letter-spacing:-.015em;text-wrap:balance}
+.eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink-3);margin:0}
+:focus-visible{outline:2px solid var(--comb);outline-offset:2px;border-radius:3px}
+
+.mast{border-bottom:1px solid var(--rule);padding-bottom:15px;margin-bottom:20px}
+.mast h1{font-size:24px}
+.mast .sub{color:var(--ink-2);font-size:13.5px;margin:4px 0 0;max-width:66ch}
+.back{font-family:var(--mono);font-size:11.5px;color:var(--ink-3);text-decoration:none}
+.back:hover{color:var(--ink)}
+
+.card{background:var(--panel);border:1px solid var(--rule);border-radius:8px;
+  box-shadow:var(--shadow);margin-bottom:16px}
+.card>.hd{padding:11px 15px;border-bottom:1px solid var(--rule);display:flex;
+  align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.card>.hd h2{font-size:13px}
+.card>.bd{padding:15px}
+
+.note{margin:0 0 16px;padding:10px 12px;border-radius:6px;font-size:12.5px;
+  border:1px solid var(--rule);background:var(--panel-2);color:var(--ink-2)}
+.note.alert{border-color:color-mix(in srgb,var(--wear) 45%,var(--rule));
+  background:color-mix(in srgb,var(--wear) 7%,var(--panel))}
+.note strong{color:var(--ink)}
+
+button{font-family:inherit;font-size:13px;color:var(--ink);background:var(--panel-2);
+  border:1px solid var(--rule-2);border-radius:5px;padding:7px 11px;cursor:pointer}
+button:hover{background:var(--rule);border-color:var(--ink-3)}
+button.primary{background:var(--comb);border-color:transparent;color:#fff}
+button.primary:hover{filter:brightness(1.08)}
+
+.hero{padding:15px;border:1px solid var(--rule);border-radius:7px;background:var(--panel-2)}
+.hero .big{font-family:var(--mono);font-size:36px;font-weight:640;line-height:1;
+  letter-spacing:-.03em;color:var(--comb)}
+.hero .delta{font-family:var(--mono);font-size:13px;margin-top:5px;color:var(--ink-2)}
+
+.priorities{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+.priority{display:grid;grid-template-columns:24px 1fr;gap:10px;align-items:start}
+.priority .rank{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;
+  background:var(--comb);color:#fff;font-weight:650;font-size:12px;font-family:var(--mono)}
+.priority h4{font-size:13.5px;margin:0 0 2px}
+.priority p{margin:0;font-size:13px;color:var(--ink-2)}
+
+.filters{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.chip{font-family:var(--mono);font-size:11px;padding:4px 10px;border-radius:999px;
+  border:1px solid var(--rule-2);background:transparent;color:var(--ink-2);cursor:pointer}
+.chip:hover{border-color:var(--ink-3)}
+.chip.active{background:var(--ink);border-color:var(--ink);color:var(--ground)}
+
+.cards{display:grid;gap:10px}
+.rcard{border:1px solid var(--rule);border-left:4px solid var(--rule);border-radius:7px;
+  background:var(--panel);overflow:hidden}
+.rcard[data-sev="high_concern"]{border-left-color:var(--high)}
+.rcard[data-sev="out_of_range"]{border-left-color:var(--out)}
+.rcard[data-sev="suboptimal"]{border-left-color:var(--sub)}
+.rcard .rhd{width:100%;text-align:left;background:transparent;border:0;cursor:pointer;
+  padding:11px 13px;display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;
+  align-items:center;font:inherit;color:inherit}
+.rcard .rhd:hover{background:var(--panel-2)}
+.rcard .heading{display:flex;flex-wrap:wrap;gap:7px;align-items:center}
+.rcard .marker{font-weight:640;font-size:13.5px}
+.badge{font-family:var(--mono);font-size:10px;font-weight:640;padding:1px 7px;
+  border-radius:999px;border:1px solid currentColor;white-space:nowrap}
+.badge.high_concern{color:var(--high)} .badge.out_of_range{color:var(--out)}
+.badge.suboptimal{color:var(--sub)} .badge.clinician{color:var(--comb)}
+.rcard .values{text-align:right;font-family:var(--mono)}
+.rcard .cur{font-weight:640;font-size:13px}
+.rcard .tgt{font-size:11px;color:var(--ink-3)}
+.rcard .rbd{padding:0 13px 13px;border-top:1px solid var(--rule)}
+.rcard .why{margin:10px 0;color:var(--ink-2);font-size:13px}
+.actions{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.actions li{padding:9px 11px;background:var(--panel-2);border-radius:6px}
+.actions .a-text{margin:0 0 3px;font-weight:600;font-size:13px}
+.actions .a-why{margin:0 0 6px;font-size:12px;color:var(--ink-2)}
+.actions .a-meta{display:flex;gap:8px;font-family:var(--mono);font-size:10.5px;color:var(--ink-3)}
+.impact{margin:10px 0 0;font-size:12.5px;color:var(--ink-2)}
+.caveats{margin:0;padding-left:18px;color:var(--ink-2);font-size:13px}
+.caveats li{margin-bottom:4px}
+.disclaimer{font-size:11.5px;color:var(--ink-3);padding:10px 12px;background:var(--panel-2);
+  border-radius:6px;margin-top:16px}
+
+.skel{height:60px;border-radius:7px;background:linear-gradient(90deg,var(--panel-2) 25%,
+  var(--rule) 37%,var(--panel-2) 63%);background-size:400% 100%;animation:sk 1.4s ease-in-out infinite}
+@keyframes sk{0%{background-position:100% 50%}100%{background-position:0 50%}}
+@media(prefers-reduced-motion:reduce){.skel{animation:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="mast">
+    <a class="back" href="bioage_console.html">&larr; back to the calculator</a>
+    <h1 style="margin-top:6px">Personalized recommendations</h1>
+    <p class="sub">Written for the markers you entered, using an LLM. Unlike the calculator,
+      this page sends your values to a local server and on to Anthropic's API to generate
+      advice — it is not a client-side calculation.</p>
+  </div>
+
+  <div id="privacyNote" class="note alert">
+    <strong>This page leaves your machine.</strong> Your age, sex and marker values are sent to
+    the local server at <code id="apiOrigin"></code> and from there to an LLM provider to write
+    the recommendations below. Nothing is stored server-side, but this is a different privacy
+    model than the calculator, which computes everything in your browser and sends nothing
+    anywhere.
+  </div>
+
+  <div id="empty" class="card" hidden>
+    <div class="bd">
+      <p>No markers were passed to this page. Open the
+        <a href="bioage_console.html">calculator</a>, enter at least three weighted markers per
+        channel, then use its "Get recommendations" button.</p>
+    </div>
+  </div>
+
+  <div id="loading" class="card" hidden>
+    <div class="bd">
+      <p class="eyebrow" style="margin-bottom:10px">Scoring your panel and writing recommendations</p>
+      <p style="color:var(--ink-2);font-size:13px;margin:0 0 12px">
+        This calls an LLM with adaptive thinking and usually takes 20–60 seconds.</p>
+      <div style="display:grid;gap:8px">
+        <div class="skel"></div><div class="skel"></div><div class="skel"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="errorBox" class="card" hidden>
+    <div class="bd">
+      <p class="eyebrow" style="margin-bottom:6px;color:var(--high)">Couldn't generate recommendations</p>
+      <p id="errorText" style="margin:0 0 10px"></p>
+      <button class="primary" id="retryBtn" type="button">Try again</button>
+    </div>
+  </div>
+
+  <div id="result" hidden></div>
+</div>
+
+<script>
+const API_BASE = ''; // same-origin: this page is always served by scripts/serve.py
+document.getElementById('apiOrigin').textContent = window.location.origin || '(local server)';
+
+const SEV_LABEL = {high_concern:'Needs attention', out_of_range:'Out of range', suboptimal:'Suboptimal'};
+const SEV_ORDER = {high_concern:0, out_of_range:1, suboptimal:2, optimal:3};
+
+function readPayload(){
+  const hash = window.location.hash.replace(/^#/, '');
+  if(!hash) return null;
+  try { return JSON.parse(decodeURIComponent(hash)); }
+  catch(e){ console.error('could not parse payload', e); return null; }
+}
+
+function show(id){ ['empty','loading','errorBox','result'].forEach(x=>
+  document.getElementById(x).hidden = (x!==id)); }
+
+async function run(){
+  const payload = readPayload();
+  if(!payload || !payload.markers){ show('empty'); return; }
+
+  show('loading');
+  try{
+    const res = await fetch(API_BASE + '/api/analyze', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(payload),
+    });
+    if(!res.ok){
+      const body = await res.json().catch(()=>null);
+      throw new Error((body && body.detail) || ('Request failed (' + res.status + ')'));
+    }
+    render(await res.json());
+  }catch(err){
+    document.getElementById('errorText').textContent = err.message || String(err);
+    show('errorBox');
+  }
+}
+document.getElementById('retryBtn').addEventListener('click', run);
+
+function render(data){
+  const rec = data.recommendations, r = rec.report, score = data.score;
+  const root = document.getElementById('result');
+  root.innerHTML = '';
+
+  // ---- score summary, reusing the same driver/divergence framing as the calculator ----
+  const scoreCard = document.createElement('div');
+  scoreCard.className = 'card';
+  const gap = score.combined_gap, verdict = gap>=0 ? 'older':'younger';
+  let driverLine = '';
+  if(score.driver){
+    const gaps = score.per_modality_gap || {};
+    const vals = Object.values(gaps);
+    const divergence = vals.length>1 ? (Math.max(...vals)-Math.min(...vals)) : null;
+    driverLine = `<p class="delta">Driver: <strong>${score.driver}</strong>` +
+      (divergence!=null ? ` &middot; channels diverge by ${divergence.toFixed(1)}y` : '') + `</p>`;
+  }
+  scoreCard.innerHTML = `
+    <div class="hd"><h2>Your score</h2></div>
+    <div class="bd">
+      <div class="hero">
+        <p class="eyebrow">Combined biological age</p>
+        <p class="big">${score.combined_bioage!=null ? score.combined_bioage.toFixed(1) : '—'}</p>
+        <p class="delta">${gap!=null ? (Math.abs(gap).toFixed(1)+'y '+verdict+' than chronological') : ''}</p>
+        ${driverLine}
+      </div>
+    </div>`;
+  root.appendChild(scoreCard);
+
+  // ---- summary + drivers ----
+  const summaryCard = document.createElement('div');
+  summaryCard.className = 'card';
+  let driversHtml = '';
+  if(r.biological_age_drivers && r.biological_age_drivers.length){
+    driversHtml = '<p class="eyebrow" style="margin:14px 0 6px">What\'s driving your result</p>' +
+      '<ul class="caveats">' + r.biological_age_drivers.map(d=>`<li>${esc(d)}</li>`).join('') + '</ul>';
+  }
+  summaryCard.innerHTML = `<div class="hd"><h2>Summary</h2></div>
+    <div class="bd"><p style="margin:0">${esc(r.summary)}</p>${driversHtml}</div>`;
+  root.appendChild(summaryCard);
+
+  // ---- top priorities ----
+  if(r.top_priorities && r.top_priorities.length){
+    const pCard = document.createElement('div');
+    pCard.className = 'card';
+    pCard.innerHTML = `<div class="hd"><h2>Start here</h2></div>
+      <div class="bd"><ol class="priorities">${r.top_priorities.map(p=>`
+        <li class="priority"><span class="rank">${p.rank}</span>
+          <div><h4>${esc(p.focus)}</h4><p>${esc(p.why_now)}</p></div></li>`).join('')}</ol></div>`;
+    root.appendChild(pCard);
+  }
+
+  // ---- recommendation cards, with severity filter ----
+  if(r.recommendations && r.recommendations.length){
+    const listCard = document.createElement('div');
+    listCard.className = 'card';
+    const sevsPresent = [...new Set(r.recommendations.map(x=>x.severity))]
+      .sort((a,b)=>SEV_ORDER[a]-SEV_ORDER[b]);
+    const chipsHtml = `<button class="chip active" data-sev="all">All (${r.recommendations.length})</button>` +
+      sevsPresent.map(s=>`<button class="chip" data-sev="${s}">${SEV_LABEL[s]||s}</button>`).join('');
+    const sorted = [...r.recommendations].sort((a,b)=>SEV_ORDER[a.severity]-SEV_ORDER[b.severity]);
+    listCard.innerHTML = `<div class="hd"><h2>Recommendations</h2></div>
+      <div class="bd">
+        <div class="filters">${chipsHtml}</div>
+        <div class="cards">${sorted.map(cardHtml).join('')}</div>
+      </div>`;
+    root.appendChild(listCard);
+
+    listCard.querySelectorAll('.chip').forEach(chip=>{
+      chip.addEventListener('click', ()=>{
+        listCard.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+        chip.classList.add('active');
+        const sev = chip.dataset.sev;
+        listCard.querySelectorAll('.rcard').forEach(card=>{
+          card.style.display = (sev==='all' || card.dataset.sev===sev) ? '' : 'none';
+        });
+      });
+    });
+    listCard.querySelectorAll('.rhd').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const body = btn.nextElementSibling;
+        const open = body.style.display !== 'none';
+        body.style.display = open ? 'none' : 'block';
+        btn.setAttribute('aria-expanded', String(!open));
+      });
+    });
+  }
+
+  // ---- caveats ----
+  if(r.caveats && r.caveats.length){
+    const cCard = document.createElement('div');
+    cCard.className = 'card';
+    cCard.innerHTML = `<div class="hd"><h2>Limits of this analysis</h2></div>
+      <div class="bd"><ul class="caveats">${r.caveats.map(c=>`<li>${esc(c)}</li>`).join('')}</ul></div>`;
+    root.appendChild(cCard);
+  }
+
+  const disc = document.createElement('p');
+  disc.className = 'disclaimer';
+  disc.textContent = rec.disclaimer;
+  root.appendChild(disc);
+
+  show('result');
+}
+
+function cardHtml(rec){
+  const actions = rec.actions.map(a=>`
+    <li><p class="a-text">${esc(a.action)}</p><p class="a-why">${esc(a.rationale)}</p>
+      <p class="a-meta"><span>${esc(a.effort)} effort</span><span>${esc(a.timeframe)}</span></p></li>
+  `).join('');
+  return `<div class="rcard" data-sev="${rec.severity}">
+    <button class="rhd" type="button" aria-expanded="${rec.severity!=='suboptimal'}">
+      <span class="heading">
+        <span class="marker">${esc(rec.marker)}</span>
+        <span class="badge ${rec.severity}">${SEV_LABEL[rec.severity]||rec.severity}</span>
+        ${rec.clinician_flag ? '<span class="badge clinician">Discuss with a doctor</span>' : ''}
+      </span>
+      <span class="values"><span class="cur">${esc(rec.current_value)}</span><br>
+        <span class="tgt">target ${esc(rec.healthy_range)}</span></span>
+    </button>
+    <div class="rbd" style="display:${rec.severity!=='suboptimal' ? 'block':'none'}">
+      <p class="why">${esc(rec.why_it_matters)}</p>
+      <ul class="actions">${actions}</ul>
+      <p class="impact"><strong>If you stick with it: </strong>${esc(rec.expected_impact)}</p>
+    </div>
+  </div>`;
+}
+
+function esc(s){
+  const d = document.createElement('div'); d.textContent = String(s==null?'':s);
+  return d.innerHTML;
+}
+
+run();
+</script>
+</body>
+</html>

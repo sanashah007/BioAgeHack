@@ -22,7 +22,8 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from bioage import acquire, config as C, curves, methylation, nhanes, scoring, validate, wearable  # noqa: E402
+from bioage import (acquire, config as C, curves, methylation, nhanes, scorer,  # noqa: E402
+                    scoring, validate, wearable)
 
 warnings.filterwarnings("ignore")
 log = logging.getLogger("pipeline")
@@ -122,6 +123,7 @@ def main() -> int:
     banner("PHASE 2.7 -- inversion and outcome-weighted modality bioages")
     gaps: dict[str, pd.Series] = {}
     bioages: dict[str, pd.Series] = {}
+    mod_params: dict[str, scorer.ModalityParams] = {}
     for mod, feats in C.FEATURES_BY_MODALITY.items():
         implied = curves.implied_ages(tab_s, feats, fitted[mod])
         implied.to_parquet(C.INTERIM / f"implied_ages_{mod}.parquet")
@@ -130,8 +132,16 @@ def main() -> int:
             implied, tab_s, outcome, precision_w=prec
         )
         winfo.to_csv(C.TABLES / f"feature_weights_{mod}.csv")
-        gap_c = scoring.deattenuate(gap, tab_s["age"])
+        mp = dict(getattr(scoring.crossfit_modality, "last_params", {}))
+        gap_c, (d_a, d_b) = scoring.deattenuate(gap, tab_s["age"])
         gap_c, scale = scoring.calibrate_to_age_scale(gap_c, outcome, label=mod)
+        # Freeze the constants a new individual needs to land on this scale.
+        mod_params[mod] = scorer.ModalityParams(
+            reliability=mp.get("reliability", 1.0),
+            gap_mean_raw=mp.get("gap_mean_raw", 0.0),
+            deatt_intercept=d_a, deatt_slope=d_b, scale=scale,
+            weights=mp.get("weights", {}),
+        )
         manifest[f"{mod}_age_equivalent_scale"] = round(scale, 4)
         manifest[f"{mod}_reliability"] = round(
             getattr(scoring.crossfit_modality, "last_reliability", np.nan), 4)
@@ -176,6 +186,14 @@ def main() -> int:
     manifest["combiner_n_events"] = combiner.n_events
 
     pickle.dump(combiner, open(C.PROCESSED / "combiner.pkl", "wb"))
+
+    # Deployable scoring artifact: everything needed to score a NEW person with
+    # no cohort data present. Also the source of truth the browser mirrors.
+    bundle = scorer.ScoringBundle(curves=fitted, params=mod_params, combiner=combiner)
+    scorer.save(bundle)
+    bundle.to_json(C.PROCESSED / "scoring_bundle.json")
+    log.info("scoring bundle saved (%d modalities, %d usable curves)",
+             len(mod_params), sum(len(v) for v in bundle.to_json()["curves"].values()))
     out_scores = pd.DataFrame({
         "age": tab_s["age"], "sex": tab_s["sex"],
         **{f"bioage_{k}": v for k, v in bioages.items()},

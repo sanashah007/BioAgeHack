@@ -101,22 +101,38 @@ someone far older. A scalar "your bioage is 29.6" tells this person nothing.
 "Your wearable signal is aging much faster than your blood chemistry" tells them
 exactly what to work on.
 
-### Interactive console
+### Interactive calculator
 
 ```bash
 python scripts/build_console.py && open web/bioage_console.html
 ```
 
-A self-contained HTML console — no server, no build step, no network. Browse all
-4,623 participants, click the blood-vs-wearable scatter to inspect anyone, and
-**toggle modalities on and off to watch the combiner renormalise live**. That
-toggle runs the same arithmetic as `Combiner.predict_gap`, so it demonstrates
-graceful degradation rather than illustrating it.
+Enter your own markers — whichever you have — and each is inverted against the
+population curve for your sex to give the age at which your value would be
+typical. The page shows the curve, the ±1 SD spread, and where you land on it.
 
-The data is inlined (~140 KB) because the page is published under a strict CSP
-with no fetch available — the upside is the built file works from disk, over
-email, or on any static host. `web/console.template.html` is the source; the
-built file is generated, so edit the template and re-run the script.
+Self-contained: no server, no network, no build step. **Nothing is uploaded** —
+the curves ship inside the file and the arithmetic runs client-side. The browser
+implementation mirrors `bioage/scorer.py` and agrees with it to
+**<0.007 years**; `scripts/test_invariants.py` checks the Python scorer against
+the pipeline's own cohort output.
+
+`web/console.template.html` is the source; the built file is generated, so edit
+the template and re-run the script.
+
+### Scoring a new person from Python
+
+```python
+from bioage import scorer
+b = scorer.load()
+b.score(age=52, sex="male", values={
+    "blood": {"albumin": 4.1, "creatinine": 1.05, "rdw": 13.8, "crp": 0.42},
+})
+```
+
+`scripts/run_pipeline.py` freezes every calibration constant into
+`data/processed/scoring_bundle.pkl`, so scoring an individual needs no cohort
+data at inference time.
 
 Graceful degradation — missing arms are dropped and remaining weights
 renormalised, never imputed as average:

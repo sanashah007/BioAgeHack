@@ -123,7 +123,13 @@ def modality_bioage(
 
     with np.errstate(invalid="ignore", divide="ignore"):
         mean_gap = np.where(denom > 0, num / denom, np.nan)
-    mean_gap[present.sum(axis=1) < min_features] = np.nan
+
+    # The minimum-features gate must count only features that actually
+    # CONTRIBUTE. Counting merely-present ones lets a zero-weight marker satisfy
+    # the gate while adding nothing, so a participant carrying three markers of
+    # which two are weighted passes a "three marker" check and is scored on two.
+    contributing = (present & (w > 0)).sum(axis=1)
+    mean_gap[contributing < min_features] = np.nan
     return pd.Series(age.to_numpy(float) + mean_gap, index=gaps.index)
 
 
@@ -244,7 +250,9 @@ def calibrate_to_age_scale(
     return gap * scale, float(scale)
 
 
-def deattenuate(gap: pd.Series, age: pd.Series) -> pd.Series:
+def deattenuate(
+    gap: pd.Series, age: pd.Series
+) -> tuple[pd.Series, tuple[float, float]]:
     """Remove the mechanical dependence of the gap on chronological age.
 
     Any predictor that is imperfectly correlated with age regresses toward the
@@ -258,16 +266,22 @@ def deattenuate(gap: pd.Series, age: pd.Series) -> pd.Series:
     The field's standard fix (the "age acceleration residual"): regress the gap
     on chronological age and keep the residual. Chronological age is ALSO kept
     as a covariate in every downstream outcome model, belt and braces.
+
+    Returns the residualised gap AND the (intercept, slope) it was fitted with,
+    so the identical transform can be replayed on a NEW person later. Without
+    those coefficients a new individual could not be placed on the same scale as
+    the cohort, and the number shown to them would not mean what the validation
+    says it means.
     """
     m = gap.notna() & age.notna()
     if m.sum() < 50:
-        return gap
+        return gap, (0.0, 0.0)
     x = age[m].to_numpy(float)
     y = gap[m].to_numpy(float)
     b, a = np.polyfit(x, y, 1)
     out = gap.copy()
     out[m] = y - (a + b * x)
-    return out
+    return out, (float(a), float(b))
 
 
 # --------------------------------------------------------------------------
@@ -484,8 +498,14 @@ def crossfit_modality(
 
     gap = bioage - age
     rel = split_half_reliability(gaps_feat.loc[idx], w_full)
+    gap_mean_raw = float(gap.mean(skipna=True))
     gap = shrink_to_reliability(gap, rel)
     crossfit_modality.last_reliability = rel  # type: ignore[attr-defined]
+    # Everything a NEW person needs to be placed on this cohort's scale.
+    crossfit_modality.last_params = dict(  # type: ignore[attr-defined]
+        reliability=rel, gap_mean_raw=gap_mean_raw,
+        weights={k: float(v) for k, v in w_full.items() if v > 0},
+    )
     log.info("  split-half reliability %.3f -> gap SD %.2f y after shrinkage",
              rel, gap.std())
     return bioage, gap, info

@@ -1,598 +1,610 @@
-<title>Biological Age Console — NHANES 2005–2006</title>
+<title>Biological Age Calculator — reference curves from NHANES</title>
 <style>
 :root{
   color-scheme: light;
-  --ground:#f4f6f9; --panel:#ffffff; --panel-2:#eef1f6;
+  --ground:#f4f6f9; --panel:#fff; --panel-2:#eef1f6; --panel-3:#e4e9f0;
   --ink:#10141a; --ink-2:#4a5462; --ink-3:#7b8595;
   --rule:#dde2ea; --rule-2:#c8d0dc;
   --blood:#2a78d6; --wear:#eb6834; --meth:#1baf7a; --comb:#4a3aa7;
   --cool:#2a78d6; --warm:#eb6834; --mid:#b9c0cb;
-  --shadow:0 1px 2px rgba(16,20,26,.06), 0 8px 24px -16px rgba(16,20,26,.28);
-  --mono: ui-monospace, "SF Mono", Menlo, "Cascadia Mono", "Roboto Mono", monospace;
-  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  --shadow:0 1px 2px rgba(16,20,26,.06),0 8px 24px -16px rgba(16,20,26,.28);
+  --mono:ui-monospace,"SF Mono",Menlo,"Cascadia Mono","Roboto Mono",monospace;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
 }
-@media (prefers-color-scheme: dark){
-  :root:where(:not([data-theme="light"])){
-    color-scheme: dark;
-    --ground:#0e1116; --panel:#161b22; --panel-2:#1c222b;
-    --ink:#e9edf3; --ink-2:#9aa5b4; --ink-3:#6b7684;
-    --rule:#262d38; --rule-2:#333c49;
-    --blood:#3987e5; --wear:#d95926; --meth:#199e70; --comb:#9085e9;
-    --cool:#3987e5; --warm:#d95926; --mid:#4a5462;
-    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
-  }
-}
-:root[data-theme="dark"]{
-  color-scheme: dark;
-  --ground:#0e1116; --panel:#161b22; --panel-2:#1c222b;
+@media (prefers-color-scheme:dark){:root:where(:not([data-theme="light"])){
+  color-scheme:dark;
+  --ground:#0e1116; --panel:#161b22; --panel-2:#1c222b; --panel-3:#232b36;
   --ink:#e9edf3; --ink-2:#9aa5b4; --ink-3:#6b7684;
   --rule:#262d38; --rule-2:#333c49;
   --blood:#3987e5; --wear:#d95926; --meth:#199e70; --comb:#9085e9;
   --cool:#3987e5; --warm:#d95926; --mid:#4a5462;
-  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -16px rgba(0,0,0,.8);
+}}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0e1116; --panel:#161b22; --panel-2:#1c222b; --panel-3:#232b36;
+  --ink:#e9edf3; --ink-2:#9aa5b4; --ink-3:#6b7684;
+  --rule:#262d38; --rule-2:#333c49;
+  --blood:#3987e5; --wear:#d95926; --meth:#199e70; --comb:#9085e9;
+  --cool:#3987e5; --warm:#d95926; --mid:#4a5462;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -16px rgba(0,0,0,.8);
 }
 :root[data-theme="light"]{
-  color-scheme: light;
-  --ground:#f4f6f9; --panel:#ffffff; --panel-2:#eef1f6;
+  color-scheme:light;
+  --ground:#f4f6f9; --panel:#fff; --panel-2:#eef1f6; --panel-3:#e4e9f0;
   --ink:#10141a; --ink-2:#4a5462; --ink-3:#7b8595;
   --rule:#dde2ea; --rule-2:#c8d0dc;
   --blood:#2a78d6; --wear:#eb6834; --meth:#1baf7a; --comb:#4a3aa7;
   --cool:#2a78d6; --warm:#eb6834; --mid:#b9c0cb;
 }
-
 *{box-sizing:border-box}
 body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);
   font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
-.wrap{max-width:1180px;margin:0 auto;padding:28px 20px 72px}
-h1,h2,h3{margin:0;text-wrap:balance;font-weight:640;letter-spacing:-.015em}
+.wrap{max-width:1220px;margin:0 auto;padding:26px 20px 72px}
+h1,h2,h3{margin:0;font-weight:640;letter-spacing:-.015em;text-wrap:balance}
 .num{font-family:var(--mono);font-variant-numeric:tabular-nums}
 .eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;
-  text-transform:uppercase;color:var(--ink-3)}
-a{color:var(--comb)}
+  text-transform:uppercase;color:var(--ink-3);margin:0}
 :focus-visible{outline:2px solid var(--comb);outline-offset:2px;border-radius:3px}
 
-/* ---------- masthead ---------- */
-.mast{display:flex;flex-wrap:wrap;gap:20px;align-items:flex-end;
-  justify-content:space-between;border-bottom:1px solid var(--rule);padding-bottom:16px}
-.mast h1{font-size:23px}
-.mast .sub{color:var(--ink-2);font-size:13.5px;margin-top:3px;max-width:62ch}
-.cohort{display:flex;gap:20px;flex-wrap:wrap}
-.cohort div{text-align:right}
-.cohort .v{font-family:var(--mono);font-size:17px;font-weight:600;line-height:1.2}
+.mast{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-end;justify-content:space-between;
+  border-bottom:1px solid var(--rule);padding-bottom:15px}
+.mast h1{font-size:24px}
+.mast .sub{color:var(--ink-2);font-size:13.5px;margin:4px 0 0;max-width:66ch}
 
-/* ---------- console ---------- */
-.console{display:grid;grid-template-columns:296px minmax(0,1fr);gap:18px;margin-top:22px;align-items:start}
-@media(max-width:880px){.console{grid-template-columns:1fr}}
-.card{background:var(--panel);border:1px solid var(--rule);border-radius:8px;
-  box-shadow:var(--shadow)}
-.card>.hd{padding:11px 15px;border-bottom:1px solid var(--rule);
-  display:flex;align-items:center;justify-content:space-between;gap:10px}
+.card{background:var(--panel);border:1px solid var(--rule);border-radius:8px;box-shadow:var(--shadow)}
+.card>.hd{padding:11px 15px;border-bottom:1px solid var(--rule);display:flex;
+  align-items:center;justify-content:space-between;gap:10px}
+.card>.hd h2{font-size:13px}
 .card>.bd{padding:15px}
 
-.pick{display:flex;gap:7px}
-.pick input{flex:1;min-width:0;font-family:var(--mono);font-size:14px;padding:7px 9px;
-  background:var(--panel-2);border:1px solid var(--rule-2);border-radius:5px;color:var(--ink)}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 402px;gap:18px;margin-top:20px;align-items:start}
+@media(max-width:980px){.layout{grid-template-columns:1fr}}
+.col{display:flex;flex-direction:column;gap:18px}
+@media(min-width:981px){.side{position:sticky;top:16px}}
+
 button{font-family:inherit;font-size:13px;color:var(--ink);background:var(--panel-2);
   border:1px solid var(--rule-2);border-radius:5px;padding:7px 11px;cursor:pointer;
-  transition:background .12s ease,border-color .12s ease}
+  transition:background .12s,border-color .12s}
 button:hover{background:var(--rule);border-color:var(--ink-3)}
-button:active{transform:translateY(.5px)}
+button.primary{background:var(--comb);border-color:transparent;color:#fff}
+button.primary:hover{filter:brightness(1.08)}
+input,select{font-family:var(--mono);font-size:14px;padding:6px 9px;background:var(--panel-2);
+  border:1px solid var(--rule-2);border-radius:5px;color:var(--ink);width:100%}
+input::placeholder{color:var(--ink-3);font-family:var(--sans);font-size:12.5px}
+input.bad{border-color:var(--warm);background:color-mix(in srgb,var(--warm) 8%,var(--panel-2))}
+label{font-size:13px}
 
-.chips{display:flex;flex-direction:column;gap:5px;margin-top:4px}
-.chip{display:flex;justify-content:space-between;align-items:baseline;gap:9px;
-  width:100%;text-align:left;padding:7px 10px;line-height:1.3}
-.chip .sq{font-family:var(--mono);font-size:12px;color:var(--ink-2)}
-.chip .lb{font-size:12px;color:var(--ink-3)}
-.chip[aria-current="true"]{border-color:var(--comb);background:var(--panel-2)}
-.chip[aria-current="true"] .sq{color:var(--comb);font-weight:600}
+/* ---- who you are ---- */
+.who{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px}
+.fld{display:flex;flex-direction:column;gap:4px}
+.fld .eyebrow{margin-bottom:1px}
 
-/* modality switches */
-.sw{display:flex;flex-direction:column;gap:8px}
-.row{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:6px;
-  border:1px solid var(--rule);background:var(--panel-2)}
-.row.off{opacity:.5}
-.row.na{opacity:.62;border-style:dashed}
+/* ---- marker entry ---- */
+.grp{margin-top:6px}
+.grp>summary{cursor:pointer;list-style:none;padding:8px 0;border-top:1px solid var(--rule);
+  display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px;font-weight:600}
+.grp>summary::-webkit-details-marker{display:none}
+.grp>summary::before{content:"▸";color:var(--ink-3);font-size:11px;transition:transform .15s}
+.grp[open]>summary::before{transform:rotate(90deg)}
+.grp>summary .cnt{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--ink-3);font-weight:400}
+.mk{display:grid;grid-template-columns:minmax(120px,1.5fr) 92px 30px 88px 74px;gap:9px;
+  align-items:center;padding:5px 0}
+@media(max-width:620px){.mk{grid-template-columns:minmax(100px,1fr) 84px 26px;grid-row-gap:2px}
+  .mk .spark,.mk .imp{display:none}}
+.mk .nm{font-size:13px;line-height:1.25}
+.mk .nm small{display:block;color:var(--ink-3);font-size:10.5px;font-family:var(--mono)}
+.mk .un{font-family:var(--mono);font-size:10.5px;color:var(--ink-3)}
+.mk .imp{font-family:var(--mono);font-size:12px;text-align:right}
+.mk .imp b{font-weight:600}
+.mk.unweighted .nm{color:var(--ink-3)}
+.spark{height:26px;width:100%;display:block;cursor:pointer;border-radius:3px}
+.spark:hover{background:var(--panel-2)}
+
+/* ---- results ---- */
+.big{font-family:var(--mono);font-size:44px;font-weight:640;line-height:1;letter-spacing:-.03em;
+  color:var(--comb)}
+.delta{font-family:var(--mono);font-size:13.5px;margin-top:5px}
+.hero{padding:15px;border:1px solid var(--rule);border-radius:7px;background:var(--panel-2)}
+.dr{display:grid;grid-template-columns:78px 62px minmax(70px,1fr) 46px;gap:9px;align-items:center;
+  padding:9px 0;border-top:1px solid var(--rule)}
+.dr .lab{display:flex;align-items:center;gap:6px;font-size:13px}
 .dot{width:9px;height:9px;border-radius:50%;flex:none}
-.row .nm{flex:1;font-size:13.5px}
-.row .st{font-family:var(--mono);font-size:11px;color:var(--ink-3)}
-.tgl{position:relative;width:34px;height:19px;border-radius:19px;border:1px solid var(--rule-2);
-  background:var(--rule);cursor:pointer;padding:0;flex:none;transition:background .15s ease}
-.tgl::after{content:"";position:absolute;top:2px;left:2px;width:13px;height:13px;border-radius:50%;
-  background:var(--panel);transition:transform .15s ease;box-shadow:0 1px 2px rgba(0,0,0,.3)}
-.tgl[aria-pressed="true"]{background:var(--acc,var(--comb));border-color:transparent}
-.tgl[aria-pressed="true"]::after{transform:translateX(15px)}
-.tgl:disabled{cursor:not-allowed}
-
-/* ---------- readout ---------- */
-.subject{display:flex;flex-wrap:wrap;align-items:baseline;gap:9px}
-.subject .id{font-family:var(--mono);font-size:15px;font-weight:600}
-.subject .meta{font-size:13px;color:var(--ink-2)}
-
-.headline{display:grid;grid-template-columns:auto minmax(0,1fr);gap:22px;align-items:center;
-  padding:15px;border:1px solid var(--rule);border-radius:7px;background:var(--panel-2)}
-@media(max-width:560px){.headline{grid-template-columns:1fr;gap:12px}}
-.big{font-family:var(--mono);font-size:41px;font-weight:640;line-height:1;letter-spacing:-.03em}
-.delta{font-family:var(--mono);font-size:13.5px;margin-top:6px}
-.verdict{font-size:13.5px;color:var(--ink-2);border-left:2px solid var(--rule-2);padding-left:14px}
-.verdict strong{color:var(--ink);font-weight:600}
-
-/* decomposition */
-.decomp{margin-top:16px;display:flex;flex-direction:column;gap:2px}
-.dr{display:grid;grid-template-columns:96px 66px minmax(90px,1fr) 62px;gap:11px;
-  align-items:center;padding:9px 0;border-top:1px solid var(--rule)}
-@media(max-width:560px){.dr{grid-template-columns:84px 60px minmax(70px,1fr);}
-  .dr .wt{display:none}}
-.dr .lab{display:flex;align-items:center;gap:7px;font-size:13.5px}
-.dr .gv{font-family:var(--mono);font-size:14px;font-weight:600;text-align:right}
-.dr .wt{font-family:var(--mono);font-size:11.5px;color:var(--ink-3);text-align:right}
-.dr.inactive .gv,.dr.inactive .lab{color:var(--ink-3)}
-
-.track{position:relative;height:19px;background:var(--panel-2);border-radius:3px;
-  border:1px solid var(--rule);overflow:hidden}
+.dr .gv{font-family:var(--mono);font-size:13.5px;font-weight:600;text-align:right}
+.dr .wt{font-family:var(--mono);font-size:11px;color:var(--ink-3);text-align:right}
+.dr.na .gv,.dr.na .lab{color:var(--ink-3)}
+.track{position:relative;height:18px;background:var(--panel-2);border:1px solid var(--rule);
+  border-radius:3px;overflow:hidden}
 .track .mid{position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--rule-2)}
-.track .fill{position:absolute;top:3px;bottom:3px;border-radius:2px;transition:left .2s ease,width .2s ease}
-.scalerow{display:grid;grid-template-columns:96px 66px minmax(90px,1fr) 62px;gap:11px;
-  font-family:var(--mono);font-size:10px;color:var(--ink-3);padding-top:3px}
-@media(max-width:560px){.scalerow{grid-template-columns:84px 60px minmax(70px,1fr)}
-  .scalerow .wt{display:none}}
-.scalerow .sc{display:flex;justify-content:space-between}
-
-.note{margin-top:14px;padding:11px 13px;border-radius:6px;font-size:13px;
-  border:1px solid var(--rule);background:var(--panel-2);color:var(--ink-2)}
+.track .fill{position:absolute;top:3px;bottom:3px;border-radius:2px;transition:left .18s,width .18s}
+.note{margin-top:12px;padding:10px 12px;border-radius:6px;font-size:12.5px;border:1px solid var(--rule);
+  background:var(--panel-2);color:var(--ink-2)}
 .note.alert{border-color:color-mix(in srgb,var(--warm) 45%,var(--rule));
   background:color-mix(in srgb,var(--warm) 7%,var(--panel))}
 .note strong{color:var(--ink)}
-.note .tag{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+.note .tag{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
   color:var(--ink-3);display:block;margin-bottom:3px}
 
-/* ---------- evidence ---------- */
-.evidence{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;margin-top:18px}
-@media(max-width:880px){.evidence{grid-template-columns:1fr}}
-canvas{display:block;width:100%;height:auto;border-radius:5px;cursor:crosshair}
-.legend{display:flex;flex-wrap:wrap;gap:13px;margin-top:9px;font-size:11.5px;color:var(--ink-2)}
-.legend span{display:flex;align-items:center;gap:5px}
-.ramp{width:56px;height:8px;border-radius:4px;
-  background:linear-gradient(90deg,var(--cool),var(--mid),var(--warm))}
-
-.tbl{width:100%;border-collapse:collapse;font-size:12.5px}
-.tbl th,.tbl td{padding:6px 7px;text-align:right;border-bottom:1px solid var(--rule)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips button{font-size:11.5px;padding:5px 9px}
+.tbl{width:100%;border-collapse:collapse;font-size:12px}
+.tbl th,.tbl td{padding:5px 6px;text-align:right;border-bottom:1px solid var(--rule)}
 .tbl th{font-family:var(--mono);font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;
-  color:var(--ink-3);font-weight:500;vertical-align:bottom}
+  color:var(--ink-3);font-weight:500}
 .tbl td:first-child,.tbl th:first-child{text-align:left}
-.tbl td{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.tbl td{font-family:var(--mono)}
 .tbl tr.best td{background:color-mix(in srgb,var(--comb) 9%,transparent);font-weight:640}
-.tbl td.nm{font-family:var(--sans);display:flex;align-items:center;gap:6px}
+.foot{margin:10px 0 0;font-size:12px;color:var(--ink-3);line-height:1.5}
 .scroll{overflow-x:auto}
-.foot{margin-top:11px;font-size:12px;color:var(--ink-3);line-height:1.5}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media(max-width:560px){.grid2{grid-template-columns:1fr}}
-.feat{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;padding:4px 0;
-  border-bottom:1px dotted var(--rule)}
-.feat .v{font-family:var(--mono);color:var(--ink-2)}
-@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+#big{width:100%;height:auto;display:block;border-radius:5px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 
 <div class="wrap">
   <header class="mast">
     <div>
-      <p class="eyebrow">Multi-modal biological age · NHANES 2005–2006 · mortality-linked</p>
-      <h1>Biological Age Console</h1>
-      <p class="sub">Every score below is an <em>age gap</em> — predicted minus chronological — fitted
-        against linked mortality, never against chronological age. The decomposition is the product;
-        the single number is not.</p>
+      <p class="eyebrow">Reference curves from NHANES 2005–2006 · validated against linked mortality</p>
+      <h1>Biological Age Calculator</h1>
+      <p class="sub">Enter whatever markers you have. Each one is matched against the
+        population curve for your sex — the average value at every age — and read backwards to
+        the age where you'd be typical. Nothing is uploaded; the whole calculation runs here.</p>
     </div>
-    <div class="cohort">
-      <div><p class="eyebrow">Cohort</p><p class="v" id="cN">—</p></div>
-      <div><p class="eyebrow">Deaths</p><p class="v" id="cD">—</p></div>
-      <div><p class="eyebrow">Follow-up</p><p class="v">15.0 y</p></div>
+    <div style="display:flex;gap:7px;flex-wrap:wrap">
+      <button id="csv" type="button">Upload CSV / JSON</button>
+      <button id="clear" type="button">Clear</button>
     </div>
   </header>
 
-  <div class="console">
-    <!-- ---------------- controls ---------------- -->
-    <div style="display:flex;flex-direction:column;gap:18px">
+  <div class="layout">
+    <!-- ===================== INPUT ===================== -->
+    <div class="col">
       <section class="card">
-        <div class="hd"><h2 style="font-size:13px">Subject</h2>
-          <button id="rand" type="button">Random</button></div>
-        <div class="bd" style="display:flex;flex-direction:column;gap:11px">
-          <div class="pick">
-            <input id="seqn" inputmode="numeric" aria-label="Participant SEQN" placeholder="SEQN…">
-            <button id="go" type="button">Find</button>
-          </div>
-          <p id="err" class="eyebrow" style="color:var(--warm);display:none"></p>
-          <div>
-            <p class="eyebrow" style="margin-bottom:6px">Cases worth looking at</p>
-            <div class="chips" id="chips"></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="card">
-        <div class="hd"><h2 style="font-size:13px">Modalities</h2></div>
+        <div class="hd"><h2>1 · About you</h2>
+          <span class="eyebrow" id="whoNote"></span></div>
         <div class="bd">
-          <div class="sw" id="sw"></div>
-          <p class="foot">Switch an arm off to see the combiner degrade gracefully: the remaining
-            weights renormalise. Missing arms are never imputed as average.</p>
+          <div class="who">
+            <div class="fld"><label class="eyebrow" for="age">Chronological age</label>
+              <input id="age" type="number" min="20" max="84" step="1" value="45"></div>
+            <div class="fld"><label class="eyebrow" for="sex">Sex at birth</label>
+              <select id="sex"><option value="male">Male</option><option value="female">Female</option></select></div>
+          </div>
+          <p class="foot">Curves are fitted separately by sex because several markers move in
+            <em>opposite directions</em> — total cholesterol falls with age in men and rises in women.
+            Range is 20–84; NHANES top-codes age at 85.</p>
+          <div style="margin-top:12px">
+            <p class="eyebrow" style="margin-bottom:6px">Or load a worked example</p>
+            <div class="chips" id="ex"></div>
+          </div>
         </div>
+      </section>
+
+      <section class="card">
+        <div class="hd"><h2>2 · Your markers</h2>
+          <span class="eyebrow" id="fillNote">0 entered</span></div>
+        <div class="bd" id="forms"></div>
       </section>
     </div>
 
-    <!-- ---------------- readout ---------------- -->
-    <section class="card">
-      <div class="hd">
-        <div class="subject">
-          <span class="id" id="sId">—</span>
-          <span class="meta" id="sMeta"></span>
-        </div>
-        <span class="eyebrow" id="sOut"></span>
-      </div>
-      <div class="bd">
-        <div class="headline">
-          <div>
-            <p class="eyebrow">Combined biological age</p>
+    <!-- ===================== RESULT ===================== -->
+    <div class="col side">
+      <section class="card">
+        <div class="hd"><h2>Your biological age</h2><span class="eyebrow" id="pctNote"></span></div>
+        <div class="bd">
+          <div class="hero">
+            <p class="eyebrow">Combined</p>
             <p class="big" id="bAge">—</p>
-            <p class="delta" id="bDelta"></p>
+            <p class="delta" id="bDelta">enter at least 3 markers</p>
           </div>
-          <p class="verdict" id="verdict"></p>
+          <p class="eyebrow" style="margin:15px 0 0">Per-modality breakdown</p>
+          <div id="decomp"></div>
+          <div class="track" style="margin-top:7px"><span class="mid"></span></div>
+          <div style="display:flex;justify-content:space-between;font-family:var(--mono);
+            font-size:9.5px;color:var(--ink-3);padding-top:2px">
+            <span>−15 y younger</span><span>0</span><span>older +15 y</span></div>
+          <div id="notes"></div>
         </div>
+      </section>
 
-        <p class="eyebrow" style="margin:18px 0 2px">Per-modality decomposition</p>
-        <div class="decomp" id="decomp"></div>
-        <div class="scalerow">
-          <span></span><span></span>
-          <span class="sc"><span>−15 y younger</span><span>0</span><span>older +15 y</span></span>
-          <span class="wt"></span>
+      <section class="card">
+        <div class="hd"><h2 id="curveTitle">Where you land</h2>
+          <span class="eyebrow" id="curveMeta"></span></div>
+        <div class="bd">
+          <canvas id="big" width="760" height="440" role="img" aria-label="Population reference curve with your value marked."></canvas>
+          <p class="foot" id="curveNote">Click any marker's sparkline to inspect its curve.</p>
         </div>
+      </section>
 
-        <div id="notes"></div>
-      </div>
-    </section>
-  </div>
-
-  <!-- ---------------- evidence ---------------- -->
-  <div class="evidence">
-    <section class="card">
-      <div class="hd"><h2 style="font-size:13px">Where the arms disagree</h2>
-        <span class="eyebrow">r = <span id="redv">—</span></span></div>
-      <div class="bd">
-        <canvas id="sc" width="820" height="620" role="img"
-          aria-label="Scatter of blood age gap against wearable age gap for 2,956 participants."></canvas>
-        <div class="legend">
-          <span><span class="ramp"></span> combined gap: younger → older</span>
-          <span><svg width="12" height="12" aria-hidden="true"><circle cx="6" cy="6" r="4.5"
-            fill="none" stroke="currentColor" stroke-width="2"/></svg> selected subject</span>
+      <section class="card">
+        <div class="hd"><h2>Does this predict anything?</h2><span class="eyebrow">Cox · age + sex adj.</span></div>
+        <div class="bd">
+          <div class="scroll"><table class="tbl">
+            <thead><tr><th>Score</th><th>HR / yr</th><th>HR / SD</th><th>C-index</th><th>Gain</th></tr></thead>
+            <tbody id="vt"></tbody></table></div>
+          <p class="foot">Validated on 2,891 adults with 536 deaths over 15 years. Age and sex alone
+            give C = 0.847, so <strong>Gain</strong> is what the gap adds beyond knowing your birthday.
+            The two arms correlate only <strong id="redv">—</strong>, so they are measuring
+            different things.</p>
         </div>
-        <p class="foot">Each point is one participant. A tight diagonal would mean the two arms are
-          redundant. This cloud is <strong>r = 0.25</strong> — they measure substantially different
-          things, which is what makes the breakdown worth showing. Click to inspect anyone.</p>
-      </div>
-    </section>
-
-    <section class="card">
-      <div class="hd"><h2 style="font-size:13px">Does the gap predict death?</h2>
-        <span class="eyebrow">Cox · adjusted age + sex</span></div>
-      <div class="bd">
-        <div class="scroll">
-          <table class="tbl">
-            <thead><tr><th>Score</th><th>HR / year</th><th>HR / SD</th><th>95% CI</th>
-              <th>C-index</th><th>Gain</th></tr></thead>
-            <tbody id="vt"></tbody>
-          </table>
-        </div>
-        <p class="foot">Age and sex alone give C = 0.8453, so the meaningful column is
-          <strong>Gain</strong> — discrimination added beyond knowing someone's birthday. The combined
-          gap adds <strong>51% more</strong> than the best single arm. For scale, PhenoAge reaches
-          +0.0097 on this same cohort and linkage.</p>
-
-        <p class="eyebrow" style="margin:16px 0 6px">What each arm is weighting</p>
-        <div class="grid2">
-          <div><p class="eyebrow" style="color:var(--blood)">Blood</p><div id="fb"></div></div>
-          <div><p class="eyebrow" style="color:var(--wear)">Wearable</p><div id="fw"></div></div>
-        </div>
-        <p class="foot">RDW, albumin and CRP were <em>recovered from the mortality data</em>, not
-          supplied — they are the same markers PhenoAge is built from.</p>
-      </div>
-    </section>
-  </div>
-
-  <section class="card" style="margin-top:18px">
-    <div class="hd"><h2 style="font-size:13px">Methylation arm — a different cohort</h2>
-      <span class="eyebrow">GEO GSE40279 · n = 656</span></div>
-    <div class="bd">
-      <p style="font-size:13.5px;color:var(--ink-2);margin:0 0 12px;max-width:78ch">
-        NHANES has never collected DNA methylation, so there is no participant to join this to and no
-        join is fabricated. GSE40279 also carries <strong>no mortality linkage</strong>, so this arm
-        gets no fitted combiner weight and is excluded from the combined score above — it appears in
-        the breakdown labelled as unavailable, not silently averaged in.</p>
-      <div class="scroll">
-        <table class="tbl">
-          <thead><tr><th>Clock</th><th>Gen</th><th>r with age</th><th>MAE</th>
-            <th>Gap SD</th><th>Residual SD</th></tr></thead>
-          <tbody id="mt"></tbody>
-        </table>
-      </div>
-      <p class="foot">This table was built to test the argument that first-generation clocks leave too
-        little residual to combine — and it <strong>does not support it</strong>: Hannum (1st gen)
-        leaves 4.25 where GrimAgeV1 (2nd gen) leaves 3.93. Residual spread conflates signal with
-        noise, and separating them needs an outcome this cohort does not have. The clock choice rests
-        on published mortality evidence, not on this.</p>
+      </section>
     </div>
-  </section>
+  </div>
 
-  <p class="foot" style="max-width:80ch;margin-top:22px">
-    Scores are out-of-fold (5-fold cross-fitted), gaps are age-residualised, and every outcome model
-    adjusts for chronological age and sex. Source data is NHANES 2005–2006 public-use files with the
-    NCHS Public-Use Linked Mortality File through 2019-12-31.</p>
+  <p class="foot" style="max-width:82ch;margin-top:22px">
+    <strong>Not a medical device.</strong> This reproduces a research pipeline on public NHANES data.
+    A gap here is a population-level statistical association with mortality, not a diagnosis or a
+    prediction about any individual. Reference curves use a healthy-reference population, so values
+    are scored against people without the relevant diagnosed condition.</p>
 </div>
 
+<input type="file" id="file" accept=".csv,.json,.txt" style="display:none">
 <script type="application/json" id="payload">__DATA__</script>
 <script>
-const DATA = JSON.parse(document.getElementById('payload').textContent);
-const [SEQN,AGE,SEX,GB,GW,DIED,FU] = [0,1,2,3,4,5,6];
-const BY = new Map(DATA.P.map(p=>[p[SEQN],p]));
-const BOTH = DATA.P.filter(p=>p[GB]!=null && p[GW]!=null);
-const MODS = [
-  {k:'blood',    name:'Blood chemistry', css:'--blood'},
-  {k:'wearable', name:'Wearable activity', css:'--wear'},
-  {k:'methylation', name:'DNA methylation', css:'--meth'}
-];
-const active = {blood:true, wearable:true, methylation:false};
-let current = null;
-const CLAMP = 15;
-const f1 = n => (n>=0?'+':'−') + Math.abs(n).toFixed(1);
+const B = JSON.parse(document.getElementById('payload').textContent);
+const MODS=[{k:'blood',name:'Blood',css:'--blood'},{k:'wearable',name:'Wearable',css:'--wear'},
+            {k:'methylation',name:'Methylation',css:'--meth'}];
+const FEAT={}; for(const m in B.features) B.features[m].forEach(f=>FEAT[f.name]={...f,mod:m});
+const vals={};           // feature -> number
+let focused=null;
+const f1=n=>(n>=0?'+':'−')+Math.abs(n).toFixed(1);
+const med=a=>{const s=[...a].sort((x,y)=>x-y);return s.length?s[s.length>>1]:0};
 
-/* combiner: identical to scoring.Combiner.predict_gap — drop missing arms and
-   renormalise the survivors, never impute zero. */
-function report(p){
-  const raw = {blood:p[GB], wearable:p[GW], methylation:null};
-  const g = {};
-  MODS.forEach(m=>{ g[m.k] = (active[m.k] && raw[m.k]!=null) ? raw[m.k] : null; });
-  const mods = DATA.MOD;
-  const used = mods.filter(m=>g[m]!=null);
-  const missing = mods.filter(m=>g[m]==null);
-  const total = mods.reduce((a,m)=>a+Math.abs(DATA.W[m]||0),0);
-  const wsum  = used.reduce((a,m)=>a+Math.abs(DATA.W[m]||0),0);
-  let combined=null; const contrib={};
-  if(used.length && wsum>0){
-    const rn = total/wsum;
-    combined = used.reduce((a,m)=>a+(DATA.W[m]||0)*g[m],0) * rn;
-    used.forEach(m=>{contrib[m]=(DATA.W[m]||0)*g[m]*rn;});
+/* ---------- inversion: mirrors curves.invert() ---------- */
+function invert(value,c){
+  if(value==null||!isFinite(value)) return null;
+  const v=c.log?Math.log(Math.max(value,1e-9)):value;
+  const g=[],m=[],s=[];
+  for(let i=0;i<c.g.length;i++) if(c.g[i]>=c.lo-1e-9&&c.g[i]<=c.hi+1e-9){g.push(c.g[i]);m.push(c.m[i]);s.push(c.s[i]);}
+  if(g.length<3) return null;
+  const sdm=med(s.filter(x=>x>1e-9))||1;
+  const sd=s.map(x=>x>1e-9?x:sdm);
+  let bi=0,bd=Infinity;
+  for(let i=0;i<g.length;i++){const d=Math.abs(m[i]-v)/sd[i]; if(d<bd){bd=d;bi=i;}}
+  const lo=Math.min(...m),hi=Math.max(...m);
+  const extrap=v<lo||v>hi;
+  let age=g[bi];
+  if(!extrap&&bi>0&&bi<g.length-1){
+    for(const [a,b] of [[bi-1,bi],[bi,bi+1]]){
+      if((m[a]-v)*(m[b]-v)<=0&&m[b]!==m[a]){const t=(v-m[a])/(m[b]-m[a]);age=g[a]+t*(g[b]-g[a]);break;}
+    }
   }
-  return {raw,g,used,missing,combined,contrib};
+  return {age,dist:bd,extrap};
+}
+/* ---------- modality gap: mirrors scorer.modality_gap() ---------- */
+function modalityGap(mod,sex,age){
+  const P=B.params[mod]; if(!P) return {gap:null,per:{},n:0};
+  const per={};
+  for(const f of (B.features[mod]||[])){
+    const v=vals[f.name]; if(v==null||!isFinite(v)) continue;
+    const c=(B.curves[mod]||{})[f.name+'|'+sex]; if(!c) continue;
+    const r=invert(v,c); if(!r) continue;
+    per[f.name]={...r,weight:P.weights[f.name]||0};
+  }
+  const use=Object.entries(per).filter(([,x])=>x.weight>0);
+  if(use.length<B.min_features) return {gap:null,per,n:use.length};
+  const wsum=use.reduce((a,[,x])=>a+x.weight,0);
+  const raw=use.reduce((a,[,x])=>a+x.weight*(x.age-age),0)/wsum;
+  let g=(raw-P.gap_mean_raw)*P.reliability+P.gap_mean_raw;   // reliability shrinkage
+  g=g-(P.deatt_intercept+P.deatt_slope*age);                 // age-acceleration residual
+  g=g*P.scale;                                               // -> age-equivalent years
+  return {gap:g,raw,per,n:use.length};
+}
+function combine(gaps){
+  const mods=B.combiner.modalities, W=B.combiner.weights;
+  const used=mods.filter(m=>gaps[m]!=null&&isFinite(gaps[m]));
+  const missing=mods.filter(m=>!used.includes(m));
+  if(!used.length) return {gap:null,used,missing,contrib:{}};
+  const total=mods.reduce((a,m)=>a+Math.abs(W[m]||0),0);
+  const wsum=used.reduce((a,m)=>a+Math.abs(W[m]||0),0);
+  const rn=total/wsum, contrib={};
+  used.forEach(m=>contrib[m]=(W[m]||0)*gaps[m]*rn);
+  return {gap:used.reduce((a,m)=>a+(W[m]||0)*gaps[m],0)*rn,used,missing,contrib};
+}
+function pctOf(mod,g){
+  const L=B.pct[mod]; if(!L) return null;
+  let i=0; while(i<L.length&&L[i]<g) i++;
+  return Math.max(0,Math.min(100,i));
 }
 
+/* ---------- form ---------- */
+function buildForms(){
+  const host=document.getElementById('forms'); host.innerHTML='';
+  for(const mod of ['blood','wearable']){
+    const P=B.params[mod]||{weights:{}};
+    for(const [title,names] of (B.groups[mod]||[])){
+      const list=names.filter(n=>FEAT[n]);
+      if(!list.length) continue;
+      const d=document.createElement('details'); d.className='grp';
+      if(mod==='blood'&&title==='Metabolic') d.open=true;
+      const nW=list.filter(n=>(P.weights[n]||0)>0).length;
+      d.innerHTML=`<summary><span style="display:flex;align-items:center;gap:6px">
+        <span class="dot" style="background:var(${mod==='blood'?'--blood':'--wear'})"></span>${title}</span>
+        <span class="cnt" data-cnt="${title}">0/${list.length}</span></summary>`;
+      list.forEach(n=>{
+        const f=FEAT[n], w=P.weights[n]||0;
+        const row=document.createElement('div');
+        row.className='mk'+(w>0?'':' unweighted');
+        row.innerHTML=`
+          <span class="nm">${f.label}${w>0?'':' <small>no mortality weight</small>'}</span>
+          <input data-f="${n}" type="number" step="any" placeholder="—"
+            aria-label="${f.label} in ${f.units}">
+          <span class="un">${f.units}</span>
+          <span class="imp" data-imp="${n}"></span>
+          <canvas class="spark" data-sp="${n}" width="200" height="52"
+            role="img" aria-label="Age curve for ${f.label}"></canvas>`;
+        d.appendChild(row);
+      });
+      host.appendChild(d);
+    }
+  }
+  host.addEventListener('input',e=>{
+    const f=e.target.dataset.f; if(!f) return;
+    const raw=e.target.value.trim();
+    const v=raw===''?null:Number(raw);
+    const rng=FEAT[f].range;
+    const bad = v!=null && (!isFinite(v) || (rng && (v<rng[0]||v>rng[1])));
+    e.target.classList.toggle('bad',!!bad);
+    if(v==null||bad) delete vals[f]; else vals[f]=v;
+    if(!focused&&v!=null) focused=f;
+    render();
+  });
+  host.addEventListener('click',e=>{
+    const sp=e.target.dataset&&e.target.dataset.sp; if(sp){focused=sp;render();}
+  });
+}
+
+/* ---------- drawing ---------- */
+function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim()}
+function curveOf(name,sex){const f=FEAT[name];return f?(B.curves[f.mod]||{})[name+'|'+sex]:null}
+function drawSpark(cv,name,sex){
+  const c=curveOf(name,sex); const ctx=cv.getContext('2d');
+  const dpr=Math.min(devicePixelRatio||1,2), w=cv.clientWidth||200, h=26;
+  cv.width=w*dpr; cv.height=h*dpr; cv.style.height=h+'px';
+  ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,w,h);
+  if(!c) return;
+  const mn=Math.min(...c.m), mx=Math.max(...c.m), rg=(mx-mn)||1;
+  const X=a=>2+(a-c.g[0])/((c.g[c.g.length-1]-c.g[0])||1)*(w-4);
+  const Y=m=>h-3-((m-mn)/rg)*(h-6);
+  ctx.strokeStyle=css(FEAT[name].mod==='blood'?'--blood':'--wear');
+  ctx.lineWidth=1.5; ctx.beginPath();
+  c.g.forEach((a,i)=>{i?ctx.lineTo(X(a),Y(c.m[i])):ctx.moveTo(X(a),Y(c.m[i]))}); ctx.stroke();
+  const v=vals[name];
+  if(v!=null){
+    const r=invert(v,c);
+    if(r){ const y=Y(c.log?Math.log(Math.max(v,1e-9)):v);
+      ctx.fillStyle=css('--comb');
+      ctx.beginPath(); ctx.arc(X(r.age),Math.max(2,Math.min(h-2,y)),3,0,7); ctx.fill();
+      ctx.strokeStyle=css('--comb'); ctx.globalAlpha=.45; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(X(r.age),0); ctx.lineTo(X(r.age),h); ctx.stroke(); ctx.globalAlpha=1;
+    }
+  }
+}
+function drawBig(){
+  const cv=document.getElementById('big'), ctx=cv.getContext('2d');
+  const dpr=Math.min(devicePixelRatio||1,2), w=cv.clientWidth||760, h=Math.round(w*0.58);
+  cv.width=w*dpr; cv.height=h*dpr; cv.style.height=h+'px';
+  ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,w,h);
+  const sex=document.getElementById('sex').value;
+  const name=focused||Object.keys(vals)[0];
+  const t=document.getElementById('curveTitle'), mt=document.getElementById('curveMeta'),
+        nt=document.getElementById('curveNote');
+  const c=name?curveOf(name,sex):null;
+  if(!c){t.textContent='Where you land';mt.textContent='';
+    nt.textContent='Enter a marker, or click a sparkline, to see its curve.';return;}
+  const f=FEAT[name];
+  t.textContent=f.label; mt.textContent=`${f.units} · ${sex} · n = ${c.n}`;
+  const P={l:52,r:16,t:16,b:34};
+  const inv=x=>c.log?Math.exp(x):x;
+  const mn=Math.min(...c.m), mx=Math.max(...c.m), pad=(mx-mn)*0.18||1;
+  const y0=mn-pad, y1=mx+pad;
+  const X=a=>P.l+(a-c.g[0])/((c.g[c.g.length-1]-c.g[0])||1)*(w-P.l-P.r);
+  const Y=m=>h-P.b-((m-y0)/((y1-y0)||1))*(h-P.t-P.b);
+  ctx.strokeStyle=css('--rule'); ctx.lineWidth=1; ctx.fillStyle=css('--ink-3');
+  ctx.font='10px '+css('--mono');
+  for(let a=20;a<=80;a+=10){ctx.beginPath();ctx.moveTo(X(a),P.t);ctx.lineTo(X(a),h-P.b);ctx.stroke();
+    ctx.textAlign='center';ctx.fillText(a,X(a),h-P.b+14);}
+  for(let i=0;i<=4;i++){const m=y0+(y1-y0)*i/4;
+    ctx.beginPath();ctx.moveTo(P.l,Y(m));ctx.lineTo(w-P.r,Y(m));ctx.stroke();
+    ctx.textAlign='right';ctx.fillText(inv(m).toPrecision(3),P.l-7,Y(m)+3);}
+  // spread band (±1 local SD) then the mean curve
+  const col=css(f.mod==='blood'?'--blood':'--wear');
+  ctx.fillStyle=col; ctx.globalAlpha=.13; ctx.beginPath();
+  c.g.forEach((a,i)=>{i?ctx.lineTo(X(a),Y(c.m[i]+c.s[i])):ctx.moveTo(X(a),Y(c.m[i]+c.s[i]))});
+  for(let i=c.g.length-1;i>=0;i--) ctx.lineTo(X(c.g[i]),Y(c.m[i]-c.s[i]));
+  ctx.closePath(); ctx.fill(); ctx.globalAlpha=1;
+  ctx.strokeStyle=col; ctx.lineWidth=2.4; ctx.beginPath();
+  c.g.forEach((a,i)=>{i?ctx.lineTo(X(a),Y(c.m[i])):ctx.moveTo(X(a),Y(c.m[i]))}); ctx.stroke();
+
+  const v=vals[name], age=Number(document.getElementById('age').value);
+  if(v!=null){
+    const r=invert(v,c); const yv=c.log?Math.log(Math.max(v,1e-9)):v;
+    const py=Math.max(P.t,Math.min(h-P.b,Y(yv)));
+    ctx.strokeStyle=css('--ink-3'); ctx.setLineDash([3,3]); ctx.globalAlpha=.75;
+    ctx.beginPath(); ctx.moveTo(P.l,py); ctx.lineTo(w-P.r,py); ctx.stroke();
+    if(r){ctx.beginPath();ctx.moveTo(X(r.age),py);ctx.lineTo(X(r.age),h-P.b);ctx.stroke();}
+    if(isFinite(age)){ctx.strokeStyle=css('--ink-3');ctx.beginPath();
+      ctx.moveTo(X(age),P.t);ctx.lineTo(X(age),h-P.b);ctx.stroke();}
+    ctx.setLineDash([]); ctx.globalAlpha=1;
+    if(r){
+      ctx.fillStyle=css('--comb'); ctx.beginPath(); ctx.arc(X(r.age),py,6,0,7); ctx.fill();
+      ctx.strokeStyle=css('--panel'); ctx.lineWidth=2; ctx.stroke();
+      ctx.fillStyle=css('--ink'); ctx.font='600 11px '+css('--sans'); ctx.textAlign='center';
+      const lbl=`you: ${r.age.toFixed(0)} y`;
+      ctx.fillText(lbl,Math.max(P.l+26,Math.min(w-P.r-26,X(r.age))),Math.max(P.t+12,py-11));
+      nt.innerHTML=`Your value of <strong>${v} ${f.units}</strong> is what the average
+        <strong>${r.age.toFixed(0)}-year-old ${sex}</strong> has${isFinite(age)?
+        ` — ${Math.abs(r.age-age)<0.5?'about your age':
+        (r.age>age?`<strong>${(r.age-age).toFixed(0)} y older</strong> than you`:
+        `<strong>${(age-r.age).toFixed(0)} y younger</strong> than you`)}`:''}.
+        ${r.extrap?' Your value falls outside the population range, so this is a bound, not an estimate.':''}
+        Shaded band is ±1 SD — the natural spread at each age.`;
+    }
+  } else {
+    nt.textContent='Shaded band is ±1 SD, the natural spread between people of the same age. Enter a value to place yourself on it.';
+  }
+  if(isFinite(age)){ctx.fillStyle=css('--ink-3');ctx.font='10px '+css('--mono');ctx.textAlign='center';
+    ctx.fillText('your age',X(age),P.t+10);}
+  ctx.fillStyle=css('--ink-2'); ctx.font='11px '+css('--sans'); ctx.textAlign='center';
+  ctx.fillText('age (years)',(P.l+w-P.r)/2,h-4);
+}
+
+/* ---------- render ---------- */
 function render(){
-  const p = current, r = report(p);
-  document.getElementById('sId').textContent = 'SEQN ' + p[SEQN];
-  document.getElementById('sMeta').textContent =
-    `${p[AGE]} y · ${p[SEX]?'female':'male'}`;
-  document.getElementById('sOut').textContent = p[DIED]==null ? ''
-    : (p[DIED] ? `died ${p[FU]} y after exam` : `alive at ${p[FU]} y`);
+  const sex=document.getElementById('sex').value;
+  const age=Number(document.getElementById('age').value);
+  const okAge=isFinite(age)&&age>=20&&age<=84;
+  document.getElementById('whoNote').textContent=okAge?'':'age must be 20–84';
+
+  document.querySelectorAll('[data-sp]').forEach(cv=>drawSpark(cv,cv.dataset.sp,sex));
+  document.querySelectorAll('[data-imp]').forEach(el=>{
+    const n=el.dataset.imp, v=vals[n], c=curveOf(n,sex);
+    if(v==null||!c){el.textContent='';return;}
+    const r=invert(v,c);
+    if(!r){el.textContent='';return;}
+    const d=okAge?r.age-age:0;
+    el.innerHTML=`<b style="color:${!okAge?'var(--ink-2)':(d>0?'var(--warm)':'var(--cool)')}">${r.age.toFixed(0)} y</b>`;
+    el.title=`Implied age ${r.age.toFixed(1)}${r.extrap?' (outside population range)':''}`;
+  });
+  for(const mod of ['blood','wearable'])
+    for(const [title,names] of (B.groups[mod]||[])){
+      const el=document.querySelector(`[data-cnt="${title}"]`); if(!el) continue;
+      const list=names.filter(n=>FEAT[n]);
+      el.textContent=`${list.filter(n=>vals[n]!=null).length}/${list.length}`;
+    }
+  const nEntered=Object.keys(vals).length;
+  document.getElementById('fillNote').textContent=`${nEntered} entered`;
+
+  const g={}, det={};
+  if(okAge) for(const mod of ['blood','wearable']){const r=modalityGap(mod,sex,age);det[mod]=r;g[mod]=r.gap;}
+  g.methylation=null;
+  const cmb=combine(g);
 
   const bA=document.getElementById('bAge'), bD=document.getElementById('bDelta'),
-        vd=document.getElementById('verdict');
-  if(r.combined==null){
-    bA.textContent='—'; bA.style.color='var(--ink-3)';
-    bD.textContent=''; bD.style.color='';
-    vd.innerHTML='<strong>No usable modality.</strong> The score is withheld rather than guessed — an all-missing input returns nothing, not an average.';
+        pn=document.getElementById('pctNote');
+  if(cmb.gap==null){
+    bA.textContent='—'; bA.style.color='var(--ink-3)'; pn.textContent='';
+    const need=[];
+    for(const mod of ['blood','wearable']){const n=(det[mod]||{}).n||0; if(n) need.push(`${mod} ${n}/${B.min_features}`);}
+    bD.textContent=!okAge?'enter a valid age (20–84)':
+      (nEntered?`need ${B.min_features}+ weighted markers in one modality${need.length?' — '+need.join(', '):''}`
+               :'enter at least 3 markers');
+    bD.style.color='var(--ink-3)';
   }else{
-    const col = r.combined>0?'var(--warm)':'var(--cool)';
-    bA.textContent=(p[AGE]+r.combined).toFixed(1); bA.style.color='var(--comb)';
-    bD.textContent=`${f1(r.combined)} y vs chronological ${p[AGE]}`; bD.style.color=col;
-    const drv = r.used.slice().sort((a,b)=>Math.abs(r.contrib[b])-Math.abs(r.contrib[a]))[0];
-    const nm = MODS.find(m=>m.k===drv).name.toLowerCase();
-    vd.innerHTML = `Driven by <strong>${nm}</strong>, contributing
-      <strong>${f1(r.contrib[drv])} y</strong> of the ${f1(r.combined)} y combined gap.
-      The combiner is linear on gaps, so this reads straight off weight × gap.`;
+    bA.textContent=(age+cmb.gap).toFixed(1); bA.style.color='var(--comb)';
+    bD.textContent=`${f1(cmb.gap)} y vs chronological ${age}`;
+    bD.style.color=cmb.gap>0?'var(--warm)':'var(--cool)';
+    const p=pctOf('combined',cmb.gap);
+    pn.textContent=p!=null?`${p}th percentile`:'';
   }
 
-  // decomposition rows
   const dc=document.getElementById('decomp'); dc.innerHTML='';
   MODS.forEach(m=>{
-    const on = active[m.k], val = r.raw[m.k], avail = val!=null;
-    const row=document.createElement('div'); row.className='dr'+((!on||!avail)?' inactive':'');
-    const shown = (on&&avail);
-    const pct = shown ? Math.min(Math.abs(val),CLAMP)/CLAMP*50 : 0;
-    row.innerHTML = `
-      <span class="lab"><span class="dot" style="background:var(${m.css})"></span>${m.name.split(' ')[0]}</span>
-      <span class="gv" style="color:${shown?(val>0?'var(--warm)':'var(--cool)'):'var(--ink-3)'}">${shown?f1(val)+' y':'—'}</span>
-      <span class="track"><span class="mid"></span>${shown?`<span class="fill" style="${val>=0?`left:50%;width:${pct}%`:`left:${50-pct}%;width:${pct}%`};background:var(${m.css})"></span>`:''}</span>
-      <span class="wt">${shown?(DATA.W[m.k]!=null?DATA.W[m.k].toFixed(3):'n/a'):(avail?'off':'n/a')}</span>`;
-    row.setAttribute('role','img');
-    row.setAttribute('aria-label', shown
-      ? `${m.name}: ${f1(val)} years, weight ${DATA.W[m.k]}`
-      : `${m.name}: ${avail?'switched off':'not available'}`);
+    const gv=g[m.k], has=gv!=null&&isFinite(gv);
+    const pct=has?Math.min(Math.abs(gv),15)/15*50:0;
+    const row=document.createElement('div'); row.className='dr'+(has?'':' na');
+    const nF=(det[m.k]||{}).n;
+    row.innerHTML=`<span class="lab"><span class="dot" style="background:var(${m.css})"></span>${m.name}</span>
+      <span class="gv" style="color:${has?(gv>0?'var(--warm)':'var(--cool)'):'var(--ink-3)'}">${has?f1(gv)+' y':'—'}</span>
+      <span class="track"><span class="mid"></span>${has?`<span class="fill" style="${gv>=0?`left:50%;width:${pct}%`:`left:${50-pct}%;width:${pct}%`};background:var(${m.css})"></span>`:''}</span>
+      <span class="wt">${has?(B.combiner.weights[m.k]||0).toFixed(2):(m.k==='methylation'?'n/a':(nF?nF+'/'+B.min_features:'—'))}</span>`;
     dc.appendChild(row);
   });
 
-  // notes
   const nt=document.getElementById('notes'); nt.innerHTML='';
-  const shownGaps = r.used.map(k=>({k,v:r.g[k]}));
-  if(shownGaps.length>=2){
-    const hi=shownGaps.reduce((a,b)=>a.v>b.v?a:b), lo=shownGaps.reduce((a,b)=>a.v<b.v?a:b);
-    const spread=hi.v-lo.v;
-    if(spread>5){
-      const d=document.createElement('div'); d.className='note alert';
-      d.innerHTML=`<span class="tag">Divergence</span><strong>${hi.k}</strong> is aging
-        <strong>${spread.toFixed(1)} years faster</strong> than <strong>${lo.k}</strong>.
-        ${Math.abs(r.combined)<3?`The combined figure of ${f1(r.combined)} y reads as unremarkable —
-        it is averaging over two systems that are ${spread.toFixed(1)} years apart. Everything
-        actionable about this person is in the breakdown and none of it is in the total.`
-        :`A single scalar would hide which system is driving this.`}`;
-      nt.appendChild(d);
-    }
+  if(cmb.used.length>=2){
+    const hi=cmb.used.reduce((a,b)=>g[a]>g[b]?a:b), lo=cmb.used.reduce((a,b)=>g[a]<g[b]?a:b);
+    const sp=g[hi]-g[lo];
+    if(sp>5){const d=document.createElement('div');d.className='note alert';
+      d.innerHTML=`<span class="tag">Divergence</span>Your <strong>${hi}</strong> signal is aging
+        <strong>${sp.toFixed(1)} years faster</strong> than your <strong>${lo}</strong>.
+        ${Math.abs(cmb.gap)<3?`The combined figure looks unremarkable because it is averaging
+        across two systems that disagree by ${sp.toFixed(1)} years.`:''}`;
+      nt.appendChild(d);}
   }
-  if(r.missing.length){
+  if(cmb.used.length===1){
     const d=document.createElement('div'); d.className='note';
-    const names=r.missing.map(k=>MODS.find(m=>m.k===k).name.toLowerCase()).join(' and ');
-    d.innerHTML=`<span class="tag">Graceful degradation</span>Scored without ${names}.
-      The remaining weights were renormalised — the missing arm was <em>not</em> imputed as
-      average, which would have pulled this person falsely toward the middle.`;
+    d.innerHTML=`<span class="tag">Graceful degradation</span>Scored on <strong>${cmb.used[0]}</strong>
+      alone. The remaining weight was renormalised — the missing arm was not imputed as average,
+      which would have pulled you falsely toward the middle.`;
     nt.appendChild(d);
   }
-  const dm=document.createElement('div'); dm.className='note';
-  dm.innerHTML=`<span class="tag">Scope</span>DNA methylation is unavailable for every NHANES
-    participant — it is a different cohort with no mortality linkage, so it carries no combiner
-    weight and is never folded into the number above.`;
-  nt.appendChild(dm);
-
-  document.querySelectorAll('.chip').forEach(c=>
-    c.setAttribute('aria-current', String(+c.dataset.seqn===p[SEQN])));
-  drawScatter();
+  if(cmb.gap!=null){
+    const drv=cmb.used.slice().sort((a,b)=>Math.abs(cmb.contrib[b])-Math.abs(cmb.contrib[a]))[0];
+    const d=document.createElement('div'); d.className='note';
+    d.innerHTML=`<span class="tag">Driver</span><strong>${drv}</strong> contributes
+      <strong>${f1(cmb.contrib[drv])} y</strong> of your ${f1(cmb.gap)} y gap. The combiner is
+      linear on gaps, so this reads straight off weight × gap.`;
+    nt.appendChild(d);
+  }
+  drawBig();
 }
 
-/* ---------------- scatter ---------------- */
-const cv=document.getElementById('sc'), cx=cv.getContext('2d');
-const LIM=13, PAD={l:46,r:14,t:14,b:40};
-function ink(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
-function sx(v,w){return PAD.l+(v+LIM)/(2*LIM)*(w-PAD.l-PAD.r);}
-function sy(v,h){return h-PAD.b-(v+LIM)/(2*LIM)*(h-PAD.t-PAD.b);}
-function mix(a,b,t){return a.map((v,i)=>Math.round(v+(b[i]-v)*t));}
-function hex2rgb(h){h=h.replace('#','');return [0,2,4].map(i=>parseInt(h.substr(i,2),16));}
-function ramp(t){ // diverging: cool → neutral → warm
-  const c=hex2rgb(ink('--cool')), m=hex2rgb(ink('--mid')), w=hex2rgb(ink('--warm'));
-  const r = t<0.5 ? mix(c,m,t*2) : mix(m,w,(t-0.5)*2);
-  return `rgb(${r.join(',')})`;
+/* ---------- examples, upload, wiring ---------- */
+function applyExample(ex){
+  for(const k in vals) delete vals[k];
+  Object.values(ex.values).forEach(o=>Object.assign(vals,o));
+  document.getElementById('age').value=ex.age;
+  document.getElementById('sex').value=ex.sex;
+  document.querySelectorAll('[data-f]').forEach(i=>{
+    const v=vals[i.dataset.f]; i.value=(v==null?'':v); i.classList.remove('bad');});
+  focused=Object.keys(vals).find(k=>FEAT[k]&&B.params.blood.weights[k]>0)||Object.keys(vals)[0];
+  render();
 }
-function drawScatter(){
-  const dpr=Math.min(devicePixelRatio||1,2);
-  const w=cv.clientWidth||820, h=Math.round(w*0.76);
-  cv.width=w*dpr; cv.height=h*dpr; cv.style.height=h+'px';
-  cx.setTransform(dpr,0,0,dpr,0,0); cx.clearRect(0,0,w,h);
-
-  const rule=ink('--rule'), ink3=ink('--ink-3'), ink2=ink('--ink-2');
-  // grid + axes
-  cx.strokeStyle=rule; cx.lineWidth=1; cx.font='10px '+ink('--mono');
-  cx.fillStyle=ink3;
-  for(let v=-10;v<=10;v+=5){
-    cx.globalAlpha=v===0?1:.55;
-    cx.beginPath(); cx.moveTo(sx(v,w),PAD.t); cx.lineTo(sx(v,w),h-PAD.b); cx.stroke();
-    cx.beginPath(); cx.moveTo(PAD.l,sy(v,h)); cx.lineTo(w-PAD.r,sy(v,h)); cx.stroke();
-    cx.globalAlpha=1;
-    cx.textAlign='center'; cx.fillText(v>0?'+'+v:v, sx(v,w), h-PAD.b+14);
-    cx.textAlign='right'; cx.fillText(v>0?'+'+v:v, PAD.l-7, sy(v,h)+3);
-  }
-  // identity line
-  cx.setLineDash([3,3]); cx.strokeStyle=ink3; cx.globalAlpha=.5;
-  cx.beginPath(); cx.moveTo(sx(-LIM,w),sy(-LIM,h)); cx.lineTo(sx(LIM,w),sy(LIM,h)); cx.stroke();
-  cx.setLineDash([]); cx.globalAlpha=1;
-
-  for(const p of BOTH){
-    const b=Math.max(-LIM,Math.min(LIM,p[GB])), g=Math.max(-LIM,Math.min(LIM,p[GW]));
-    const comb=(DATA.W.blood*p[GB]+DATA.W.wearable*p[GW]);
-    cx.fillStyle=ramp(Math.max(0,Math.min(1,(comb+8)/16)));
-    cx.globalAlpha=.5;
-    cx.beginPath(); cx.arc(sx(b,w),sy(g,h),2.4,0,7); cx.fill();
-  }
-  cx.globalAlpha=1;
-  // axis titles
-  cx.fillStyle=ink2; cx.font='11px '+ink('--sans'); cx.textAlign='center';
-  cx.fillText('blood gap (years)', (PAD.l+w-PAD.r)/2, h-6);
-  cx.save(); cx.translate(11,(PAD.t+h-PAD.b)/2); cx.rotate(-Math.PI/2);
-  cx.fillText('wearable gap (years)',0,0); cx.restore();
-
-  if(current && current[GB]!=null && current[GW]!=null){
-    const x=sx(Math.max(-LIM,Math.min(LIM,current[GB])),w),
-          y=sy(Math.max(-LIM,Math.min(LIM,current[GW])),h);
-    cx.strokeStyle=ink('--comb'); cx.lineWidth=2.5;
-    cx.beginPath(); cx.arc(x,y,7,0,7); cx.stroke();
-    cx.strokeStyle=ink('--panel'); cx.lineWidth=1;
-    cx.beginPath(); cx.arc(x,y,8.6,0,7); cx.stroke();
-  }
-}
-cv.addEventListener('click',e=>{
-  const r=cv.getBoundingClientRect(), w=cv.clientWidth, h=cv.clientHeight;
-  const mx=e.clientX-r.left, my=e.clientY-r.top;
-  let best=null,bd=1e9;
-  for(const p of BOTH){
-    const dx=sx(Math.max(-LIM,Math.min(LIM,p[GB])),w)-mx,
-          dy=sy(Math.max(-LIM,Math.min(LIM,p[GW])),h)-my;
-    const d=dx*dx+dy*dy; if(d<bd){bd=d;best=p;}
-  }
-  if(best&&bd<900){ current=best; document.getElementById('seqn').value=best[SEQN]; render(); }
+const ex=document.getElementById('ex');
+B.examples.forEach(e=>{
+  const b=document.createElement('button'); b.type='button';
+  b.textContent=`${e.age} y ${e.sex==='female'?'F':'M'} · ${e.label}`;
+  b.addEventListener('click',()=>applyExample(e)); ex.appendChild(b);
 });
-
-/* ---------------- controls ---------------- */
-function select(seqn){
-  const p=BY.get(+seqn); const err=document.getElementById('err');
-  if(!p){ err.textContent=`No participant ${seqn} in the scored cohort. Try Random.`;
-          err.style.display='block'; return false; }
-  err.style.display='none'; current=p; render(); return true;
-}
-document.getElementById('go').addEventListener('click',()=>select(document.getElementById('seqn').value));
-document.getElementById('seqn').addEventListener('keydown',e=>{
-  if(e.key==='Enter') select(e.target.value);});
-document.getElementById('rand').addEventListener('click',()=>{
-  const p=BOTH[Math.floor(Math.random()*BOTH.length)];
-  document.getElementById('seqn').value=p[SEQN]; select(p[SEQN]);});
-
-// modality switches
-const sw=document.getElementById('sw');
-MODS.forEach(m=>{
-  const na = m.k==='methylation';
-  const row=document.createElement('div');
-  row.className='row'+(na?' na':'');
-  row.innerHTML=`<span class="dot" style="background:var(${m.css})"></span>
-    <span class="nm">${m.name}</span>
-    <span class="st">${na?'other cohort':''}</span>`;
-  const b=document.createElement('button');
-  b.className='tgl'; b.type='button'; b.style.setProperty('--acc',`var(${m.css})`);
-  b.setAttribute('aria-pressed', String(active[m.k]));
-  b.setAttribute('aria-label',`${m.name}: ${na?'unavailable':'toggle'}`);
-  if(na){ b.disabled=true; }
-  b.addEventListener('click',()=>{
-    active[m.k]=!active[m.k];
-    b.setAttribute('aria-pressed',String(active[m.k]));
-    row.classList.toggle('off',!active[m.k]);
-    render();
-  });
-  row.appendChild(b); sw.appendChild(row);
+document.getElementById('clear').addEventListener('click',()=>{
+  for(const k in vals) delete vals[k];
+  document.querySelectorAll('[data-f]').forEach(i=>{i.value='';i.classList.remove('bad')});
+  focused=null; render();
 });
-
-// notable-case chips
-const chips=document.getElementById('chips');
-DATA.NOTABLE.forEach(n=>{
-  const b=document.createElement('button');
-  b.className='chip'; b.type='button'; b.dataset.seqn=n.seqn;
-  b.innerHTML=`<span class="sq">${n.seqn}</span><span class="lb">${n.label}</span>`;
-  b.addEventListener('click',()=>{document.getElementById('seqn').value=n.seqn; select(n.seqn);});
-  chips.appendChild(b);
+document.getElementById('csv').addEventListener('click',()=>document.getElementById('file').click());
+document.getElementById('file').addEventListener('change',async e=>{
+  const f=e.target.files[0]; if(!f) return;
+  const txt=await f.text(); let got=0;
+  try{
+    if(f.name.endsWith('.json')){
+      const o=JSON.parse(txt);
+      const flat=o.values?Object.assign({},...Object.values(o.values)):o;
+      for(const [k,v] of Object.entries(flat)) if(FEAT[k]&&isFinite(+v)){vals[k]=+v;got++;}
+      if(o.age) document.getElementById('age').value=o.age;
+      if(o.sex) document.getElementById('sex').value=o.sex;
+    }else{
+      txt.split(/\r?\n/).forEach(line=>{
+        const p=line.split(/[,\t;]/).map(s=>s.trim().replace(/^"|"$/g,''));
+        if(p.length<2) return;
+        const k=p[0].toLowerCase().replace(/[\s-]+/g,'_'), v=Number(p[1]);
+        if(k==='age'&&isFinite(v)){document.getElementById('age').value=v;return;}
+        if(k==='sex'){const s=p[1].toLowerCase();
+          if(s.startsWith('f')||s==='2') document.getElementById('sex').value='female';
+          else if(s.startsWith('m')||s==='1') document.getElementById('sex').value='male'; return;}
+        if(FEAT[k]&&isFinite(v)){vals[k]=v;got++;}
+      });
+    }
+  }catch(err){ alert('Could not read that file. Use two columns: marker name, value.'); return; }
+  document.querySelectorAll('[data-f]').forEach(i=>{const v=vals[i.dataset.f];if(v!=null)i.value=v;});
+  if(!got) alert('No recognised marker names found. Use the names shown in the form, e.g. "albumin,4.3".');
+  render(); e.target.value='';
 });
+['age','sex'].forEach(id=>document.getElementById(id).addEventListener('input',render));
 
-// validation + methylation + features
 const vt=document.getElementById('vt');
-DATA.V.forEach(r=>{
+B.V.forEach(r=>{
   const tr=document.createElement('tr'); if(r.score==='combined') tr.className='best';
   const col={blood:'--blood',wearable:'--wear',combined:'--comb'}[r.score];
-  tr.innerHTML=`<td class="nm"><span class="dot" style="background:var(${col})"></span>${r.score}</td>
-    <td>${r.hr_per_year.toFixed(3)}</td><td>${r.hr_per_sd.toFixed(3)}</td>
-    <td>${r.hr_lo.toFixed(2)}–${r.hr_hi.toFixed(2)}</td>
+  tr.innerHTML=`<td style="display:flex;align-items:center;gap:6px;font-family:var(--sans)">
+    <span class="dot" style="background:var(${col})"></span>${r.score}</td>
+    <td>${r.hr_per_year.toFixed(3)}</td><td>${r.hr_per_sd.toFixed(2)}</td>
     <td>${r.c_index.toFixed(4)}</td><td>+${r.c_gain.toFixed(4)}</td>`;
   vt.appendChild(tr);
 });
-const mt=document.getElementById('mt');
-DATA.MC.forEach(r=>{
-  const tr=document.createElement('tr');
-  tr.innerHTML=`<td class="nm">${r.clock}</td><td>${r.generation}</td>
-    <td>${r.r_with_chron_age.toFixed(3)}</td><td>${r.mae_vs_chron_age.toFixed(2)}</td>
-    <td>${r.gap_sd.toFixed(2)}</td><td>${r.residual_gap_sd.toFixed(2)}</td>`;
-  mt.appendChild(tr);
-});
-[['blood','fb'],['wearable','fw']].forEach(([k,id])=>{
-  const el=document.getElementById(id);
-  DATA.FEAT[k].forEach(f=>{
-    const d=document.createElement('div'); d.className='feat';
-    d.innerHTML=`<span>${f.name.replace(/_/g,' ')}</span><span class="v">${f.w.toFixed(3)}</span>`;
-    el.appendChild(d);
-  });
-});
-document.getElementById('cN').textContent=DATA.P.length.toLocaleString();
-document.getElementById('cD').textContent=DATA.P.filter(p=>p[DIED]===1).length.toLocaleString();
-document.getElementById('redv').textContent=DATA.RED.toFixed(2);
+document.getElementById('redv').textContent='r = '+B.RED.toFixed(2);
 
-addEventListener('resize',drawScatter);
-matchMedia('(prefers-color-scheme: dark)').addEventListener('change',drawScatter);
-new MutationObserver(drawScatter).observe(document.documentElement,{attributeFilter:['data-theme']});
-select(DATA.NOTABLE[1].seqn);
-document.getElementById('seqn').value=DATA.NOTABLE[1].seqn;
+buildForms();
+addEventListener('resize',()=>render());
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>render());
+new MutationObserver(()=>render()).observe(document.documentElement,{attributeFilter:['data-theme']});
+if(B.examples.length) applyExample(B.examples[0]); else render();
 </script>

@@ -148,6 +148,66 @@ def main() -> int:
             check(f"{m} gap is not a proxy for chronological age (|r| < 0.2)",
                   abs(r) < 0.2, f"corr {r:+.3f}")
 
+    # ------------------------------------------------- scoring a new person
+    print("\n[scorer]")
+    bpath = C.PROCESSED / "scoring_bundle.pkl"
+    if not bpath.exists():
+        print("  (skipped -- run scripts/run_pipeline.py first)")
+    else:
+        from bioage import scorer  # noqa: PLC0415
+        bundle = scorer.load()
+        tab = pd.read_parquet(C.INTERIM / "analytic_table.parquet")
+        sc = pd.read_parquet(C.PROCESSED / "scores.parquet")
+
+        def raw_values(seqn):
+            r = tab.loc[seqn]
+            out = {}
+            for mod, feats in C.FEATURES_BY_MODALITY.items():
+                d = {}
+                for f in feats:
+                    col = f"pax_{f.var}" if f.file == "PAX" else f.var
+                    if col in tab.columns and pd.notna(r.get(col)):
+                        d[f.name] = float(r[col])
+                out[mod] = d
+            return out
+
+        # Scoring a cohort member from their RAW values must land where the
+        # pipeline put them. Any drift means the frozen constants no longer
+        # match the fit they came from, and an individual's number would be on
+        # a different scale from the validated one.
+        both = sc.dropna(subset=["gap_blood", "gap_wearable"]).index[:300]
+        diffs = {"blood": [], "wearable": [], "combined": []}
+        for seqn in both:
+            r = sc.loc[seqn]
+            rep = bundle.score(float(r["age"]), str(r["sex"]), raw_values(seqn))
+            for m in ("blood", "wearable"):
+                g = rep["per_modality_gap"].get(m)
+                if g is not None:
+                    diffs[m].append(g - r[f"gap_{m}"])
+            if rep["combined_gap"] is not None:
+                diffs["combined"].append(rep["combined_gap"] - r["gap_combined"])
+        for m, e in diffs.items():
+            e = np.abs(np.array(e))
+            check(f"scorer reproduces the pipeline's {m} gap (median < 1 y)",
+                  len(e) > 100 and float(np.median(e)) < 1.0,
+                  f"median |diff| {np.median(e):.3f} y over n={len(e)}")
+
+        # A person with too few CONTRIBUTING markers must get no score rather
+        # than a confident one built on two numbers.
+        thin = bundle.modality_gap("blood", {"albumin": 4.2}, "male", 50.0)
+        check("scorer withholds a gap below the minimum-marker threshold",
+              thin["gap"] is None, thin["reason"])
+
+        # The exported JSON must carry every constant the browser needs; a
+        # missing one would silently change the arithmetic client-side.
+        js = bundle.to_json()
+        need = {"reliability", "gap_mean_raw", "deatt_intercept", "deatt_slope",
+                "scale", "weights"}
+        check("exported bundle carries all calibration constants",
+              all(need <= set(p) for p in js["params"].values()),
+              f"{len(js['curves'].get('blood', {}))} blood + "
+              f"{len(js['curves'].get('wearable', {}))} wearable curves exported")
+
     print("\n" + "=" * 74)
     n_fail = sum(1 for ok, _ in results if not ok)
     print(f"  {len(results) - n_fail}/{len(results)} passed"
